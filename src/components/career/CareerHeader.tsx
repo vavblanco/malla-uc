@@ -34,7 +34,7 @@ export default function CareerHeader({
                 ? 'bg-gray-700 hover:bg-gray-600 text-gray-200 border border-gray-600' 
                 : 'bg-white hover:bg-gray-50 text-gray-700 border border-gray-200 shadow-sm'
             }`}
-            title="Cambiar carrera"
+            title="Cambiar Carrera"
           >
             <FontAwesomeIcon icon={faArrowLeft} className="text-sm md:text-sm" />
             <span className="font-extralight tracking-tight text-sm md:text-sm hidden sm:inline">Cambiar carrera</span>
