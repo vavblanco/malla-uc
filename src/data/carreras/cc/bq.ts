@@ -205,7 +205,7 @@ export const bq: Carrera = {
     },
     {
         "name": "Química Analítica I",
-        "code": "QUI109B",
+        "code": "QIM109B",
         "sctCredits": 10,
         "type": "LP",
         "prerequisites": [
