@@ -36,7 +36,7 @@ export const BQ: Carrera = {
         "id": "FG",
         "nombre": "Cursos de Formación General",
         "color": "#FFC300"
-    }
+    },
     {
         "id": "TEST",
         "nombre": "Habilidades Comunicativas",
