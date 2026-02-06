@@ -1,0 +1,38 @@
+{
+  "name": "malla-interactiva",
+  "version": "1.2.5",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "tsx scripts/generate-careers-index.ts && next build",
+    "start": "next start",
+    "lint": "next lint",
+    "gbpages": "tsx scripts/generate-careers-index.ts && next build",
+    "generate:careers": "tsx scripts/generate-careers-index.ts"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^7.0.0",
+    "@fortawesome/free-brands-svg-icons": "^7.0.0",
+    "@fortawesome/free-solid-svg-icons": "^7.0.0",
+    "@fortawesome/react-fontawesome": "^0.2.3",
+    "@types/canvas-confetti": "^1.9.0",
+    "canvas-confetti": "^1.9.3",
+    "framer-motion": "^12.23.24",
+    "next": "^16.0.6",
+    "react": "19.1.0",
+    "react-dom": "19.1.0"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+
+    "eslint": "^9",
+    "eslint-config-next": "15.4.6",
+    "tailwindcss": "^4",
+    "tsx": "^4.20.6",
+    "typescript": "^5"
+  }
+}
