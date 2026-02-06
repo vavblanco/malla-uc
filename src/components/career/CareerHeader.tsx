@@ -7,7 +7,6 @@ interface CareerHeaderProps {
   darkMode: boolean;
   onBackToCareerSelector: () => void;
   onShowGuide?: () => void;
-  onShowContribute?: () => void;
 }
 
 export default function CareerHeader({ 
@@ -16,7 +15,6 @@ export default function CareerHeader({
   darkMode, 
   onBackToCareerSelector,
   onShowGuide,
-  onShowContribute
 }: Readonly<CareerHeaderProps>) {
   return (
     <div 
@@ -57,21 +55,6 @@ export default function CareerHeader({
               >
                 <FontAwesomeIcon icon={faBookOpen} className="text-sm md:text-sm" />
                 <span className="text-sm md:text-sm font-medium hidden lg:inline">Guía</span>
-              </button>
-            )}
-            
-            {onShowContribute && (
-              <button
-                onClick={onShowContribute}
-                className={`flex items-center gap-1 md:gap-2 px-3 py-2 md:px-4 md:py-2 rounded-lg md:rounded-xl transition-all duration-300 hover:scale-105 ${
-                  darkMode 
-                    ? 'bg-green-700 hover:bg-green-600 text-green-100 border border-green-600' 
-                    : 'bg-green-50 hover:bg-green-100 text-green-700 border border-green-200 shadow-sm'
-                }`}
-                title="Contribuir al proyecto"
-              >
-                <FontAwesomeIcon icon={faHandsHelping} className="text-sm md:text-sm" />
-                <span className="text-sm md:text-sm font-medium hidden lg:inline">Contribuir</span>
               </button>
             )}
           </div>
