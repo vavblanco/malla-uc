@@ -1,6 +1,6 @@
 import { Carrera } from '@/types/curriculum';
 
-export const BQ: Carrera = {
+export const bq: Carrera = {
   codigo: 'BQ',
   nombre: 'Bioquímica',
   campus: 'all',
