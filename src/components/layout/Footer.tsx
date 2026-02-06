@@ -37,7 +37,7 @@ export default function Footer({ darkMode }: FooterProps) {
       }`}>
         <div className="flex items-center justify-center gap-6">
           <span className="animate-fadeInFromWhite" style={{ animationDelay: '0.05s' }}>
-            Actualizado: Diciembre 2025
+            Actualizado: Febrero 2026
           </span>
           
           <a
@@ -52,7 +52,7 @@ export default function Footer({ darkMode }: FooterProps) {
             style={{ animationDelay: '0.1s' }}
           >
             <FontAwesomeIcon icon={faGithub} className="text-sm" />
-            <span>GitHub</span>
+            <span>GitHub Proyecto Original</span>
             <FontAwesomeIcon icon={faExternalLinkAlt} className="text-xs" />
           </a>
         </div>
