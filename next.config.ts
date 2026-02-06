@@ -8,8 +8,8 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true
   },
-  basePath: isProd ? '/malla-interactiva' : '',
-  assetPrefix: isProd ? '/malla-interactiva' : '',
+  basePath: isProd ? '/malla-uc' : '',
+  assetPrefix: isProd ? '/malla-uc' : '',
   
   // Optimizaciones de rendimiento
   compiler: {
