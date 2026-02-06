@@ -177,7 +177,6 @@ export default function CurriculumGrid({ initialCareer }: CurriculumGridProps = 
                 darkMode={darkMode}
                 onBackToCareerSelector={handleBackToCareerSelectorLocal}
                 onShowGuide={() => setShowGuideModal(true)}
-                onShowContribute={() => setShowContributeModal(true)}
               />
             </div>
             
