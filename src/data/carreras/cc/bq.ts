@@ -138,7 +138,10 @@ export const bq: Carrera = {
         "code": "QIM100B",
         "sctCredits": 10,
         "type": "LP",
-        "prerequisites": [],
+        "prerequisites": [
+          "QIM100I",
+          "QIM100L"
+        ],
         "semester": "s2"
     },
     {
@@ -152,327 +155,361 @@ export const bq: Carrera = {
         "semester": "s2"
     },
     {
-        "name": "Quimica General I",
-        "code": "QUI106",
-        "sctCredits": 6,
-        "type": "QUÍMICA",
-        "prerequisites": [
-            "QUI010"
-        ],
-        "semester": "s3"
-    },
-    {
-        "name": "Quimica General II",
-        "code": "QUI108",
-        "sctCredits": 5,
-        "type": "QUÍMICA",
-        "prerequisites": [
-            "QUI106"
-        ],
-        "semester": "s3"
-    },
-    {
-        "name": "Visión Inmanente del Quehacer Humano",
-        "code": "HRW102",
-        "sctCredits": 3,
-        "type": "ESTUDIOS HUMANÍSTICOS",
+        "name": "Formación General",
+        "code": "OFG1",
+        "sctCredits": 10,
+        "type": "FG",
         "prerequisites": [],
+        "semester": "s2"
+    },
+    {
+        "name": "Formación General",
+        "code": "OFG2",
+        "sctCredits": 10,
+        "type": "FG",
+        "prerequisites": [],
+        "semester": "s2"
+    },
+    {
+        "name": "Bases Físicas de los Procesos Biológicos",
+        "code": "BIO152C",
+        "sctCredits": 10,
+        "type": "FB",
+        "prerequisites": [
+            "MAT1000",
+            "FIS109C",
+            "QIM100I",
+            "BIO141C"
+        ],
         "semester": "s3"
     },
     {
-        "name": "Fisica General III",
-        "code": "FIS130",
-        "sctCredits": 8,
-        "type": "FÍSICA",
+        "name": "Bioestadística",
+        "code": "BIO242C",
+        "sctCredits": 10,
+        "type": "LP",
         "prerequisites": [
-            "MAT022",
-            "FIS110"
+            "MAT1000"
         ],
-        "semester": "s4"
-    },
-    {
-        "name": "Fisicoquímica I",
-        "code": "QUI240",
-        "sctCredits": 6,
-        "type": "QUÍMICA",
-        "prerequisites": [
-            "QUI106",
-            "MAT022",
-            "QUI108",
-            "FIS120"
-        ],
-        "semester": "s4"
-    },
-    {
-        "name": "Inglés Científico y Tecnológico II",
-        "code": "HCW311",
-        "sctCredits": 2,
-        "type": "ESTUDIOS HUMANÍSTICOS",
-        "prerequisites": [
-            "HCW310"
-        ],
-        "semester": "s4"
-    },
-    {
-        "name": "Laboratorio de Química General",
-        "code": "QUI109",
-        "sctCredits": 4,
-        "type": "QUÍMICA",
-        "prerequisites": [
-            "QUI106",
-            "QUI108"
-        ],
-        "semester": "s4"
-    },
-    {
-        "name": "Matematicas IV",
-        "code": "MAT024",
-        "sctCredits": 6,
-        "type": "MATEMÁTICA",
-        "prerequisites": [
-            "MAT023"
-        ],
-        "semester": "s4"
-    },
-    {
-        "name": "Química Inorgánica I",
-        "code": "QUI114",
-        "sctCredits": 5,
-        "type": "QUÍMICA",
-        "prerequisites": [
-            "QUI010",
-            "QUI108"
-        ],
-        "semester": "s4"
-    },
-    {
-        "name": "Deportes",
-        "code": "DEW  0",
-        "sctCredits": 2,
-        "type": "DEFIDER",
-        "prerequisites": [
-            "DEW101"
-        ],
-        "semester": "s5"
-    },
-    {
-        "name": "Fisica General IV",
-        "code": "FIS140",
-        "sctCredits": 8,
-        "type": "FÍSICA",
-        "prerequisites": [
-            "FIS130",
-            "FIS120"
-        ],
-        "semester": "s5"
-    },
-    {
-        "name": "Fisicoquímica II",
-        "code": "QUI242",
-        "sctCredits": 6,
-        "type": "QUÍMICA",
-        "prerequisites": [
-            "QUI240",
-            "FIS140"
-        ],
-        "semester": "s5"
-    },
-    {
-        "name": "Laboratorio de Química Inorgánica I",
-        "code": "QUI117",
-        "sctCredits": 4,
-        "type": "QUÍMICA",
-        "prerequisites": [
-            "QUI114",
-            "QUI109"
-        ],
-        "semester": "s5"
-    },
-    {
-        "name": "Química Analítica Cuantitativa I",
-        "code": "QUI224",
-        "sctCredits": 6,
-        "type": "QUÍMICA",
-        "prerequisites": [
-            "QUI114",
-            "QUI109"
-        ],
-        "semester": "s5"
+        "semester": "s3"
     },
     {
         "name": "Química Orgánica I",
-        "code": "QUI136",
-        "sctCredits": 6,
-        "type": "QUÍMICA",
+        "code": "QIM102B",
+        "sctCredits": 10,
+        "type": "LP",
         "prerequisites": [
-            "QUI114",
-            "QUI108"
+            "QIM100B"
+        ],
+        "semester": "s3"
+    },
+    {
+        "name": "Química Analítica I",
+        "code": "QUI109B",
+        "sctCredits": 10,
+        "type": "LP",
+        "prerequisites": [
+            "QIM100B"
+        ],
+        "semester": "s3"
+    },
+    {
+        "name": "Formación General",
+        "code": "OFG3",
+        "sctCredits": 10,
+        "type": "FG",
+        "prerequisites": [],
+        "semester": "s3"
+    },
+    {
+        "name": "Biología de los Microorganismos",
+        "code": "BIO151E",
+        "sctCredits": 10,
+        "type": "LB",
+        "prerequisites": [
+            "BIO141C"
+        ],
+        "semester": "s4"
+    },
+    {
+        "name": "Química Orgánica II",
+        "code": "QIM103A",
+        "sctCredits": 10,
+        "type": "LP",
+        "prerequisites": [
+            "QIM102B"
+        ],
+        "semester": "s4"
+    },
+    {
+        "name": "Análisis Instrumental",
+        "code": "QIM111",
+        "sctCredits": 10,
+        "type": "CM",
+        "prerequisites": [
+            "QIM109B"
+        ],
+        "semester": "s4"
+    },
+    {
+        "name": "Formación General",
+        "code": "OFG4",
+        "sctCredits": 10,
+        "type": "FG",
+        "prerequisites": [],
+        "semester": "s4"
+    },
+    {
+        "name": "Formación General",
+        "code": "OFG5",
+        "sctCredits": 10,
+        "type": "FG",
+        "prerequisites": [],
+        "semester": "s4"
+    },
+    {
+        "name": "Genética y Evolución",
+        "code": "BIO226E",
+        "sctCredits": 10,
+        "type": "CM",
+        "prerequisites": [
+            "BIO141C",
+            "BIO242C"
         ],
         "semester": "s5"
     },
     {
-        "name": "Fisicoquímica III",
-        "code": "QUI244",
-        "sctCredits": 6,
-        "type": "QUÍMICA",
+        "name": "Fisiología y Bioquímica Vegetal",
+        "code": "BIO225C",
+        "sctCredits": 10,
+        "type": "CM",
         "prerequisites": [
-            "QUI240"
+            "BIO151E",
+            "BIO152C"
         ],
-        "semester": "s6"
+        "semester": "s5"
     },
     {
-        "name": "Laboratorio de Química Orgánica I",
-        "code": "QUI137",
-        "sctCredits": 4,
-        "type": "QUÍMICA",
+        "name": "Biología y Fisiología Celular",
+        "code": "BIO274E",
+        "sctCredits": 10,
+        "type": "CM",
         "prerequisites": [
-            "QUI109"
+            "BIO151E",
+            "BIO152C"
         ],
-        "semester": "s6"
+        "semester": "s5"
     },
     {
-        "name": "Química Analítica Cuantitativa II",
-        "code": "QUI226",
-        "sctCredits": 6,
-        "type": "QUÍMICA",
+        "name": "Bioquímica",
+        "code": "BIO257C",
+        "sctCredits": 10,
+        "type": "CM",
         "prerequisites": [
-            "QUI224"
+            "BIO151E",
+            "QIM103A"
         ],
-        "semester": "s6"
+        "semester": "s5"
     },
     {
-        "name": "Química Orgánica II",
-        "code": "QUI238",
-        "sctCredits": 6,
-        "type": "QUÍMICA",
-        "prerequisites": [
-            "QUI136"
-        ],
-        "semester": "s6"
-    },
-    {
-        "name": "Visión Estética del Quehacer Humano",
-        "code": "HRW103",
-        "sctCredits": 3,
-        "type": "ESTUDIOS HUMANÍSTICOS",
-        "prerequisites": [],
-        "semester": "s6"
-    },
-    {
-        "name": "Análisis Químico Instrumental I",
-        "code": "QUI375",
-        "sctCredits": 6,
-        "type": "QUÍMICA",
-        "prerequisites": [
-            "QUI136",
-            "QUI224"
-        ],
-        "semester": "s7"
-    },
-    {
-        "name": "Laboratorio de Química Inorgánica II",
-        "code": "QUI217",
-        "sctCredits": 4,
-        "type": "QUÍMICA",
-        "prerequisites": [
-            "QUI117"
-        ],
-        "semester": "s7"
-    },
-    {
-        "name": "Probabilidad y Estadistica",
-        "code": "MAT041",
-        "sctCredits": 7,
-        "type": "MATEMÁTICA",
-        "prerequisites": [
-            "MAT023"
-        ],
-        "semester": "s7"
-    },
-    {
-        "name": "Química Inorgánica II",
-        "code": "QUI216",
+        "name": "Laboratorio de Bioquímica I: Biología Celular",
+        "code": "BIO266D",
         "sctCredits": 5,
-        "type": "QUÍMICA",
+        "type": "CM",
         "prerequisites": [
-            "QUI114"
+            "BIO151E",
+            "QIM103A",
+            "QIM111"
+        ],
+        "semester": "s5"
+    },
+    {
+        "name": "Laboratorio de Química Orgánica",
+        "code": "QIM104A",
+        "sctCredits": 10,
+        "type": "CM",
+        "prerequisites": [
+            "QIM103A"
+        ],
+        "semester": "s5"
+    },
+    {
+        "name": "Formación General",
+        "code": "OFG6",
+        "sctCredits": 10,
+        "type": "FG",
+        "prerequisites": [],
+        "semester": "s5"
+    },
+    {
+        "name": "Genética Molecular",
+        "code": "BIO288C",
+        "sctCredits": 10,
+        "type": "CM",
+        "prerequisites": [
+            "BIO257C"
+        ],
+        "semester": "s6"
+    },
+    {
+        "name": "Laboratorio de Bioquímica II: Genética Molecular",
+        "code": "BIO266E",
+        "sctCredits": 10,
+        "type": "CM",
+        "prerequisites": [
+            "BIO257C",
+            "BIO266D"
+        ],
+        "semester": "s6"
+    },
+    {
+        "name": "Fisiología",
+        "code": "BIO299E",
+        "sctCredits": 10,
+        "type": "CM",
+        "prerequisites": [
+            "BIO152C",
+            "BIO257C"
+        ],
+        "semester": "s6"
+    },
+    {
+        "name": "Laboratorio de Fisiología",
+        "code": "BIO299L",
+        "sctCredits": 5,
+        "type": "CM",
+        "prerequisites": [],
+        "semester": "s6"
+    },
+    {
+        "name": "Química-Física I",
+        "code": "QIM114B",
+        "sctCredits": 10,
+        "type": "CM",
+        "prerequisites": [
+            "MAT1100"
+        ],
+        "semester": "s6"
+    },
+    {
+        "name": "Formación General",
+        "code": "OFG7",
+        "sctCredits": 10,
+        "type": "FG",
+        "prerequisites": [],
+        "semester": "s6"
+    },
+    {
+        "name": "Química-Física II",
+        "code": "QIM115",
+        "sctCredits": 10,
+        "type": "TL",
+        "prerequisites": [
+            "QIM115"
         ],
         "semester": "s7"
     },
     {
-        "name": "Análisis Químico Instrumental II",
-        "code": "QUI376",
-        "sctCredits": 6,
-        "type": "QUÍMICA",
+        "name": "Introducción al Laboratorio Clínico",
+        "code": "MEB176B",
+        "sctCredits": 10,
+        "type": "TL",
         "prerequisites": [
-            "QUI375",
-            "QUI226"
+            "BIO266D",
+            "BIO266E"
         ],
-        "semester": "s8"
+        "semester": "s7"
     },
     {
-        "name": "Electivo I",
-        "code": "QUI  1",
-        "sctCredits": 7,
-        "type": "QUÍMICA",
+        "name": "Seminario de Investigacion Departamental",
+        "code": "BIO295A",
+        "sctCredits": 15,
+        "type": "TL",
         "prerequisites": [],
-        "semester": "s8"
+        "semester": "s7"
     },
     {
-        "name": "Laboratorio de Fisicoquímica",
-        "code": "QUI243",
+        "name": "Optativo de Profundización",
+        "code": "OPR1",
         "sctCredits": 5,
-        "type": "QUÍMICA",
+        "type": "TL",
+        "prerequisites": [],
+        "semester": "s7"
+    },
+    {
+        "name": "Optativo de Profundización",
+        "code": "OPR2",
+        "sctCredits": 10,
+        "type": "TL",
+        "prerequisites": [],
+        "semester": "s7"
+    },
+    {
+        "name": "Seminario de Investigación",
+        "code": "BIO296F",
+        "sctCredits": 30,
+        "type": "TL",
         "prerequisites": [
-            "QUI240",
-            "QUI242"
+            "BIO295A",
+            "BIO266D",
+            "BIO266E",
+            "BIO299L"
         ],
         "semester": "s8"
     },
     {
-        "name": "Laboratorio de Química Orgánica II",
-        "code": "QUI237",
-        "sctCredits": 4,
-        "type": "QUÍMICA",
+        "name": "Práctica Extramural",
+        "code": "BIO258F",
+        "sctCredits": 30,
+        "type": "TL",
         "prerequisites": [
-            "QUI137"
+            "BIO266D",
+            "BIO266E",
+            "BIO299L"
         ],
         "semester": "s8"
     },
     {
-        "name": "Electivo II",
-        "code": "QUI  2",
-        "sctCredits": 7,
-        "type": "QUÍMICA",
+        "name": "Optativo de Profundización",
+        "code": "OPR3",
+        "sctCredits": 10,
+        "type": "TL",
         "prerequisites": [],
-        "semester": "s9"
+        "semester": "s8"
     },
     {
-        "name": "Electivo III",
-        "code": "QUI  3",
-        "sctCredits": 7,
-        "type": "QUÍMICA",
+        "name": "Optativo de Profundización",
+        "code": "OPR4",
+        "sctCredits": 10,
+        "type": "TL",
         "prerequisites": [],
-        "semester": "s9"
+        "semester": "s8"
     },
     {
-        "name": "Electivo IV",
-        "code": "QUI  4",
-        "sctCredits": 7,
-        "type": "QUÍMICA",
+        "name": "Examen de Grado",
+        "code": "EXAMEN GRADO",
+        "sctCredits": 10,
+        "type": "TL",
         "prerequisites": [],
-        "semester": "s9"
+        "semester": "s8"
     },
     {
-        "name": "Unidad de Investigacion",
-        "code": "QUI390",
-        "sctCredits": 9,
-        "type": "QUÍMICA",
+        "name": "Técnicas Avanzadas en Bioquímica",
+        "code": "BIO3319",
+        "sctCredits": 50,
+        "type": "FT",
         "prerequisites": [
-            "QUI216",
-            "QUI242",
-            "QUI238",
-            "QUI375"
+          "EXAMEN GRADO"
+        ],
+        "semester": "s9"
+    },
+    {
+        "name": "Memoria de Investigación",
+        "code": "BIO285D",
+        "sctCredits": 50,
+        "type": "FT",
+        "prerequisites": [
+          "BIO3319"
         ],
         "semester": "s9"
     }
