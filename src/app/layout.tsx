@@ -33,92 +33,49 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: {
-    default: "Malla Interactiva USM - Calculadora de Progreso Académico",
-    template: "%s | Malla Interactiva USM"
+    default: "Malla uc FCB PUC - Avance Curricular",
+    template: "%s | Malla uc PUC"
   },
-  description: "Calculadora interactiva de progreso académico para todas las carreras de la Universidad Técnica Federico Santa María (UTFSM). Visualiza tu malla curricular, planifica tu graduación, gestiona requisitos y calcula tu avance académico con sistema drag & drop. Más de 40 carreras disponibles.",
+  description: "Calculadora uc de progreso académico para todas las carreras de la Facultad de Ciencias Biológicas de la Pontificia Universidad Católica de Chile. Visualiza tu malla curricular, gestiona requisitos y calcula tu avance curricular.",
   manifest: "site.webmanifest",
   keywords: [
-    "UTFSM",
-    "Universidad Técnica Federico Santa María",
+    "PUC",
+    "Pontificia Universidad Católica de Chile",
     "malla curricular",
-    "calculadora académica",
-    "progreso académico",
-    "ingeniería",
+    "avance curricular",
+    "ciencias biológicas",
     "carreras universitarias",
     "plan de estudios",
     "requisitos de asignaturas",
-    "graduación",
-    "Casa Central",
-    "Viña del Mar",
-    "Vitacura",
-    "San Joaquín",
-    "Concepción",
-    "informática",
-    "civil",
-    "industrial",
-    "mecánica",
-    "electrónica"
+    "Biología",
+    "Biología Marina",
+    "Bioquímica"
   ],
   authors: [{ name: "Marcelo Mejías", url: "https://github.com/marcelomejias" }],
   creator: "Marcelo Mejías",
   publisher: "UTFSM Community",
   
-  // Open Graph (Facebook, Instagram, WhatsApp, LinkedIn)
-  openGraph: {
-    type: 'website',
-    locale: 'es_CL',
-    url: 'https://marcelomejias.github.io/malla-interactiva/',
-    title: 'Malla Interactiva USM - Calculadora de Progreso Académico UTFSM',
-    description: 'Herramienta interactiva para visualizar y calcular tu progreso en carreras de la UTFSM. Planifica tu graduación, gestiona requisitos y calcula tu avance académico. Más de 40 carreras de Casa Central, Viña del Mar, Vitacura y más campus.',
-    siteName: 'Malla Interactiva USM',
-    images: [
-      {
-        url: 'https://marcelomejias.github.io/malla-interactiva/thumbnail.png',
-        width: 1200,
-        height: 630,
-        alt: 'Malla Interactiva USM - Calculadora de progreso académico para carreras UTFSM',
-        type: 'image/png'
-      }
-    ]
-  },
-  
-  // Twitter Cards
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Malla Interactiva USM - Calculadora Académica UTFSM',
-    description: 'Calcula tu progreso académico, visualiza requisitos y planifica tu graduación en carreras UTFSM. Drag & drop, plan de graduación y más de 40 carreras.',
-    images: ['https://marcelomejias.github.io/malla-interactiva/thumbnail.png'],
-    creator: '@marcelomejias'
-  },
-  
   icons: {
     icon: [
-      { url: '/malla-interactiva/favicon.svg', type: 'image/svg+xml' },
-      { url: '/malla-interactiva/icon.png', type: 'image/png', sizes: '192x192' },
-      { url: '/malla-interactiva/android-chrome-512x512.png', type: 'image/png', sizes: '512x512' }
+      { url: '/malla-uc/favicon.svg', type: 'image/svg+xml' },
+      { url: '/malla-uc/icon.png', type: 'image/png', sizes: '192x192' },
+      { url: '/malla-uc/android-chrome-512x512.png', type: 'image/png', sizes: '512x512' }
     ],
-    shortcut: '/malla-interactiva/favicon.svg',
+    shortcut: '/malla-uc/favicon.svg',
     apple: [
-      { url: '/malla-interactiva/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }
+      { url: '/malla-uc/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }
     ]
   },
   other: {
     'apple-mobile-web-app-capable': 'yes',
     'apple-mobile-web-app-status-bar-style': 'default',
-    'apple-mobile-web-app-title': 'Malla USM',
+    'apple-mobile-web-app-title': 'Malla FCB PUC',
     'format-detection': 'telephone=no',
     'mobile-web-app-capable': 'yes',
     'msapplication-navbutton-color': '#f9fafb',
     'msapplication-TileColor': '#f9fafb',
     'msapplication-tap-highlight': 'no',
     'viewport-fit': 'cover',
-    // Meta tags adicionales para compatibilidad
-    'og:image': 'https://marcelomejias.github.io/malla-interactiva/thumbnail.png',
-    'og:image:width': '1200',
-    'og:image:height': '630',
-    'og:image:type': 'image/png',
-    'twitter:image': 'https://marcelomejias.github.io/malla-interactiva/thumbnail.png',
   }
 };
 
