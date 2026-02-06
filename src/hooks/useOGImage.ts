@@ -64,8 +64,8 @@ export function generateOGImageUrl(options: OGImageOptions = {}): string {
 // Ejemplos de uso predefinidos
 export const OGImagePresets = {
   default: () => generateOGImageUrl({
-    title: 'Malla Interactiva UTFSM',
-    subtitle: 'Calculadora de progreso académico',
+    title: 'Malla Interactiva FCB PUC',
+    subtitle: 'Calculadora de Avance Curricular',
     theme: 'engineering'
   }),
   
