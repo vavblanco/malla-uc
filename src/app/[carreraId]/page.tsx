@@ -53,19 +53,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     openGraph: {
       type: 'website',
       locale: 'es_CL',
-      url,
       title,
       description,
       siteName: 'Malla Interactiva FCB PUC',
-      images: [
-        {
-          url: imageUrl,
-          width: 1200,
-          height: 630,
-          alt: `Malla Interactiva - ${carrera.nombre}`,
-          type: 'image/png'
-        }
-      ]
     },
   };
 }
