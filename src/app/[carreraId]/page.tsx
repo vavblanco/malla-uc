@@ -9,7 +9,7 @@ interface PageProps {
 
 // Lista de todas las carreras para generación estática
 const allCareerIds = [
-  'afi', 'amb', 'arq', 'civ-0', 'constru-0', 'ctciv', 'eli-0', 'eli', 'elo-0', 'elo',
+  'afi', 'amb', 'arq', 'bq', 'civ-0', 'constru-0', 'ctciv', 'eli-0', 'eli', 'elo-0', 'elo',
   'fis-0', 'ica-0', 'icbt', 'icfis', 'ici-0', 'ici', 'iciv', 'icm-0', 'icom-0', 'icom',
   'icq-0', 'icq', 'idp', 'inf-0', 'inf', 'qui', 'mat-0', 'mat', 'lmat', 'mec', 'met-0', 'met',
   'tel-0', 'tel', 'fdi', 'ibt', 'imi', 'inginf', 'prla', 'tuconst', 'tuinf',
@@ -30,14 +30,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!carrera) {
     return {
-      title: 'Carrera no encontrada - Malla Interactiva USM',
+      title: 'Carrera no encontrada - Malla Interactiva FCB UC',
     };
   }
 
   const title = carrera.nombre;
-  const description = `Malla curricular interactiva de ${carrera.nombre} (${carreraId}) - UTFSM. Calcula tu progreso académico, planifica tu graduación y visualiza requisitos de cada asignatura.`;
-  const url = `https://marcelomejias.github.io/malla-interactiva/${carreraId}`;
-  const imageUrl = 'https://marcelomejias.github.io/malla-interactiva/thumbnail.png';
+  const description = `Malla curricular interactiva de ${carrera.nombre} (${carreraId}).`;
 
   return {
     title,
@@ -45,12 +43,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     keywords: [
       carrera.nombre,
       carreraId,
-      'UTFSM',
+      'PUC',
       'malla curricular',
       'progreso académico',
-      'ingeniería',
+      'facultad de ciencias biológicas',
       'universidad',
-      'santa maría'
+      'católica de chile'
     ],
     openGraph: {
       type: 'website',
@@ -58,7 +56,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       url,
       title,
       description,
-      siteName: 'Malla Interactiva USM',
+      siteName: 'Malla Interactiva FCB PUC',
       images: [
         {
           url: imageUrl,
@@ -68,13 +66,6 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
           type: 'image/png'
         }
       ]
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title,
-      description,
-      images: [imageUrl],
-      creator: '@marcelomejias'
     },
     alternates: {
       canonical: url,
@@ -88,15 +79,14 @@ function generateStructuredData(carrera: any, carreraId: string) {
     '@context': 'https://schema.org',
     '@type': 'Course',
     name: carrera.nombre,
-    description: `Malla curricular interactiva de ${carrera.nombre} en la Universidad Técnica Federico Santa María`,
+    description: `Malla curricular interactiva de ${carrera.nombre} en la Pontificia Universidad Católica de Chile`,
     provider: {
       '@type': 'Organization',
-      name: 'Universidad Técnica Federico Santa María',
-      sameAs: 'https://usm.cl'
+      name: 'Pontificia Universidad Católica de Chile',
+      sameAs: 'https://uc.cl/'
     },
     educationalLevel: 'Undergraduate',
     inLanguage: 'es-CL',
-    url: `https://marcelomejias.github.io/malla-interactiva/${carreraId}`,
     aggregateRating: {
       '@type': 'AggregateRating',
       ratingValue: '4.8',
@@ -125,7 +115,7 @@ export default async function CareerPage({ params }: PageProps) {
       
       {/* Contenido oculto para SEO - Google puede leerlo */}
       <div className="sr-only">
-        <h1>{carrera.nombre} - UTFSM</h1>
+        <h1>{carrera.nombre} - PUC</h1>
         <p>
           Malla curricular interactiva de {carrera.nombre}. Visualiza el progreso académico,
           requisitos de asignaturas y planifica tu graduación.
