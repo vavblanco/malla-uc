@@ -511,7 +511,7 @@ export const bq: Carrera = {
         "prerequisites": [
           "BIO3319"
         ],
-        "semester": "s9"
+        "semester": "s10"
     }
 ],
 };
