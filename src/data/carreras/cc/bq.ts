@@ -225,7 +225,7 @@ export const bq: Carrera = {
         "name": "Biología de los Microorganismos",
         "code": "BIO151E",
         "sctCredits": 10,
-        "type": "LB",
+        "type": "FB",
         "prerequisites": [
             "BIO141C"
         ],
@@ -405,7 +405,7 @@ export const bq: Carrera = {
         "sctCredits": 10,
         "type": "TL",
         "prerequisites": [
-            "QIM115"
+            "QIM114B"
         ],
         "semester": "s7"
     },
