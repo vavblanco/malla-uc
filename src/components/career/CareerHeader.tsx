@@ -37,7 +37,7 @@ export default function CareerHeader({
             title="Cambiar Carrera"
           >
             <FontAwesomeIcon icon={faArrowLeft} className="text-sm md:text-sm" />
-            <span className="font-extralight tracking-tight text-sm md:text-sm hidden sm:inline">Cambiar carrera</span>
+            <span className="font-extralight tracking-tight text-sm md:text-sm hidden sm:inline">Cambiar Carrera</span>
             <span className="font-extralight tracking-tight text-sm md:text-sm sm:hidden">Cambiar</span>
           </button>
           
@@ -51,10 +51,10 @@ export default function CareerHeader({
                     ? 'bg-blue-700 hover:bg-blue-600 text-blue-100 border border-blue-600' 
                     : 'bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 shadow-sm'
                 }`}
-                title="Guía de estudio"
+                title="Guía de Uso"
               >
                 <FontAwesomeIcon icon={faBookOpen} className="text-sm md:text-sm" />
-                <span className="text-sm md:text-sm font-medium hidden lg:inline">Guía</span>
+                <span className="text-sm md:text-sm font-medium hidden lg:inline">Guía de Uso</span>
               </button>
             )}
           </div>
