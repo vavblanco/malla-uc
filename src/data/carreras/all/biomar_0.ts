@@ -46,7 +46,7 @@ export const biomar_0: Carrera = {
 
   asignaturas: [
     {
-        "name": "Tópicos en Bioquímica",
+        "name": "Desafíos BIOMAR",
         "code": "BIO101B",
         "sctCredits": 5,
         "type": "LP",

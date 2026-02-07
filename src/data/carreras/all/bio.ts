@@ -46,7 +46,7 @@ export const bio: Carrera = {
 
   asignaturas: [
     {
-        "name": "Tópicos en Bioquímica",
+        "name": "Evolución",
         "code": "BIO101B",
         "sctCredits": 5,
         "type": "LP",
