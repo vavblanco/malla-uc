@@ -52,7 +52,7 @@ export default function CurriculumGrid({ initialCareer }: CurriculumGridProps = 
         // Determinar campus basado en el código de carrera (normalizar a minúsculas)
         const normalizedCareer = initialCareer.toLowerCase();
         const campusMap: Record<string, string> = {
-          'afi': 'cc', 'amb': 'cc', 'arq': 'cc','bio-0':'cc','bio':'cc','biomar':'cc','biomar-0':'cc', 'bq':'cc', 'civ-0': 'cc', 'constru-0': 'cc',
+          'afi': 'cc', 'amb': 'cc', 'arq': 'cc','bio-0':'all','bio':'all','biomar':'all','biomar-0':'all', 'bq':'all', 'civ-0': 'cc', 'constru-0': 'cc',
           'ctciv': 'cc', 'eli-0': 'cc', 'eli': 'cc', 'elo-0': 'cc', 'elo': 'cc',
           'fis-0': 'cc', 'ica-0': 'cc', 'icbt': 'cc', 'icfis': 'cc', 'ici-0': 'cc',
           'ici': 'cc', 'iciv': 'cc', 'icm-0': 'cc', 'icom-0': 'cc', 'icom': 'cc',
@@ -93,6 +93,7 @@ export default function CurriculumGrid({ initialCareer }: CurriculumGridProps = 
     colors,
     careerName,
     careerColor,
+    todasCareers,
     casaCentralCareers,
     vinaCareers,
     sanJoaquinCareers,
@@ -223,6 +224,7 @@ export default function CurriculumGrid({ initialCareer }: CurriculumGridProps = 
       {/* Selector de carreras */}
       <CareerSelector
         show={showCareerSelector}
+        todasCareers={todasCareers}
         casaCentralCareers={casaCentralCareers}
         vinaCareers={vinaCareers}
         sanJoaquinCareers={sanJoaquinCareers}

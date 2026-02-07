@@ -5,6 +5,7 @@ export const dynamic = 'force-static';
 
 // Obtener todos los IDs de carreras automáticamente desde el índice
 const allCareerIds = [
+  ...careersByCampus.all.map(c => c.Link),
   ...careersByCampus.cc.map(c => c.Link),
   ...careersByCampus.vm.map(c => c.Link),
   ...careersByCampus.vc.map(c => c.Link),

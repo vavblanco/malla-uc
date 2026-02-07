@@ -11,6 +11,7 @@ interface Career {
 
 interface CareerSelectorProps {
   show: boolean;
+  todasCareers: Career[];
   casaCentralCareers: Career[];
   sanJoaquinCareers: Career[];
   vitacuraCareers: Career[];
@@ -26,6 +27,7 @@ interface CareerSelectorProps {
 
 export default function CareerSelector({
   show,
+  todasCareers,
   casaCentralCareers,
   vinaCareers,
   sanJoaquinCareers,
@@ -90,11 +92,12 @@ export default function CareerSelector({
     );
   };
 
+  const groupedtodasCareers = filterGroupedCareers(groupCareers(todasCareers));
   const groupedVinaCareers = filterGroupedCareers(groupCareers(vinaCareers));
   const groupedCasaCentralCareers = filterGroupedCareers(groupCareers(casaCentralCareers));
   const groupedVitacuraCareers = filterGroupedCareers(groupCareers(vitacuraCareers));
 
-  const totalResults = groupedVinaCareers.length + groupedCasaCentralCareers.length + groupedVitacuraCareers.length;
+  const totalResults = groupedtodasCareers.length + groupedVinaCareers.length + groupedCasaCentralCareers.length + groupedVitacuraCareers.length;
 
   // Determinar fondo: blanco sólido si no hay carrera, translúcido si hay una activa
   return (
@@ -177,6 +180,116 @@ export default function CareerSelector({
               </p>
             )}
           </div>
+
+          {/* Sección Carreras*/}
+          {groupedtodasCareers.length > 0 && (
+            <div className="mb-8 px-6">
+              <h3 className="text-lg font-semibold mb-4 text-gray-800 dark:text-white flex items-center gap-2">
+                <FontAwesomeIcon icon={faGraduationCap} className="text-blue-600" />
+                Facultad de Ciencias Biológicas
+                <span className={`text-sm font-normal ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                  ({groupedtodasCareers.length})
+                </span>
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                {groupedtodasCareers.map((group) => {
+                  const baseCode = getBaseCareerCode(group.base.Link);
+                  const currentVersion = selectedVersions[baseCode] || 'new';
+                  const currentCareer = currentVersion === 'old' && group.old ? group.old : group.base;
+                  
+                  return (
+                    <motion.button
+                      key={baseCode}
+                      onClick={() => onCareerSelect('vm', getCareerCode(currentCareer.Link))}
+                      className={`backdrop-blur-sm rounded-2xl p-4 transition-all duration-300 border-2 hover:shadow-lg hover:scale-105 text-left ${
+                        darkMode ? 'border-gray-600' : 'border-white/50'
+                      }`}
+                      style={{ borderColor: currentCareer.Color || '#6B7280' }}
+                      layout
+                    >
+                      <div className="flex items-center gap-3">
+                        <div 
+                          className="w-4 h-4 rounded-full flex-shrink-0"
+                          style={{ backgroundColor: currentCareer.Color || '#6B7280' }}
+                        />
+                        <div className="flex-1 min-w-0">
+                          <motion.span 
+                            key={currentVersion}
+                            initial={{ opacity: 0, y: -10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.2 }}
+                            className={`text-sm font-medium block ${
+                              darkMode ? 'text-gray-200' : 'text-gray-800'
+                            }`}
+                          >
+                            {currentCareer.Nombre.replaceAll(/\s*\(Malla Antigua\)\s*/gi, '')}
+                          </motion.span>
+                        </div>
+                        {group.old && (
+                          <div 
+                            onClick={(e) => e.stopPropagation()}
+                            className={`relative flex items-center rounded-full p-1 gap-0 ${
+                              darkMode ? 'bg-gray-700/50' : 'bg-gray-100'
+                            }`}
+                          >
+                            <motion.div
+                              layout
+                              className={`absolute rounded-full shadow-sm transition-colors duration-300 ${
+                                currentVersion === 'new'
+                                  ? darkMode 
+                                    ? 'bg-blue-600' 
+                                    : 'bg-blue-500'
+                                  : darkMode
+                                    ? 'bg-amber-600' 
+                                    : 'bg-amber-500'
+                              }`}
+                              style={{
+                                left: currentVersion === 'new' ? '4px' : '50%',
+                                right: currentVersion === 'new' ? '50%' : '4px',
+                                top: '4px',
+                                bottom: '4px',
+                              }}
+                              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                            />
+                            <div
+                              role="button"
+                              tabIndex={0}
+                              onClick={() => setSelectedVersions(prev => ({ ...prev, [baseCode]: 'new' }))}
+                              onKeyDown={(e) => e.key === 'Enter' && setSelectedVersions(prev => ({ ...prev, [baseCode]: 'new' }))}
+                              className={`relative z-10 px-4 py-2 text-xs font-semibold rounded-full transition-colors whitespace-nowrap cursor-pointer ${
+                                currentVersion === 'new'
+                                  ? 'text-white' 
+                                  : darkMode
+                                    ? 'text-gray-400'
+                                    : 'text-gray-600'
+                              }`}
+                            >
+                              Nueva
+                            </div>
+                            <div
+                              role="button"
+                              tabIndex={0}
+                              onClick={() => setSelectedVersions(prev => ({ ...prev, [baseCode]: 'old' }))}
+                              onKeyDown={(e) => e.key === 'Enter' && setSelectedVersions(prev => ({ ...prev, [baseCode]: 'old' }))}
+                              className={`relative z-10 px-4 py-2 text-xs font-semibold rounded-full transition-colors whitespace-nowrap cursor-pointer ${
+                                currentVersion === 'old'
+                                  ? 'text-white'
+                                  : darkMode
+                                    ? 'text-gray-400'
+                                    : 'text-gray-600'
+                              }`}
+                            >
+                              Antigua
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </motion.button>
+                  );
+                })}
+            </div>
+          </div>
+          )}
 
           {/* Sección Viña del Mar*/}
           {groupedVinaCareers.length > 0 && (

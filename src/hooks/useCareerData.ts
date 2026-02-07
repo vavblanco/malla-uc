@@ -9,7 +9,7 @@ interface Career {
   Color?: string;
 }
 
-type Campus = 'cc' | 'vm' | 'sj' | 'vc' | 'cp';
+type Campus = 'all' | 'cc' | 'vm' | 'sj' | 'vc' | 'cp';
 
 export const useCareerData = (campus: Campus | undefined, careerCode: string | undefined) => {
   const [subjects, setSubjects] = useState<Subject[]>([]);
@@ -17,6 +17,7 @@ export const useCareerData = (campus: Campus | undefined, careerCode: string | u
   const [careerName, setCareerName] = useState<string>('');
   const [careerColor, setCareerColor] = useState<string | undefined>(undefined);
 
+  const [todasCareers, settodasCareers] = useState<Career[]>([]);
   const [casaCentralCareers, setCasaCentralCareers] = useState<Career[]>([]);
   const [sanJoaquinCareers, setSanJoaquinCareers] = useState<Career[]>([]);
   const [vitacuraCareers, setVitacuraCareers] = useState<Career[]>([]);
@@ -27,6 +28,7 @@ export const useCareerData = (campus: Campus | undefined, careerCode: string | u
 
   // Cargar carreras disponibles
   useEffect(() => {
+    settodasCareers(careersByCampus.all);
     setCasaCentralCareers(careersByCampus.cc);
     setVinaCareers(careersByCampus.vm);
     setSanJoaquinCareers(careersByCampus.sj);
@@ -92,6 +94,7 @@ export const useCareerData = (campus: Campus | undefined, careerCode: string | u
     colors,
     careerName,
     careerColor,
+    todasCareers,
     casaCentralCareers,
     vinaCareers,
     sanJoaquinCareers,
