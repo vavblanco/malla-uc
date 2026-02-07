@@ -1,8 +1,8 @@
 import { Carrera } from '@/types/curriculum';
 
-export const bq: Carrera = {
-  codigo: 'BQ',
-  nombre: 'Bioquímica',
+export const bio_0: Carrera = {
+  codigo: 'BIO_0',
+  nombre: 'Biología (Malla Antigua)',
   campus: 'cc',
   color: '#4CAF50',
   
