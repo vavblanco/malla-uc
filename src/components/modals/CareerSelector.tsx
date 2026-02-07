@@ -73,15 +73,7 @@ export default function CareerSelector({
     return grouped;
   };
 
-  // Filtrar carreras agrupadas por búsqueda
-  const filterGroupedCareers = (groups: Array<{ base: Career; old?: Career }>) => {
-    if (!searchTerm) return groups;
-    return groups.filter(group => 
-      group.base.Nombre.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  };
-
-  const groupedtodasCareers = filterGroupedCareers(groupCareers(todasCareers));
+  const groupedtodasCareers = groupCareers(todasCareers);
 
   const totalResults = groupedtodasCareers.length;
 
@@ -128,7 +120,6 @@ export default function CareerSelector({
 
         {/* Contenido del modal */}
         <div className="overflow-y-auto max-h-[70vh] md:max-h-[60vh]">
-          </div>
 
           {/* Sección Carreras*/}
           {groupedtodasCareers.length > 0 && (
@@ -238,19 +229,6 @@ export default function CareerSelector({
                 })}
             </div>
           </div>
-          )}
-
-          {/* Mensaje si no hay resultados */}
-          {totalResults === 0 && searchTerm && (
-            <div className="text-center py-12 px-6">
-              <FontAwesomeIcon icon={faSearch} className={`text-6xl mb-4 ${darkMode ? 'text-gray-600' : 'text-gray-300'}`} />
-              <h4 className={`text-xl font-bold mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                No se encontraron resultados
-              </h4>
-              <p className={`${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-                Intenta con otro término de búsqueda
-              </p>
-            </div>
           )}
 
         </div>
