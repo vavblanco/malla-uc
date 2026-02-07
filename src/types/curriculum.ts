@@ -40,7 +40,7 @@ export interface Categoria {
 export interface Carrera {
 	codigo: string;
 	nombre: string;
-	campus: 'all' | 'cc' | 'vm' | 'sj' | 'vc' | 'cp';
+	campus: 'all';
 	color: string;
 	asignaturas: Subject[];
 	categorias: Categoria[];

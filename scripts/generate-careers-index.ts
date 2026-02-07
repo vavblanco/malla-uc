@@ -10,11 +10,6 @@ interface Campus {
 
 const campuses: Campus[] = [
   { name: 'Todas', code: 'all', path: './src/data/carreras/all' },
-  { name: 'Casa Central', code: 'cc', path: './src/data/carreras/cc' },
-  { name: 'Viña del Mar', code: 'vm', path: './src/data/carreras/vm' },
-  { name: 'San Joaquín', code: 'sj', path: './src/data/carreras/sj' },
-  { name: 'Vitacura', code: 'vc', path: './src/data/carreras/vc' },
-  { name: 'Concepción', code: 'cp', path: './src/data/carreras/cp' },
 ];
 
 function getCareerFiles(campusPath: string): string[] {
@@ -30,10 +25,10 @@ function getCareerFiles(campusPath: string): string[] {
 function generateImportName(fileName: string, campusCode: string): { importName: string; key: string } {
   // Casos especiales donde hay conflictos entre campus
   if (fileName === 'eli') {
-    return { importName: `eli_${campusCode}`, key: campusCode === 'cc' ? 'eli' : `eli-${campusCode}` };
+    return { importName: `eli_${campusCode}`, key: campusCode === 'all' ? 'eli' : `eli-${campusCode}` };
   }
   if (fileName === 'icom') {
-    return { importName: `icom_${campusCode}`, key: campusCode === 'cc' ? 'icom' : `icom-${campusCode}` };
+    return { importName: `icom_${campusCode}`, key: campusCode === 'all' ? 'icom' : `icom-${campusCode}` };
   }
   return { importName: fileName, key: fileName.replace('_', '-') };
 }

@@ -52,16 +52,7 @@ export default function CurriculumGrid({ initialCareer }: CurriculumGridProps = 
         // Determinar campus basado en el código de carrera (normalizar a minúsculas)
         const normalizedCareer = initialCareer.toLowerCase();
         const campusMap: Record<string, string> = {
-          'afi': 'cc', 'amb': 'cc', 'arq': 'cc','bio-0':'all','bio':'all','biomar':'all','biomar-0':'all', 'bq':'all', 'civ-0': 'cc', 'constru-0': 'cc',
-          'ctciv': 'cc', 'eli-0': 'cc', 'eli': 'cc', 'elo-0': 'cc', 'elo': 'cc',
-          'fis-0': 'cc', 'ica-0': 'cc', 'icbt': 'cc', 'icfis': 'cc', 'ici-0': 'cc',
-          'ici': 'cc', 'iciv': 'cc', 'icm-0': 'cc', 'icom-0': 'cc', 'icom': 'cc',
-          'icq-0': 'cc', 'icq': 'cc', 'idp': 'cc', 'inf-0': 'cc', 'inf': 'cc',
-          'qui': 'cc', 'mat-0': 'cc', 'mat': 'cc', 'lmat': 'cc', 'mec': 'cc',
-          'met-0': 'cc', 'met': 'cc', 'tel-0': 'cc', 'tel': 'cc',
-          'fdi': 'vm', 'ibt': 'vm', 'imi': 'vm', 'inginf': 'vm', 'prla': 'vm',
-          'tuconst': 'vm', 'tuinf': 'vm',
-          'cind': 'vc', 'cinf': 'vc', 'eli-vc': 'vc', 'iac': 'vc', 'icom-vc': 'vc'
+          'bio-0':'all','bio':'all','biomar':'all','biomar-0':'all', 'bq':'all'
         };
         const detectedCampus = campusMap[normalizedCareer];
         if (detectedCampus) {
@@ -94,11 +85,6 @@ export default function CurriculumGrid({ initialCareer }: CurriculumGridProps = 
     careerName,
     careerColor,
     todasCareers,
-    casaCentralCareers,
-    vinaCareers,
-    sanJoaquinCareers,
-    vitacuraCareers,
-    concepcionCareers,
     showCareerSelector: showSelectorFromHook,
     handleBackToCareerSelector,
     findSubjectByCode
@@ -225,11 +211,6 @@ export default function CurriculumGrid({ initialCareer }: CurriculumGridProps = 
       <CareerSelector
         show={showCareerSelector}
         todasCareers={todasCareers}
-        casaCentralCareers={casaCentralCareers}
-        vinaCareers={vinaCareers}
-        sanJoaquinCareers={sanJoaquinCareers}
-        vitacuraCareers={vitacuraCareers}
-        concepcionCareers={concepcionCareers}
         darkMode={darkMode}
         onCareerSelect={handleCareerSelection}
         onClose={() => setShowCareerSelector(false)}
