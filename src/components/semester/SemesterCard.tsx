@@ -12,6 +12,7 @@ interface SemesterCardProps {
   findSubjectByCode: (code: string) => Subject | undefined;
   darkMode: boolean;
   subjectRefs: React.MutableRefObject<Record<string, HTMLDivElement | null>>;
+  approvedCredits?: number; // NUEVO: Créditos aprobados totales
 }
 
 export default function SemesterCard({
@@ -23,7 +24,8 @@ export default function SemesterCard({
   onPrerequisiteClick,
   findSubjectByCode,
   darkMode,
-  subjectRefs
+  subjectRefs,
+  approvedCredits = 0 // NUEVO
 }: SemesterCardProps) {
   const getSemesterTitle = (semester: string) => {
     const semesterNumber = semester.replace('s', '');
@@ -42,7 +44,7 @@ export default function SemesterCard({
   };
 
   const semesterCredits = getSemesterCredits(subjects);
-  const approvedCredits = getSemesterApprovedCredits(subjects);
+  const approvedCreditsInSemester = getSemesterApprovedCredits(subjects);
 
   if (subjects.length === 0) return null;
 
@@ -66,7 +68,7 @@ export default function SemesterCard({
         <div className={`text-xs mt-1 ${
           darkMode ? 'text-gray-300' : 'text-gray-700'
         }`}>
-          <span className="font-medium">{approvedCredits}</span>
+          <span className="font-medium">{approvedCreditsInSemester}</span>
           <span className="mx-1">/</span>
           <span>{semesterCredits} créditos</span>
         </div>
@@ -75,7 +77,7 @@ export default function SemesterCard({
         }`}>
           <div 
             className="bg-gradient-to-r from-blue-500 to-indigo-500 h-2 rounded-full transition-all duration-500 shadow-sm"
-            style={{ width: `${semesterCredits > 0 ? (approvedCredits / semesterCredits) * 100 : 0}%` }}
+            style={{ width: `${semesterCredits > 0 ? (approvedCreditsInSemester / semesterCredits) * 100 : 0}%` }}
           />
         </div>
       </div>
@@ -101,6 +103,7 @@ export default function SemesterCard({
               subjectStates={subjectStates}
               colors={colors}
               darkMode={darkMode}
+              approvedCredits={approvedCredits} // NUEVO: Pasar créditos aprobados
             />
           </div>
         ))}

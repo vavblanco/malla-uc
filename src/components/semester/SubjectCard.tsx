@@ -1,7 +1,7 @@
 'use client';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLock, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faLock, faCheck, faLink, faTrophy } from '@fortawesome/free-solid-svg-icons';
 import type { Subject, SubjectState, CalculatorState, SubjectColors } from '@/types/curriculum';
 import { motion, AnimatePresence } from 'framer-motion';
 import Tooltip from '../ui/Tooltip';
@@ -17,6 +17,7 @@ interface SubjectCardProps {
   subjectStates: CalculatorState;
   colors: SubjectColors;
   darkMode?: boolean;
+  approvedCredits?: number; // Créditos aprobados totales
 }
 
 export default function SubjectCard({ 
@@ -29,20 +30,46 @@ export default function SubjectCard({
   findSubjectByCode,
   subjectStates,
   colors,
-  darkMode = false
+  darkMode = false,
+  approvedCredits = 0
 }: SubjectCardProps) {
 
   const canTakeSubject = () => {
-    // Si no tiene prerrequisitos, siempre se puede tomar
-    if (subject.prerequisites.length === 0) return true;
+    // Si no tiene prerrequisitos ni requisitos de créditos, siempre se puede tomar
+    const hasNoRequirements = 
+      subject.prerequisites.length === 0 && 
+      !subject.creditRequirement;
+    
+    if (hasNoRequirements) return true;
+    
     // Verificar que todos los prerrequisitos estén aprobados
-    return subject.prerequisites.every((prereqCode: string) => {
+    const prerequisitesMet = subject.prerequisites.every((prereqCode: string) => {
       const prereqState = subjectStates[prereqCode];
       return prereqState?.status === 'approved';
+    });
+    
+    // Verificar requisito de créditos si existe
+    const creditRequirementMet = !subject.creditRequirement || 
+      approvedCredits >= subject.creditRequirement;
+    
+    return prerequisitesMet && creditRequirementMet;
+  };
+
+  // Verificar si hay correquisitos no cumplidos
+  const getMissingCorequisites = () => {
+    if (!subject.corequisites || subject.corequisites.length === 0) return [];
+    
+    return subject.corequisites.filter((coreqCode: string) => {
+      const coreqState = subjectStates[coreqCode];
+      // Un correquisito no está cumplido si el ramo actual está aprobado/pendiente 
+      // pero el correquisito no está también aprobado/pendiente
+      return state?.status === 'approved' && coreqState?.status !== 'approved';
     });
   };
 
   const isBlocked = !canTakeSubject() && state?.status !== 'approved';
+  const missingCorequisites = getMissingCorequisites();
+  const hasCorequisiteWarning = missingCorequisites.length > 0;
 
   // Devuelve clases de texto y borde con el color de la categoría como texto
   const getStatusColor = () => {
@@ -127,17 +154,92 @@ export default function SubjectCard({
     );
   };
 
+  const CorequisiteChip = ({ coreqCode }: { coreqCode: string }) => {
+    const coreqSubject = findSubjectByCode(coreqCode);
+    const coreqState = subjectStates[coreqCode];
+    if (!coreqSubject) {
+      return (
+        <span className="inline-flex items-center gap-1 text-xs px-2 py-1 rounded bg-orange-500/80 text-white">
+          <FontAwesomeIcon icon={faLink} className="text-[0.6rem]" />
+          {coreqCode}
+        </span>
+      );
+    }
+    
+    const coreqColor = colors[coreqSubject.type]?.[0] || '#6b7280';
+    
+    const coreqTooltip = (
+      <div className="space-y-1">
+        <div className="font-bold flex items-center gap-1">
+          <FontAwesomeIcon icon={faLink} />
+          Correquisito
+        </div>
+        <div className="text-sm">{coreqSubject.name}</div>
+        <div className="text-xs opacity-70">{coreqCode} • {coreqSubject.sctCredits} créditos</div>
+        <div className="text-xs pt-1 border-t border-gray-300 dark:border-gray-600">
+          Debe cursarse simultáneamente
+        </div>
+        <div className="text-xs opacity-70">Click para ir al ramo</div>
+      </div>
+    );
+    
+    return (
+      <Tooltip content={coreqTooltip}>
+        <button
+          onClick={e => {
+            e.stopPropagation();
+            onPrerequisiteClick(coreqCode);
+          }}
+          className={`inline-flex items-center gap-1 text-xs px-1.5 py-0.5 rounded-xl font-bold text-white hover:brightness-110 transition-all border-2 border-dashed border-white`}
+          style={{ backgroundColor: coreqColor }}
+        >
+          <FontAwesomeIcon icon={faLink} className="text-[0.6rem]" />
+          <span>{coreqCode}</span>
+        </button>
+      </Tooltip>
+    );
+  };
+
   const tooltipContent = (
     <div className="space-y-1">
       <div className="font-bold">{subject.name}</div>
       <div className="text-xs opacity-70">{subject.code} • {subject.sctCredits} créditos</div>
+      
       {subject.prerequisites.length > 0 && (
         <div className="text-xs opacity-70 pt-1 border-t border-gray-300 dark:border-gray-600">
           Prerrequisitos: {subject.prerequisites.map(code => findSubjectByCode(code)?.name || code).join(', ')}
         </div>
       )}
+      
+      {subject.corequisites && subject.corequisites.length > 0 && (
+        <div className="text-xs opacity-70 pt-1 border-t border-gray-300 dark:border-gray-600">
+          <FontAwesomeIcon icon={faLink} className="mr-1" />
+          Correquisitos: {subject.corequisites.map(code => findSubjectByCode(code)?.name || code).join(', ')}
+        </div>
+      )}
+      
+      {subject.creditRequirement && (
+        <div className="text-xs opacity-70 pt-1 border-t border-gray-300 dark:border-gray-600">
+          <FontAwesomeIcon icon={faTrophy} className="mr-1" />
+          Requiere {subject.creditRequirement} créditos aprobados
+          {approvedCredits >= subject.creditRequirement ? (
+            <span className="text-green-500 ml-1">✓</span>
+          ) : (
+            <span className="text-red-500 ml-1">({approvedCredits}/{subject.creditRequirement})</span>
+          )}
+        </div>
+      )}
+      
+      {hasCorequisiteWarning && (
+        <div className="text-xs text-orange-500 dark:text-orange-400 pt-1">
+          ⚠️ Faltan correquisitos por aprobar
+        </div>
+      )}
+      
       {isBlocked ? (
-        <div className="text-xs text-red-500 dark:text-red-400 pt-1">⚠️ Bloqueada: completa los prerrequisitos</div>
+        <div className="text-xs text-red-500 dark:text-red-400 pt-1">
+          ⚠️ Bloqueada: completa los requisitos
+        </div>
       ) : (
         <div className="text-xs text-green-600 dark:text-green-400 pt-1">
           {state?.status === 'approved' ? '✓ Aprobada' : 'Click para marcar como aprobada'}
@@ -159,7 +261,9 @@ export default function SubjectCard({
           transition={{ duration: 0.3, type: "spring", damping: 20, stiffness: 300 }}
           className={`relative rounded-xl cursor-pointer overflow-hidden min-h-[90px] md:min-h-[100px] flex flex-col ${
             state?.status === 'approved' 
-              ? 'shadow-lg shadow-green-500/30 ring-2 ring-green-400/50' 
+              ? hasCorequisiteWarning
+                ? 'shadow-lg shadow-orange-500/30 ring-2 ring-orange-400/50'
+                : 'shadow-lg shadow-green-500/30 ring-2 ring-green-400/50'
               : 'shadow-md hover:shadow-lg'
           }`}
           onClick={handleClick}
@@ -176,7 +280,7 @@ export default function SubjectCard({
         
         {/* Ícono de check para asignaturas aprobadas */}
         <AnimatePresence>
-          {state?.status === 'approved' && (
+          {state?.status === 'approved' && !hasCorequisiteWarning && (
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
@@ -192,6 +296,7 @@ export default function SubjectCard({
             </motion.div>
           )}
         </AnimatePresence>
+        
         {/* Código como carátula en esquina superior izquierda */}
         <div className={`absolute top-0 left-0 ${darkMode ? 'bg-gray-800/90' : 'bg-white/85'} rounded-br-lg px-2 py-0.5`}>
           <span className="subject-code text-xs" style={{ color: getBackgroundColor() }}>
@@ -221,25 +326,64 @@ export default function SubjectCard({
           )}
         </AnimatePresence>
         
+        {/* Advertencia de correquisitos faltantes */}
+        <AnimatePresence>
+          {hasCorequisiteWarning && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="absolute bottom-0 left-0 bg-orange-500/90 rounded-tr-lg px-2 py-0.5"
+            >
+              <FontAwesomeIcon icon={faLink} className="text-xs text-white" />
+            </motion.div>
+          )}
+        </AnimatePresence>
+        
         {/* Contenido principal */}
         <div className="flex-1 px-2 md:px-3 pt-8 md:pt-10 pb-1 md:pb-2">
           <h3 className="subject-name text-xs leading-tight text-white mb-1 flex items-center gap-1">
             {subject.name}
           </h3>
           
-          {/* Prerrequisitos */}
-          {subject.prerequisites.length > 0 && (
-            <div className="mt-auto">
-              <div className="flex flex-wrap gap-1">
-                {subject.prerequisites.map((prereq: string) => (
-                  <PrerequisiteChip key={prereq} prereqCode={prereq} />
-                ))}
+          {/* Requisito de créditos */}
+          {subject.creditRequirement && (
+            <div className="mb-1">
+              <div className={`inline-flex items-center gap-1 text-xs px-1.5 py-0.5 rounded-lg ${
+                approvedCredits >= subject.creditRequirement
+                  ? 'bg-green-500/80'
+                  : 'bg-red-500/80'
+              } text-white`}>
+                <FontAwesomeIcon icon={faTrophy} className="text-[0.6rem]" />
+                <span>{subject.creditRequirement} créd.</span>
               </div>
             </div>
           )}
+          
+          {/* Prerrequisitos y Correquisitos */}
+          {(subject.prerequisites.length > 0 || (subject.corequisites && subject.corequisites.length > 0)) && (
+            <div className="mt-auto space-y-1">
+              {/* Prerrequisitos */}
+              {subject.prerequisites.length > 0 && (
+                <div className="flex flex-wrap gap-1">
+                  {subject.prerequisites.map((prereq: string) => (
+                    <PrerequisiteChip key={prereq} prereqCode={prereq} />
+                  ))}
+                </div>
+              )}
+              
+              {/* Correquisitos */}
+              {subject.corequisites && subject.corequisites.length > 0 && (
+                <div className="flex flex-wrap gap-1">
+                  {subject.corequisites.map((coreq: string) => (
+                    <CorequisiteChip key={coreq} coreqCode={coreq} />
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
         </div>
-        
-        {/* Indicador de estado visual removido */}
       </motion.div>
       </div>
     </Tooltip>

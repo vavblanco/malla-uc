@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import type { Subject, SubjectState, CalculatorState } from '@/types/curriculum';
 import { logger } from '@/utils/logger';
@@ -65,6 +64,19 @@ export function useCalculator(subjects?: Subject[], careerKey?: string) {
     }
   };
 
+  // Calcular créditos aprobados totales
+  const getApprovedCredits = () => {
+    if (!subjects || subjects.length === 0) return 0;
+    
+    return subjects.reduce((total, subject) => {
+      const state = subjectStates[subject.code];
+      if (state?.status === 'approved') {
+        return total + (Number(subject.sctCredits) || 0);
+      }
+      return total;
+    }, 0);
+  };
+
   const calculateCredits = () => {
     if (!subjects || subjects.length === 0) {
       return {
@@ -102,6 +114,7 @@ export function useCalculator(subjects?: Subject[], careerKey?: string) {
     updateSubjectState,
     resetCalculator,
     calculateCredits,
+    getApprovedCredits,
     isLoaded,
   };
 }

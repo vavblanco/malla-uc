@@ -491,6 +491,7 @@ export const bq: Carrera = {
         "sctCredits": 10,
         "type": "TL",
         "prerequisites": [],
+        "creditRequirement": 250,
         "semester": "s8"
     },
     {
