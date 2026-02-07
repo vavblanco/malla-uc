@@ -1,9 +1,7 @@
-import { useRef } from 'react';
-import SubjectCard from './SubjectCard';
+import SemesterCard from './SemesterCard';
 import { Subject, SubjectColors, SubjectState } from '@/types/curriculum';
 
-interface SemesterCardProps {
-  semester: string;
+interface SemesterGridProps {
   subjects: Subject[];
   subjectStates: Record<string, SubjectState>;
   onStateChange: (code: string, state: SubjectState) => void;
@@ -12,12 +10,10 @@ interface SemesterCardProps {
   findSubjectByCode: (code: string) => Subject | undefined;
   darkMode: boolean;
   subjectRefs: React.MutableRefObject<Record<string, HTMLDivElement | null>>;
-  approvedCredits?: number;
-  allSubjects?: Subject[]; // AGREGUÉ ESTA LÍNEA
+  approvedCredits?: number; // NUEVO: Créditos aprobados totales
 }
 
-export default function SemesterCard({
-  semester,
+export default function SemesterGrid({
   subjects,
   subjectStates,
   onStateChange,
@@ -26,90 +22,89 @@ export default function SemesterCard({
   findSubjectByCode,
   darkMode,
   subjectRefs,
-  approvedCredits = 0,
-  allSubjects = [] // AGREGUÉ ESTA LÍNEA
-}: SemesterCardProps) {
-  const getSemesterTitle = (semester: string) => {
-    const semesterNumber = semester.replace('s', '');
-    return `${semesterNumber}° Semestre`;
+  approvedCredits = 0 // NUEVO
+}: SemesterGridProps) {
+  const getSemesterSubjects = (semester: string) => {
+    return subjects.filter(subject => subject.semester === semester);
   };
 
-  const getSemesterCredits = (subjects: Subject[]) => {
-    return subjects.reduce((total, subject) => total + Number(subject.sctCredits), 0);
+  // Calcular el número máximo de semestres dinámicamente
+  const getMaxSemesters = () => {
+    if (subjects.length === 0) return 8;
+    
+    const semesterNumbers = subjects
+      .map(subject => subject.semester)
+      .filter((semester): semester is string => semester !== undefined && semester.startsWith('s'))
+      .map(semester => parseInt(semester.replace('s', '')))
+      .filter(num => !isNaN(num));
+    
+    return semesterNumbers.length > 0 ? Math.max(...semesterNumbers) : 8;
   };
 
-  const getSemesterApprovedCredits = (subjects: Subject[]) => {
-    return subjects.reduce((total, subject) => {
-      const state = subjectStates[subject.code];
-      return total + (state?.status === 'approved' ? Number(subject.sctCredits) : 0);
-    }, 0);
-  };
-
-  const semesterCredits = getSemesterCredits(subjects);
-  const approvedCreditsInSemester = getSemesterApprovedCredits(subjects);
-
-  if (subjects.length === 0) return null;
+  const maxSemesters = getMaxSemesters();
 
   return (
-    <div 
-      className={`
-        flex flex-col rounded-2xl shadow-md border w-full
-        md:max-w-[180px] md:w-40 md:flex-shrink-0
-        ${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-gray-100 border-gray-200'}
-      `}
-    >
-      {/* Header del semestre */}
-      <div className={`rounded-t-2xl p-2 md:p-3 text-center border-b ${
-        darkMode ? 'bg-gray-700 border-gray-600' : 'bg-gray-200 border-gray-300'
-      }`}>
-        <h3 className={`font-bold text-xs md:text-sm ${
-          darkMode ? 'text-gray-100' : 'text-gray-800'
-        }`}>
-          {getSemesterTitle(semester)}
-        </h3>
-        <div className={`text-xs mt-1 ${
-          darkMode ? 'text-gray-300' : 'text-gray-700'
-        }`}>
-          <span className="font-medium">{approvedCreditsInSemester}</span>
-          <span className="mx-1">/</span>
-          <span>{semesterCredits} créditos</span>
+    <div className="w-full">
+      {/* Indicador de scroll solo en desktop para carreras largas */}
+      {maxSemesters > 4 && (
+        <div className={`text-xs text-center mb-2 ${
+          darkMode ? 'text-gray-400' : 'text-gray-600'
+        } hidden md:block`}>
+          ← Desliza para ver todos los semestres →
         </div>
-        <div className={`w-full rounded-full h-2 mt-2 overflow-hidden ${
-          darkMode ? 'bg-gray-600' : 'bg-gray-300'
-        }`}>
-          <div 
-            className="bg-gradient-to-r from-blue-500 to-indigo-500 h-2 rounded-full transition-all duration-500 shadow-sm"
-            style={{ width: `${semesterCredits > 0 ? (approvedCreditsInSemester / semesterCredits) * 100 : 0}%` }}
-          />
-        </div>
-      </div>
+      )}
       
-      {/* Asignaturas del semestre */}
-      <div className="flex flex-col gap-2 md:gap-3 p-2 md:p-3 rounded-b-2xl">
-        {subjects.map((subject) => (
-          <div
-            key={subject.code}
-            ref={(el) => {
-              subjectRefs.current[subject.code] = el;
-            }}
-            className="transition-all duration-300 ease-in-out"
-          >
-            <SubjectCard
-              subject={subject}
-              state={subjectStates[subject.code]}
-              onStateChange={(state) => onStateChange(subject.code, state)}
-              color={colors[subject.type]?.[0] || '#6B7280'}
-              categoryName={colors[subject.type]?.[1] || 'Sin categoría'}
+      {/* Móvil: Grid de 2 columnas que se adapta al contenido */}
+      <div className="grid grid-cols-2 gap-1 w-full md:hidden">
+        {Array.from({ length: maxSemesters }, (_, i) => `s${i + 1}`).map((semester) => {
+          const semesterSubjects = getSemesterSubjects(semester);
+          
+          return (
+            <SemesterCard
+              key={semester}
+              semester={semester}
+              subjects={semesterSubjects}
+              subjectStates={subjectStates}
+              onStateChange={onStateChange}
+              colors={colors}
               onPrerequisiteClick={onPrerequisiteClick}
               findSubjectByCode={findSubjectByCode}
-              subjectStates={subjectStates}
-              colors={colors}
               darkMode={darkMode}
-              approvedCredits={approvedCredits}
-              allSubjects={allSubjects}
+              subjectRefs={subjectRefs}
+              approvedCredits={approvedCredits} // NUEVO: Pasar créditos aprobados
             />
-          </div>
-        ))}
+          );
+        })}
+      </div>
+
+      {/* Desktop: Flex horizontal con scroll */}
+      <div className="hidden md:flex md:justify-center md:overflow-x-auto md:pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div 
+          className="flex flex-row gap-2"
+          style={{ 
+            minWidth: `${maxSemesters * 168}px`
+          }}
+        >
+          {Array.from({ length: maxSemesters }, (_, i) => `s${i + 1}`).map((semester) => {
+            const semesterSubjects = getSemesterSubjects(semester);
+            
+            return (
+              <SemesterCard
+                key={semester}
+                semester={semester}
+                subjects={semesterSubjects}
+                subjectStates={subjectStates}
+                onStateChange={onStateChange}
+                colors={colors}
+                onPrerequisiteClick={onPrerequisiteClick}
+                findSubjectByCode={findSubjectByCode}
+                darkMode={darkMode}
+                subjectRefs={subjectRefs}
+                approvedCredits={approvedCredits} // NUEVO: Pasar créditos aprobados
+              />
+            );
+          })}
+        </div>
       </div>
     </div>
   );
