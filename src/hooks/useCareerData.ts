@@ -9,7 +9,7 @@ interface Career {
   Color?: string;
 }
 
-type Campus = 'all' | 'cc' | 'vm' | 'sj' | 'vc' | 'cp';
+type Campus = 'all';
 
 export const useCareerData = (campus: Campus | undefined, careerCode: string | undefined) => {
   const [subjects, setSubjects] = useState<Subject[]>([]);
