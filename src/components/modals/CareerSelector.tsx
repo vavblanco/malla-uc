@@ -132,6 +132,7 @@ export default function CareerSelector({
         {/* Contenido del modal */}
         <div className="overflow-y-auto max-h-[70vh] md:max-h-[60vh]">
           {/* Barra de búsqueda y toggle */}
+          <div className="px-6 py-4">
           <div className="relative pointer-events-auto">
             <FontAwesomeIcon
               icon={faSearch}
@@ -164,9 +165,16 @@ export default function CareerSelector({
             )}
           </div>
 
+          {searchTerm && (
+            <p className={`text-sm mt-2 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+              {totalResults} {totalResults === 1 ? 'resultado encontrado' : 'resultados encontrados'}
+            </p>
+          )}
+        </div>
+
             
             
-            {searchTerm && (
+          {searchTerm && (
               <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                 {totalResults} {totalResults === 1 ? 'resultado encontrado' : 'resultados encontrados'}
               </p>
