@@ -8,6 +8,8 @@ export interface Subject {
 	sctCredits: number;
 	type: string;
 	prerequisites: string[];
+	corequisites?: string[];
+	creditRequirement?: number;
 	semester?: string;
 }
 
