@@ -9,7 +9,7 @@ interface PageProps {
 
 // Lista de todas las carreras para generación estática
 const allCareerIds = [
-  'afi', 'amb', 'arq', 'bq', 'civ-0', 'constru-0', 'ctciv', 'eli-0', 'eli', 'elo-0', 'elo',
+  'afi', 'amb', 'arq', 'bio-0', 'bio', 'biomar', 'biomar-0', 'bq', 'civ-0', 'constru-0', 'ctciv', 'eli-0', 'eli', 'elo-0', 'elo',
   'fis-0', 'ica-0', 'icbt', 'icfis', 'ici-0', 'ici', 'iciv', 'icm-0', 'icom-0', 'icom',
   'icq-0', 'icq', 'idp', 'inf-0', 'inf', 'qui', 'mat-0', 'mat', 'lmat', 'mec', 'met-0', 'met',
   'tel-0', 'tel', 'fdi', 'ibt', 'imi', 'inginf', 'prla', 'tuconst', 'tuinf',
