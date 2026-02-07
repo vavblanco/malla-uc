@@ -127,47 +127,6 @@ export default function CareerSelector({
           </div>
         </div>
 
-        {/* Contenido del modal */}
-        <div className="overflow-y-auto max-h-[70vh] md:max-h-[60vh]">
-          {/* Barra de búsqueda y toggle */}
-          <div className={`sticky top-0 z-10 px-6 pt-6 pb-8 pointer-events-none ${
-            darkMode 
-              ? 'bg-gradient-to-b from-gray-800 from-70% via-gray-800/90 to-transparent' 
-              : 'bg-gradient-to-b from-white from-70% via-white/90 to-transparent'
-          }`}>
-            <div className="relative">
-              <FontAwesomeIcon 
-                icon={faSearch} 
-                className={`absolute left-4 top-1/2 -translate-y-1/2 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}
-              />
-              <input
-                type="text"
-                placeholder="Buscar carrera..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className={`w-full pl-12 pr-4 py-3 rounded-2xl border-2 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                  darkMode 
-                    ? 'bg-gray-800/80 border-gray-600 text-white placeholder-gray-400' 
-                    : 'bg-white/80 border-gray-200 text-gray-800 placeholder-gray-500'
-                }`}
-              />
-              {searchTerm && (
-                <button
-                  onClick={() => setSearchTerm('')}
-                  className={`absolute right-4 top-1/2 -translate-y-1/2 ${darkMode ? 'text-gray-400 hover:text-gray-200' : 'text-gray-500 hover:text-gray-700'}`}
-                >
-                  <FontAwesomeIcon icon={faTimes} />
-                </button>
-              )}
-            </div>
-            
-            {searchTerm && (
-              <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                {totalResults} {totalResults === 1 ? 'resultado encontrado' : 'resultados encontrados'}
-              </p>
-            )}
-          </div>
-
           {/* Sección Carreras*/}
           {groupedtodasCareers.length > 0 && (
             <div className="mb-8 px-6">
