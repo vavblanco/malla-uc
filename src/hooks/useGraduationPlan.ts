@@ -83,7 +83,7 @@ export const useGraduationPlan = (
     const plan: SemesterPlan[] = [];
     const remainingSubjects = [...pendingSubjects];
     let currentSemester = 1;
-    const maxCreditsPerSemester = 32; // Límite de créditos por semestre en UTFSM
+    const maxCreditsPerSemester = 60; // Límite de créditos por semestre en PUC
 
     const getSemesterName = (semesterNumber: number): string => {
       const currentDate = new Date();
