@@ -10,6 +10,7 @@ export interface Subject {
 	prerequisites: string[];
 	corequisites?: string[];
 	creditRequirement?: number;
+	electiveGroup?: string; 
 	semester?: string;
 }
 

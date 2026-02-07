@@ -1,7 +1,7 @@
 'use client';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLock, faCheck, faLink, faTrophy } from '@fortawesome/free-solid-svg-icons';
+import { faLock, faCheck, faLink, faTrophy, faCodeBranch } from '@fortawesome/free-solid-svg-icons';
 import type { Subject, SubjectState, CalculatorState, SubjectColors } from '@/types/curriculum';
 import { motion, AnimatePresence } from 'framer-motion';
 import Tooltip from '../ui/Tooltip';
@@ -17,7 +17,8 @@ interface SubjectCardProps {
   subjectStates: CalculatorState;
   colors: SubjectColors;
   darkMode?: boolean;
-  approvedCredits?: number; // Créditos aprobados totales
+  approvedCredits?: number;
+  allSubjects?: Subject[]; // NUEVO: Para verificar grupos electivos
 }
 
 export default function SubjectCard({ 
@@ -31,10 +32,32 @@ export default function SubjectCard({
   subjectStates,
   colors,
   darkMode = false,
-  approvedCredits = 0
+  approvedCredits = 0,
+  allSubjects = [] // NUEVO
 }: SubjectCardProps) {
 
+  // NUEVO: Verificar si otro ramo del mismo grupo electivo está aprobado
+  const getElectiveGroupConflict = () => {
+    if (!subject.electiveGroup) return null;
+    
+    // Buscar otros ramos del mismo grupo electivo que estén aprobados
+    const conflictingSubject = allSubjects.find(s => 
+      s.electiveGroup === subject.electiveGroup && 
+      s.code !== subject.code && 
+      subjectStates[s.code]?.status === 'approved'
+    );
+    
+    return conflictingSubject || null;
+  };
+
+  const electiveConflict = getElectiveGroupConflict();
+
   const canTakeSubject = () => {
+    // Si hay un conflicto de grupo electivo y este ramo no está aprobado, está bloqueado
+    if (electiveConflict && state?.status !== 'approved') {
+      return false;
+    }
+
     // Si no tiene prerrequisitos ni requisitos de créditos, siempre se puede tomar
     const hasNoRequirements = 
       subject.prerequisites.length === 0 && 
@@ -70,6 +93,16 @@ export default function SubjectCard({
   const isBlocked = !canTakeSubject() && state?.status !== 'approved';
   const missingCorequisites = getMissingCorequisites();
   const hasCorequisiteWarning = missingCorequisites.length > 0;
+
+  // Obtener otros ramos del mismo grupo electivo
+  const getElectiveGroupMembers = () => {
+    if (!subject.electiveGroup) return [];
+    return allSubjects.filter(s => 
+      s.electiveGroup === subject.electiveGroup && s.code !== subject.code
+    );
+  };
+
+  const electiveGroupMembers = getElectiveGroupMembers();
 
   // Devuelve clases de texto y borde con el color de la categoría como texto
   const getStatusColor = () => {
@@ -205,6 +238,30 @@ export default function SubjectCard({
       <div className="font-bold">{subject.name}</div>
       <div className="text-xs opacity-70">{subject.code} • {subject.sctCredits} créditos</div>
       
+      {subject.electiveGroup && electiveGroupMembers.length > 0 && (
+        <div className="text-xs opacity-70 pt-1 border-t border-gray-300 dark:border-gray-600">
+          <FontAwesomeIcon icon={faCodeBranch} className="mr-1" />
+          Electivo (elige uno):
+          <div className="mt-1 space-y-0.5">
+            {electiveGroupMembers.map(member => (
+              <div key={member.code} className="ml-4 flex items-center gap-1">
+                <span className={subjectStates[member.code]?.status === 'approved' ? 'font-bold text-green-500' : ''}>
+                  • {member.name}
+                </span>
+                {subjectStates[member.code]?.status === 'approved' && <span>✓</span>}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+      
+      {electiveConflict && (
+        <div className="text-xs text-purple-500 dark:text-purple-400 pt-1 border-t border-gray-300 dark:border-gray-600">
+          <FontAwesomeIcon icon={faCodeBranch} className="mr-1" />
+          Bloqueado: Ya aprobaste "{electiveConflict.name}"
+        </div>
+      )}
+      
       {subject.prerequisites.length > 0 && (
         <div className="text-xs opacity-70 pt-1 border-t border-gray-300 dark:border-gray-600">
           Prerrequisitos: {subject.prerequisites.map(code => findSubjectByCode(code)?.name || code).join(', ')}
@@ -264,7 +321,9 @@ export default function SubjectCard({
               ? hasCorequisiteWarning
                 ? 'shadow-lg shadow-orange-500/30 ring-2 ring-orange-400/50'
                 : 'shadow-lg shadow-green-500/30 ring-2 ring-green-400/50'
-              : 'shadow-md hover:shadow-lg'
+              : subject.electiveGroup
+                ? 'shadow-md hover:shadow-lg ring-1 ring-purple-400/30'
+                : 'shadow-md hover:shadow-lg'
           }`}
           onClick={handleClick}
         >
@@ -298,7 +357,10 @@ export default function SubjectCard({
         </AnimatePresence>
         
         {/* Código como carátula en esquina superior izquierda */}
-        <div className={`absolute top-0 left-0 ${darkMode ? 'bg-gray-800/90' : 'bg-white/85'} rounded-br-lg px-2 py-0.5`}>
+        <div className={`absolute top-0 left-0 ${darkMode ? 'bg-gray-800/90' : 'bg-white/85'} rounded-br-lg px-2 py-0.5 flex items-center gap-1`}>
+          {subject.electiveGroup && (
+            <FontAwesomeIcon icon={faCodeBranch} className="text-[0.6rem] text-purple-500" />
+          )}
           <span className="subject-code text-xs" style={{ color: getBackgroundColor() }}>
             {subject.code}
           </span>

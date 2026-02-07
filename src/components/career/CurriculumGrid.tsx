@@ -117,7 +117,7 @@ export default function CurriculumGrid({ initialCareer }: CurriculumGridProps = 
     if (handleBackToCareerSelector) handleBackToCareerSelector();
   };
 
-  const { subjectStates, updateSubjectState, resetCalculator, calculateCredits, isLoaded } = useCalculator(subjects, careerCode || '');
+  const { subjectStates, updateSubjectState, resetCalculator, calculateCredits, getApprovedCredits, isLoaded } = useCalculator(subjects, careerCode || '');
   const { checkAndTriggerConfetti } = useConfetti();
   const {
     showGraduationPlan,
@@ -128,6 +128,7 @@ export default function CurriculumGrid({ initialCareer }: CurriculumGridProps = 
   } = useGraduationPlan(subjects, subjectStates);
 
   const stats = calculateCredits();
+  const approvedCredits = getApprovedCredits(); // NUEVO: Obtener créditos aprobados
 
   // Verificar si se alcanzó el 100% para lanzar confetti
   useEffect(() => {
@@ -177,6 +178,7 @@ export default function CurriculumGrid({ initialCareer }: CurriculumGridProps = 
                 findSubjectByCode={findSubjectByCode}
                 darkMode={darkMode}
                 subjectRefs={subjectRefs}
+                approvedCredits={approvedCredits} // NUEVO: Pasar créditos aprobados
               />
             </div>
             
@@ -247,4 +249,3 @@ export default function CurriculumGrid({ initialCareer }: CurriculumGridProps = 
   );
 
 }
-

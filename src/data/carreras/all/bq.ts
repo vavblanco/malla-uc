@@ -211,6 +211,7 @@ export const bq: Carrera = {
         "prerequisites": [
             "QIM100B"
         ],
+        "corequisites": ["BIO242C"],
         "semester": "s3"
     },
     {
@@ -287,6 +288,7 @@ export const bq: Carrera = {
             "BIO151E",
             "BIO152C"
         ],
+        "electiveGroup": "5-bio-elect",
         "semester": "s5"
     },
     {
@@ -298,6 +300,7 @@ export const bq: Carrera = {
             "BIO151E",
             "BIO152C"
         ],
+        "electiveGroup": "5-bio-elect",
         "semester": "s5"
     },
     {
