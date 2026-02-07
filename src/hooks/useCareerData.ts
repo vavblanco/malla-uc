@@ -18,22 +18,12 @@ export const useCareerData = (campus: Campus | undefined, careerCode: string | u
   const [careerColor, setCareerColor] = useState<string | undefined>(undefined);
 
   const [todasCareers, settodasCareers] = useState<Career[]>([]);
-  const [casaCentralCareers, setCasaCentralCareers] = useState<Career[]>([]);
-  const [sanJoaquinCareers, setSanJoaquinCareers] = useState<Career[]>([]);
-  const [vitacuraCareers, setVitacuraCareers] = useState<Career[]>([]);
-  const [concepcionCareers, setConcepcionCareers] = useState<Career[]>([]);
-  const [vinaCareers, setVinaCareers] = useState<Career[]>([]);
 
   const [showCareerSelector, setShowCareerSelector] = useState(false);
 
   // Cargar carreras disponibles
   useEffect(() => {
     settodasCareers(careersByCampus.all);
-    setCasaCentralCareers(careersByCampus.cc);
-    setVinaCareers(careersByCampus.vm);
-    setSanJoaquinCareers(careersByCampus.sj);
-    setVitacuraCareers(careersByCampus.vc);
-    setConcepcionCareers(careersByCampus.cp);
   }, []);
 
   // Cargar datos de la carrera específica
@@ -95,11 +85,6 @@ export const useCareerData = (campus: Campus | undefined, careerCode: string | u
     careerName,
     careerColor,
     todasCareers,
-    casaCentralCareers,
-    vinaCareers,
-    sanJoaquinCareers,
-    vitacuraCareers,
-    concepcionCareers,
     showCareerSelector,
     handleBackToCareerSelector,
     findSubjectByCode
