@@ -9,6 +9,7 @@ interface Campus {
 }
 
 const campuses: Campus[] = [
+  { name: 'Todas', code: 'all', path: './src/data/carreras/all' },
   { name: 'Casa Central', code: 'cc', path: './src/data/carreras/cc' },
   { name: 'Viña del Mar', code: 'vm', path: './src/data/carreras/vm' },
   { name: 'San Joaquín', code: 'sj', path: './src/data/carreras/sj' },
