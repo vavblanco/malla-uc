@@ -291,7 +291,7 @@ export default function CareerSelector({
           </div>
           )}
 
-          {/* Mensaje si no hay resultados */}
+{/* Mensaje si no hay resultados */}
           {totalResults === 0 && searchTerm && (
             <div className="text-center py-12 px-6">
               <FontAwesomeIcon icon={faSearch} className={`text-6xl mb-4 ${darkMode ? 'text-gray-600' : 'text-gray-300'}`} />
@@ -304,9 +304,9 @@ export default function CareerSelector({
             </div>
           )}
 
-        </div>
-      </motion.div>
-    </motion.div>
+        </div> 
+      </motion.div> 
+    </motion.div> 
       )}
     </AnimatePresence>
   );
