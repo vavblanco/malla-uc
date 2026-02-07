@@ -2,7 +2,7 @@ import { Carrera } from '@/types/curriculum';
 
 export const biomar_0: Carrera = {
   codigo: 'BIOMAR-0',
-  nombre: 'Biología Marina',
+  nombre: 'Biología Marina (Malla Nueva)',
   campus: 'cc',
   color: '#4CAF50',
   
