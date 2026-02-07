@@ -88,12 +88,11 @@ export default function CareerSelector({
 
   const totalResults = groupedtodasCareers.length;
 
-  // Determinar fondo: blanco sólido si no hay carrera, translúcido si hay una activa
   return (
     <AnimatePresence>
       {show && (
         <motion.div 
-          className="fixed inset-0 bg-black/30 backdrop-blur-sm z-60 flex items-center justify-center p-2 md:p-4 pt-12 md:pt-24"
+          className="fixed inset-0 bg-black/30 backdrop-blur-sm z-50 flex items-center justify-center p-2 md:p-4 pt-12 md:pt-24"
           onClick={() => canClose && onClose()}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -108,205 +107,195 @@ export default function CareerSelector({
             exit={{ scale: 0.95, opacity: 0, y: 10 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
           >
-        {/* Header con gradiente y botón cerrar */}
-        <div className="bg-gradient-to-r from-blue-600/80 to-indigo-600/80 text-white p-6 backdrop-blur-lg">
-          <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-xl font-bold text-2xl">Selecciona tu Carrera</h2>
-              <p className="text-sm text-white/80 mt-1">Elige la carrera para ver su malla curricular interactiva</p>
+            {/* Header con gradiente y botón cerrar */}
+            <div className="bg-gradient-to-r from-blue-600/80 to-indigo-600/80 text-white p-6 backdrop-blur-lg">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h2 className="text-xl font-bold text-2xl">Selecciona tu Carrera</h2>
+                  <p className="text-sm text-white/80 mt-1">Elige la carrera para ver su malla curricular interactiva</p>
+                </div>
+                <button
+                  onClick={() => canClose && onClose()}
+                  className={`text-white/80 hover:text-white transition-colors p-2 rounded-full hover:bg-white/10 aspect-square min-w-[40px] min-h-[40px] flex items-center justify-center group/close ${
+                    canClose ? '' : 'opacity-40 cursor-not-allowed'
+                  }`}
+                  aria-label="Cerrar"
+                  tabIndex={canClose ? 0 : -1}
+                  disabled={!canClose}
+                >
+                  <FontAwesomeIcon icon={faTimes} className="transition-transform duration-150 group-hover/close:scale-125" />
+                </button>
+              </div>
             </div>
-            <button
-              onClick={() => canClose && onClose()}
-              className={`text-white/80 hover:text-white transition-colors p-2 rounded-full hover:bg-white/10 aspect-square min-w-[40px] min-h-[40px] flex items-center justify-center group/close ${
-                canClose ? '' : 'opacity-40 cursor-not-allowed'
-              }`}
-              aria-label="Cerrar"
-              tabIndex={canClose ? 0 : -1}
-              disabled={!canClose}
-            >
-              <FontAwesomeIcon icon={faTimes} className="transition-transform duration-150 group-hover/close:scale-125" />
-            </button>
-          </div>
-        </div>
 
-        {/* Contenido del modal */}
-        <div className="overflow-y-auto max-h-[70vh] md:max-h-[60vh]">
-          {/* Barra de búsqueda y toggle */}
-          <div className="px-6 py-4">
-          <div className="relative pointer-events-auto">
-            <FontAwesomeIcon
-              icon={faSearch}
-              className={`absolute left-4 top-1/2 -translate-y-1/2 ${
-                darkMode ? 'text-gray-400' : 'text-gray-500'
-              }`}
-            />
+            {/* Contenido del modal */}
+            <div className="overflow-y-auto max-h-[70vh] md:max-h-[60vh]">
+              {/* Barra de búsqueda */}
+              <div className="px-6 py-4">
+                <div className="relative pointer-events-auto">
+                  <FontAwesomeIcon
+                    icon={faSearch}
+                    className={`absolute left-4 top-1/2 -translate-y-1/2 ${
+                      darkMode ? 'text-gray-400' : 'text-gray-500'
+                    }`}
+                  />
 
-            <input
-              type="text"
-              placeholder="Buscar carrera..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className={`w-full pl-12 pr-10 py-3 rounded-xl border outline-none transition-all ${
-                darkMode
-                  ? 'bg-gray-700 text-white border-gray-600 placeholder-gray-400'
-                  : 'bg-white text-gray-800 border-gray-300 placeholder-gray-500'
-              }`}
-            />
+                  <input
+                    type="text"
+                    placeholder="Buscar carrera..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className={`w-full pl-12 pr-10 py-3 rounded-xl border outline-none transition-all ${
+                      darkMode
+                        ? 'bg-gray-700 text-white border-gray-600 placeholder-gray-400'
+                        : 'bg-white text-gray-800 border-gray-300 placeholder-gray-500'
+                    }`}
+                  />
 
-            {searchTerm && (
-              <button
-                onClick={() => setSearchTerm('')}
-                className={`absolute right-4 top-1/2 -translate-y-1/2 ${
-                  darkMode ? 'text-gray-400 hover:text-gray-200' : 'text-gray-500 hover:text-gray-700'
-                }`}
-              >
-                <FontAwesomeIcon icon={faTimes} />
-              </button>
-            )}
-          </div>
-
-          {searchTerm && (
-            <p className={`text-sm mt-2 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-              {totalResults} {totalResults === 1 ? 'resultado encontrado' : 'resultados encontrados'}
-            </p>
-          )}
-        </div>
-
-            
-            
-          {searchTerm && (
-              <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                {totalResults} {totalResults === 1 ? 'resultado encontrado' : 'resultados encontrados'}
-              </p>
-            )}
-          </div>
-
-          {/* Sección Carreras*/}
-          {groupedtodasCareers.length > 0 && (
-            <div className="mb-8 px-6">
-              <h3 className="text-lg font-semibold mb-4 text-gray-800 dark:text-white flex items-center gap-2">
-                <FontAwesomeIcon icon={faGraduationCap} className="text-blue-600" />
-                Facultad de Ciencias Biológicas
-                <span className={`text-sm font-normal ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-                  ({groupedtodasCareers.length})
-                </span>
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-                {groupedtodasCareers.map((group) => {
-                  const baseCode = getBaseCareerCode(group.base.Link);
-                  const currentVersion = selectedVersions[baseCode] || 'new';
-                  const currentCareer = currentVersion === 'old' && group.old ? group.old : group.base;
-                  
-                  return (
-                    <motion.button
-                      key={baseCode}
-                      onClick={() => onCareerSelect('vm', getCareerCode(currentCareer.Link))}
-                      className={`backdrop-blur-sm rounded-2xl p-4 transition-all duration-300 border-2 hover:shadow-lg hover:scale-105 text-left ${
-                        darkMode ? 'border-gray-600' : 'border-white/50'
+                  {searchTerm && (
+                    <button
+                      onClick={() => setSearchTerm('')}
+                      className={`absolute right-4 top-1/2 -translate-y-1/2 ${
+                        darkMode ? 'text-gray-400 hover:text-gray-200' : 'text-gray-500 hover:text-gray-700'
                       }`}
-                      style={{ borderColor: currentCareer.Color || '#6B7280' }}
-                      layout
                     >
-                      <div className="flex items-center gap-3">
-                        <div 
-                          className="w-4 h-4 rounded-full flex-shrink-0"
-                          style={{ backgroundColor: currentCareer.Color || '#6B7280' }}
-                        />
-                        <div className="flex-1 min-w-0">
-                          <motion.span 
-                            key={currentVersion}
-                            initial={{ opacity: 0, y: -10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.2 }}
-                            className={`text-sm font-medium block ${
-                              darkMode ? 'text-gray-200' : 'text-gray-800'
-                            }`}
-                          >
-                            {currentCareer.Nombre.replaceAll(/\s*\(Malla Antigua\)\s*/gi, '')}
-                          </motion.span>
-                        </div>
-                        {group.old && (
-                          <div 
-                            onClick={(e) => e.stopPropagation()}
-                            className={`relative flex items-center rounded-full p-1 gap-0 ${
-                              darkMode ? 'bg-gray-700/50' : 'bg-gray-100'
-                            }`}
-                          >
-                            <motion.div
-                              layout
-                              className={`absolute rounded-full shadow-sm transition-colors duration-300 ${
-                                currentVersion === 'new'
-                                  ? darkMode 
-                                    ? 'bg-blue-600' 
-                                    : 'bg-blue-500'
-                                  : darkMode
-                                    ? 'bg-amber-600' 
-                                    : 'bg-amber-500'
-                              }`}
-                              style={{
-                                left: currentVersion === 'new' ? '4px' : '50%',
-                                right: currentVersion === 'new' ? '50%' : '4px',
-                                top: '4px',
-                                bottom: '4px',
-                              }}
-                              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                      <FontAwesomeIcon icon={faTimes} />
+                    </button>
+                  )}
+                </div>
+
+                {searchTerm && (
+                  <p className={`text-sm mt-2 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                    {totalResults} {totalResults === 1 ? 'resultado encontrado' : 'resultados encontrados'}
+                  </p>
+                )}
+              </div>
+
+              {/* Sección Carreras*/}
+              {groupedtodasCareers.length > 0 && (
+                <div className="mb-8 px-6">
+                  <h3 className="text-lg font-semibold mb-4 text-gray-800 dark:text-white flex items-center gap-2">
+                    <FontAwesomeIcon icon={faGraduationCap} className="text-blue-600" />
+                    Facultad de Ciencias Biológicas
+                    <span className={`text-sm font-normal ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                      ({groupedtodasCareers.length})
+                    </span>
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                    {groupedtodasCareers.map((group) => {
+                      const baseCode = getBaseCareerCode(group.base.Link);
+                      const currentVersion = selectedVersions[baseCode] || 'new';
+                      const currentCareer = currentVersion === 'old' && group.old ? group.old : group.base;
+                      
+                      return (
+                        <motion.button
+                          key={baseCode}
+                          onClick={() => onCareerSelect('vm', getCareerCode(currentCareer.Link))}
+                          className={`backdrop-blur-sm rounded-2xl p-4 transition-all duration-300 border-2 hover:shadow-lg hover:scale-105 text-left ${
+                            darkMode ? 'border-gray-600' : 'border-white/50'
+                          }`}
+                          style={{ borderColor: currentCareer.Color || '#6B7280' }}
+                          layout
+                        >
+                          <div className="flex items-center gap-3">
+                            <div 
+                              className="w-4 h-4 rounded-full flex-shrink-0"
+                              style={{ backgroundColor: currentCareer.Color || '#6B7280' }}
                             />
-                            <div
-                              role="button"
-                              tabIndex={0}
-                              onClick={() => setSelectedVersions(prev => ({ ...prev, [baseCode]: 'new' }))}
-                              onKeyDown={(e) => e.key === 'Enter' && setSelectedVersions(prev => ({ ...prev, [baseCode]: 'new' }))}
-                              className={`relative z-10 px-4 py-2 text-xs font-semibold rounded-full transition-colors whitespace-nowrap cursor-pointer ${
-                                currentVersion === 'new'
-                                  ? 'text-white' 
-                                  : darkMode
-                                    ? 'text-gray-400'
-                                    : 'text-gray-600'
-                              }`}
-                            >
-                              Nueva
+                            <div className="flex-1 min-w-0">
+                              <motion.span 
+                                key={currentVersion}
+                                initial={{ opacity: 0, y: -10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.2 }}
+                                className={`text-sm font-medium block ${
+                                  darkMode ? 'text-gray-200' : 'text-gray-800'
+                                }`}
+                              >
+                                {currentCareer.Nombre.replaceAll(/\s*\(Malla Antigua\)\s*/gi, '')}
+                              </motion.span>
                             </div>
-                            <div
-                              role="button"
-                              tabIndex={0}
-                              onClick={() => setSelectedVersions(prev => ({ ...prev, [baseCode]: 'old' }))}
-                              onKeyDown={(e) => e.key === 'Enter' && setSelectedVersions(prev => ({ ...prev, [baseCode]: 'old' }))}
-                              className={`relative z-10 px-4 py-2 text-xs font-semibold rounded-full transition-colors whitespace-nowrap cursor-pointer ${
-                                currentVersion === 'old'
-                                  ? 'text-white'
-                                  : darkMode
-                                    ? 'text-gray-400'
-                                    : 'text-gray-600'
-                              }`}
-                            >
-                              Antigua
-                            </div>
+                            {group.old && (
+                              <div 
+                                onClick={(e) => e.stopPropagation()}
+                                className={`relative flex items-center rounded-full p-1 gap-0 ${
+                                  darkMode ? 'bg-gray-700/50' : 'bg-gray-100'
+                                }`}
+                              >
+                                <motion.div
+                                  layout
+                                  className={`absolute rounded-full shadow-sm transition-colors duration-300 ${
+                                    currentVersion === 'new'
+                                      ? darkMode 
+                                        ? 'bg-blue-600' 
+                                        : 'bg-blue-500'
+                                      : darkMode
+                                        ? 'bg-amber-600' 
+                                        : 'bg-amber-500'
+                                  }`}
+                                  style={{
+                                    left: currentVersion === 'new' ? '4px' : '50%',
+                                    right: currentVersion === 'new' ? '50%' : '4px',
+                                    top: '4px',
+                                    bottom: '4px',
+                                  }}
+                                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                                />
+                                <div
+                                  role="button"
+                                  tabIndex={0}
+                                  onClick={() => setSelectedVersions(prev => ({ ...prev, [baseCode]: 'new' }))}
+                                  onKeyDown={(e) => e.key === 'Enter' && setSelectedVersions(prev => ({ ...prev, [baseCode]: 'new' }))}
+                                  className={`relative z-10 px-4 py-2 text-xs font-semibold rounded-full transition-colors whitespace-nowrap cursor-pointer ${
+                                    currentVersion === 'new'
+                                      ? 'text-white' 
+                                      : darkMode
+                                        ? 'text-gray-400'
+                                        : 'text-gray-600'
+                                  }`}
+                                >
+                                  Nueva
+                                </div>
+                                <div
+                                  role="button"
+                                  tabIndex={0}
+                                  onClick={() => setSelectedVersions(prev => ({ ...prev, [baseCode]: 'old' }))}
+                                  onKeyDown={(e) => e.key === 'Enter' && setSelectedVersions(prev => ({ ...prev, [baseCode]: 'old' }))}
+                                  className={`relative z-10 px-4 py-2 text-xs font-semibold rounded-full transition-colors whitespace-nowrap cursor-pointer ${
+                                    currentVersion === 'old'
+                                      ? 'text-white'
+                                      : darkMode
+                                        ? 'text-gray-400'
+                                        : 'text-gray-600'
+                                  }`}
+                                >
+                                  Antigua
+                                </div>
+                              </div>
+                            )}
                           </div>
-                        )}
-                      </div>
-                    </motion.button>
-                  );
-                })}
-            </div>
-          </div>
-          )}
+                        </motion.button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
 
-{/* Mensaje si no hay resultados */}
-          {totalResults === 0 && searchTerm && (
-            <div className="text-center py-12 px-6">
-              <FontAwesomeIcon icon={faSearch} className={`text-6xl mb-4 ${darkMode ? 'text-gray-600' : 'text-gray-300'}`} />
-              <h4 className={`text-xl font-bold mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                No se encontraron resultados
-              </h4>
-              <p className={`${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-                Intenta con otro término de búsqueda
-              </p>
+              {/* Mensaje si no hay resultados */}
+              {totalResults === 0 && searchTerm && (
+                <div className="text-center py-12 px-6">
+                  <FontAwesomeIcon icon={faSearch} className={`text-6xl mb-4 ${darkMode ? 'text-gray-600' : 'text-gray-300'}`} />
+                  <h4 className={`text-xl font-bold mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                    No se encontraron resultados
+                  </h4>
+                  <p className={`${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                    Intenta con otro término de búsqueda
+                  </p>
+                </div>
+              )}
             </div>
-          )}
-
-        </div> 
-      </motion.div> 
-    </motion.div> 
+          </motion.div>
+        </motion.div>
       )}
     </AnimatePresence>
   );
