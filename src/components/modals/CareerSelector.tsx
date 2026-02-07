@@ -30,7 +30,6 @@ export default function CareerSelector({
   campus,
   careerCode
 }: CareerSelectorProps) {
-  const [searchTerm, setSearchTerm] = useState('');
   const [selectedVersions, setSelectedVersions] = useState<Record<string, 'new' | 'old'>>({});
   
   if (!show) return null;
@@ -126,6 +125,10 @@ export default function CareerSelector({
             </button>
           </div>
         </div>
+
+        {/* Contenido del modal */}
+        <div className="overflow-y-auto max-h-[70vh] md:max-h-[60vh]">
+          </div>
 
           {/* Sección Carreras*/}
           {groupedtodasCareers.length > 0 && (
