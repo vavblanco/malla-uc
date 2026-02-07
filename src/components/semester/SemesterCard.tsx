@@ -12,7 +12,8 @@ interface SemesterCardProps {
   findSubjectByCode: (code: string) => Subject | undefined;
   darkMode: boolean;
   subjectRefs: React.MutableRefObject<Record<string, HTMLDivElement | null>>;
-  approvedCredits?: number; // NUEVO: Créditos aprobados totales
+  approvedCredits?: number;
+  allSubjects?: Subject[]; // NUEVO
 }
 
 export default function SemesterCard({
@@ -25,7 +26,8 @@ export default function SemesterCard({
   findSubjectByCode,
   darkMode,
   subjectRefs,
-  approvedCredits = 0 // NUEVO
+  approvedCredits = 0,
+  allSubjects = [] // NUEVO
 }: SemesterCardProps) {
   const getSemesterTitle = (semester: string) => {
     const semesterNumber = semester.replace('s', '');
@@ -103,7 +105,8 @@ export default function SemesterCard({
               subjectStates={subjectStates}
               colors={colors}
               darkMode={darkMode}
-              approvedCredits={approvedCredits} // NUEVO: Pasar créditos aprobados
+              approvedCredits={approvedCredits}
+              allSubjects={allSubjects} // NUEVO
             />
           </div>
         ))}

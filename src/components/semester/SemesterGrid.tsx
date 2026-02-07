@@ -10,7 +10,7 @@ interface SemesterGridProps {
   findSubjectByCode: (code: string) => Subject | undefined;
   darkMode: boolean;
   subjectRefs: React.MutableRefObject<Record<string, HTMLDivElement | null>>;
-  approvedCredits?: number; // NUEVO: Créditos aprobados totales
+  approvedCredits?: number;
 }
 
 export default function SemesterGrid({
@@ -22,7 +22,7 @@ export default function SemesterGrid({
   findSubjectByCode,
   darkMode,
   subjectRefs,
-  approvedCredits = 0 // NUEVO
+  approvedCredits = 0
 }: SemesterGridProps) {
   const getSemesterSubjects = (semester: string) => {
     return subjects.filter(subject => subject.semester === semester);
@@ -71,7 +71,8 @@ export default function SemesterGrid({
               findSubjectByCode={findSubjectByCode}
               darkMode={darkMode}
               subjectRefs={subjectRefs}
-              approvedCredits={approvedCredits} // NUEVO: Pasar créditos aprobados
+              approvedCredits={approvedCredits}
+              allSubjects={subjects} // NUEVO: Pasar todos los ramos
             />
           );
         })}
@@ -100,7 +101,8 @@ export default function SemesterGrid({
                 findSubjectByCode={findSubjectByCode}
                 darkMode={darkMode}
                 subjectRefs={subjectRefs}
-                approvedCredits={approvedCredits} // NUEVO: Pasar créditos aprobados
+                approvedCredits={approvedCredits}
+                allSubjects={subjects} // NUEVO: Pasar todos los ramos
               />
             );
           })}
