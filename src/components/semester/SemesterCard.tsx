@@ -13,7 +13,7 @@ interface SemesterCardProps {
   darkMode: boolean;
   subjectRefs: React.MutableRefObject<Record<string, HTMLDivElement | null>>;
   approvedCredits?: number;
-  allSubjects?: Subject[]; // NUEVO
+  allSubjects?: Subject[];
 }
 
 export default function SemesterCard({
@@ -27,15 +27,49 @@ export default function SemesterCard({
   darkMode,
   subjectRefs,
   approvedCredits = 0,
-  allSubjects = [] // NUEVO
+  allSubjects = []
 }: SemesterCardProps) {
   const getSemesterTitle = (semester: string) => {
     const semesterNumber = semester.replace('s', '');
     return `${semesterNumber}° Semestre`;
   };
 
+  // NUEVO: Obtener ramos contables del semestre (excluyendo electivos duplicados)
+  const getCountableSemesterSubjects = (subjects: Subject[]) => {
+    const electiveGroups = new Map<string, Subject[]>();
+    const nonElectiveSubjects: Subject[] = [];
+
+    // Separar ramos en grupos electivos y no electivos
+    subjects.forEach(subject => {
+      if (subject.electiveGroup) {
+        const group = electiveGroups.get(subject.electiveGroup) || [];
+        group.push(subject);
+        electiveGroups.set(subject.electiveGroup, group);
+      } else {
+        nonElectiveSubjects.push(subject);
+      }
+    });
+
+    // Para cada grupo electivo, incluir solo el ramo aprobado (si hay alguno)
+    // o el primero del grupo si ninguno está aprobado
+    const electiveSubjects: Subject[] = [];
+    electiveGroups.forEach((group) => {
+      const approvedInGroup = group.find(s => subjectStates[s.code]?.status === 'approved');
+      if (approvedInGroup) {
+        // Si hay uno aprobado, solo contar ese
+        electiveSubjects.push(approvedInGroup);
+      } else {
+        // Si ninguno está aprobado, contar el primero (para créditos totales)
+        electiveSubjects.push(group[0]);
+      }
+    });
+
+    return [...nonElectiveSubjects, ...electiveSubjects];
+  };
+
   const getSemesterCredits = (subjects: Subject[]) => {
-    return subjects.reduce((total, subject) => total + Number(subject.sctCredits), 0);
+    const countableSubjects = getCountableSemesterSubjects(subjects);
+    return countableSubjects.reduce((total, subject) => total + Number(subject.sctCredits), 0);
   };
 
   const getSemesterApprovedCredits = (subjects: Subject[]) => {
@@ -106,7 +140,7 @@ export default function SemesterCard({
               colors={colors}
               darkMode={darkMode}
               approvedCredits={approvedCredits}
-              allSubjects={allSubjects} // NUEVO
+              allSubjects={allSubjects}
             />
           </div>
         ))}
