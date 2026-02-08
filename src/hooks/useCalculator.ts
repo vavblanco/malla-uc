@@ -64,6 +64,41 @@ export function useCalculator(subjects?: Subject[], careerKey?: string) {
     }
   };
 
+  // NUEVO: Obtener ramos que deben contarse (excluyendo electivos no seleccionados)
+  const getCountableSubjects = () => {
+    if (!subjects || subjects.length === 0) return [];
+
+    const electiveGroups = new Map<string, Subject[]>();
+    const nonElectiveSubjects: Subject[] = [];
+
+    // Separar ramos en grupos electivos y no electivos
+    subjects.forEach(subject => {
+      if (subject.electiveGroup) {
+        const group = electiveGroups.get(subject.electiveGroup) || [];
+        group.push(subject);
+        electiveGroups.set(subject.electiveGroup, group);
+      } else {
+        nonElectiveSubjects.push(subject);
+      }
+    });
+
+    // Para cada grupo electivo, incluir solo el ramo aprobado (si hay alguno)
+    // o el primero del grupo si ninguno está aprobado
+    const electiveSubjects: Subject[] = [];
+    electiveGroups.forEach((group, groupId) => {
+      const approvedInGroup = group.find(s => subjectStates[s.code]?.status === 'approved');
+      if (approvedInGroup) {
+        // Si hay uno aprobado, solo contar ese
+        electiveSubjects.push(approvedInGroup);
+      } else {
+        // Si ninguno está aprobado, contar el primero (para créditos totales)
+        electiveSubjects.push(group[0]);
+      }
+    });
+
+    return [...nonElectiveSubjects, ...electiveSubjects];
+  };
+
   // Calcular créditos aprobados totales
   const getApprovedCredits = () => {
     if (!subjects || subjects.length === 0) return 0;
@@ -87,11 +122,16 @@ export function useCalculator(subjects?: Subject[], careerKey?: string) {
         percentage: 0,
       };
     }
+
+    // Usar ramos contables (excluyendo duplicados de grupos electivos)
+    const countableSubjects = getCountableSubjects();
+
     let approvedCredits = 0;
     let totalCredits = 0;
     let approvedSubjects = 0;
-    let totalSubjects = subjects.length;
-    subjects.forEach((subject) => {
+    let totalSubjects = countableSubjects.length;
+
+    countableSubjects.forEach((subject) => {
       totalCredits += Number(subject.sctCredits) || 0;
       const state = subjectStates[subject.code];
       if (state?.status === 'approved') {
@@ -99,7 +139,9 @@ export function useCalculator(subjects?: Subject[], careerKey?: string) {
         approvedCredits += Number(subject.sctCredits) || 0;
       }
     });
+
     const percentage = totalCredits > 0 ? (approvedCredits / totalCredits) * 100 : 0;
+    
     return {
       approvedCredits,
       totalCredits,
