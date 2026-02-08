@@ -477,6 +477,7 @@ export const bq: Carrera = {
         "electiveGroup": "8-AB",
         "semester": "s8"
     },
+    {
         "name": "Optativos de Profundización (Opción Cursos)",
         "code": "OPRC",
         "sctCredits": 18,
