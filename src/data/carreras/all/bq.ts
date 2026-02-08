@@ -48,7 +48,7 @@ export const bq: Carrera = {
     {
         "name": "Tópicos en Bioquímica",
         "code": "BIO101B",
-        "sctCredits": 5,
+        "ucCredits": 5,
         "type": "LP",
         "prerequisites": [],
         "semester": "s1"
@@ -56,7 +56,7 @@ export const bq: Carrera = {
     {
         "name": "Biología de la Célula",
         "code": "BIO141C",
-        "sctCredits": 10,
+        "ucCredits": 10,
         "type": "FB",
         "prerequisites": [],
         "semester": "s1"
@@ -64,7 +64,7 @@ export const bq: Carrera = {
     {
         "name": "Laboratorio de Química General",
         "code": "QIM101L",
-        "sctCredits": 10,
+        "ucCredits": 10,
         "type": "FB",
         "prerequisites": [],
         "semester": "s1"
@@ -72,7 +72,7 @@ export const bq: Carrera = {
     {
         "name": "Química General I",
         "code": "QIM100I",
-        "sctCredits": 10,
+        "ucCredits": 10,
         "type": "FB",
         "prerequisites": [],
         "semester": "s1"
@@ -80,7 +80,7 @@ export const bq: Carrera = {
     {
         "name": "Precálculo",
         "code": "MAT1000",
-        "sctCredits": 10,
+        "ucCredits": 10,
         "type": "FB",
         "prerequisites": [],
         "semester": "s1"
@@ -88,7 +88,7 @@ export const bq: Carrera = {
     {
         "name": "Filosofía: ¿Para qué?",
         "code": "FIL2001",
-        "sctCredits": 10,
+        "ucCredits": 10,
         "type": "FG",
         "prerequisites": [],
         "semester": "s1"
@@ -96,7 +96,7 @@ export const bq: Carrera = {
     {
         "name": "Test de Inglés",
         "code": "VRA2000",
-        "sctCredits": 0,
+        "ucCredits": 0,
         "type": "TEST",
         "prerequisites": [],
         "semester": "s1"
@@ -104,7 +104,7 @@ export const bq: Carrera = {
     {
         "name": "Examen de Comunicación Escrita (ECE)",
         "code": "VRA100C",
-        "sctCredits": 0,
+        "ucCredits": 0,
         "type": "TEST",
         "prerequisites": [],
         "semester": "s1"
@@ -112,7 +112,7 @@ export const bq: Carrera = {
     {
         "name": "Integridad Académica en la UC",
         "code": "VRA4000",
-        "sctCredits": 0,
+        "ucCredits": 0,
         "type": "TEST",
         "prerequisites": [],
         "semester": "s1"
@@ -120,7 +120,7 @@ export const bq: Carrera = {
     {
         "name": "Física para Ciencias",
         "code": "FIS109C",
-        "sctCredits": 10,
+        "ucCredits": 10,
         "type": "FB",
         "prerequisites": [],
         "semester": "s2"
@@ -128,7 +128,7 @@ export const bq: Carrera = {
     {
         "name": "Laboratorio de Física para Ciencias",
         "code": "FIS0109",
-        "sctCredits": 0,
+        "ucCredits": 0,
         "type": "FB",
         "prerequisites": [],
         "semester": "s2"
@@ -136,7 +136,7 @@ export const bq: Carrera = {
     {
         "name": "Química General II",
         "code": "QIM100B",
-        "sctCredits": 10,
+        "ucCredits": 10,
         "type": "LP",
         "prerequisites": [
           "QIM100I",
@@ -147,7 +147,7 @@ export const bq: Carrera = {
     {
         "name": "Cálculo I",
         "code": "MAT1100",
-        "sctCredits": 10,
+        "ucCredits": 10,
         "type": "LP",
         "prerequisites": [
             "MAT1000"
@@ -157,7 +157,7 @@ export const bq: Carrera = {
     {
         "name": "Formación General",
         "code": "OFG1",
-        "sctCredits": 10,
+        "ucCredits": 10,
         "type": "FG",
         "prerequisites": [],
         "semester": "s2"
@@ -165,7 +165,7 @@ export const bq: Carrera = {
     {
         "name": "Formación General",
         "code": "OFG2",
-        "sctCredits": 10,
+        "ucCredits": 10,
         "type": "FG",
         "prerequisites": [],
         "semester": "s2"
@@ -173,7 +173,7 @@ export const bq: Carrera = {
     {
         "name": "Bases Físicas de los Procesos Biológicos",
         "code": "BIO152C",
-        "sctCredits": 10,
+        "ucCredits": 10,
         "type": "FB",
         "prerequisites": [
             "MAT1000",
@@ -186,7 +186,7 @@ export const bq: Carrera = {
     {
         "name": "Bioestadística",
         "code": "BIO242C",
-        "sctCredits": 10,
+        "ucCredits": 10,
         "type": "LP",
         "prerequisites": [
             "MAT1000"
@@ -196,7 +196,7 @@ export const bq: Carrera = {
     {
         "name": "Química Orgánica I",
         "code": "QIM102B",
-        "sctCredits": 10,
+        "ucCredits": 10,
         "type": "LP",
         "prerequisites": [
             "QIM100B"
@@ -206,7 +206,7 @@ export const bq: Carrera = {
     {
         "name": "Química Analítica I",
         "code": "QIM109B",
-        "sctCredits": 10,
+        "ucCredits": 10,
         "type": "LP",
         "prerequisites": [
             "QIM100B"
@@ -217,7 +217,7 @@ export const bq: Carrera = {
     {
         "name": "Formación General",
         "code": "OFG3",
-        "sctCredits": 10,
+        "ucCredits": 10,
         "type": "FG",
         "prerequisites": [],
         "semester": "s3"
@@ -225,7 +225,7 @@ export const bq: Carrera = {
     {
         "name": "Biología de los Microorganismos",
         "code": "BIO151E",
-        "sctCredits": 10,
+        "ucCredits": 10,
         "type": "FB",
         "prerequisites": [
             "BIO141C"
@@ -235,7 +235,7 @@ export const bq: Carrera = {
     {
         "name": "Química Orgánica II",
         "code": "QIM103A",
-        "sctCredits": 10,
+        "ucCredits": 10,
         "type": "LP",
         "prerequisites": [
             "QIM102B"
@@ -245,7 +245,7 @@ export const bq: Carrera = {
     {
         "name": "Análisis Instrumental",
         "code": "QIM111",
-        "sctCredits": 10,
+        "ucCredits": 10,
         "type": "CM",
         "prerequisites": [
             "QIM109B"
@@ -255,7 +255,7 @@ export const bq: Carrera = {
     {
         "name": "Formación General",
         "code": "OFG4",
-        "sctCredits": 10,
+        "ucCredits": 10,
         "type": "FG",
         "prerequisites": [],
         "semester": "s4"
@@ -263,7 +263,7 @@ export const bq: Carrera = {
     {
         "name": "Formación General",
         "code": "OFG5",
-        "sctCredits": 10,
+        "ucCredits": 10,
         "type": "FG",
         "prerequisites": [],
         "semester": "s4"
@@ -271,7 +271,7 @@ export const bq: Carrera = {
     {
         "name": "Genética y Evolución",
         "code": "BIO226E",
-        "sctCredits": 10,
+        "ucCredits": 10,
         "type": "CM",
         "prerequisites": [
             "BIO141C",
@@ -282,7 +282,7 @@ export const bq: Carrera = {
     {
         "name": "Fisiología y Bioquímica Vegetal",
         "code": "BIO225C",
-        "sctCredits": 10,
+        "ucCredits": 10,
         "type": "CM",
         "prerequisites": [
             "BIO151E",
@@ -294,7 +294,7 @@ export const bq: Carrera = {
     {
         "name": "Biología y Fisiología Celular",
         "code": "BIO274E",
-        "sctCredits": 10,
+        "ucCredits": 10,
         "type": "CM",
         "prerequisites": [
             "BIO151E",
@@ -306,7 +306,7 @@ export const bq: Carrera = {
     {
         "name": "Bioquímica",
         "code": "BIO257C",
-        "sctCredits": 10,
+        "ucCredits": 10,
         "type": "CM",
         "prerequisites": [
             "BIO151E",
@@ -317,7 +317,7 @@ export const bq: Carrera = {
     {
         "name": "Laboratorio de Bioquímica I: Biología Celular",
         "code": "BIO266D",
-        "sctCredits": 5,
+        "ucCredits": 5,
         "type": "CM",
         "prerequisites": [
             "BIO151E",
@@ -329,7 +329,7 @@ export const bq: Carrera = {
     {
         "name": "Laboratorio de Química Orgánica",
         "code": "QIM104A",
-        "sctCredits": 10,
+        "ucCredits": 10,
         "type": "CM",
         "prerequisites": [
             "QIM103A"
@@ -339,7 +339,7 @@ export const bq: Carrera = {
     {
         "name": "Formación General",
         "code": "OFG6",
-        "sctCredits": 10,
+        "ucCredits": 10,
         "type": "FG",
         "prerequisites": [],
         "semester": "s5"
@@ -347,7 +347,7 @@ export const bq: Carrera = {
     {
         "name": "Genética Molecular",
         "code": "BIO288C",
-        "sctCredits": 10,
+        "ucCredits": 10,
         "type": "CM",
         "prerequisites": [
             "BIO257C"
@@ -357,7 +357,7 @@ export const bq: Carrera = {
     {
         "name": "Laboratorio de Bioquímica II: Genética Molecular",
         "code": "BIO266E",
-        "sctCredits": 10,
+        "ucCredits": 10,
         "type": "CM",
         "prerequisites": [
             "BIO257C",
@@ -368,7 +368,7 @@ export const bq: Carrera = {
     {
         "name": "Fisiología",
         "code": "BIO299E",
-        "sctCredits": 10,
+        "ucCredits": 10,
         "type": "CM",
         "prerequisites": [
             "BIO152C",
@@ -379,7 +379,7 @@ export const bq: Carrera = {
     {
         "name": "Laboratorio de Fisiología",
         "code": "BIO299L",
-        "sctCredits": 5,
+        "ucCredits": 5,
         "type": "CM",
         "prerequisites": [],
         "semester": "s6"
@@ -387,7 +387,7 @@ export const bq: Carrera = {
     {
         "name": "Química-Física I",
         "code": "QIM114B",
-        "sctCredits": 10,
+        "ucCredits": 10,
         "type": "CM",
         "prerequisites": [
             "MAT1100"
@@ -397,7 +397,7 @@ export const bq: Carrera = {
     {
         "name": "Formación General",
         "code": "OFG7",
-        "sctCredits": 10,
+        "ucCredits": 10,
         "type": "FG",
         "prerequisites": [],
         "semester": "s6"
@@ -405,7 +405,7 @@ export const bq: Carrera = {
     {
         "name": "Química-Física II",
         "code": "QIM115",
-        "sctCredits": 10,
+        "ucCredits": 10,
         "type": "TL",
         "prerequisites": [
             "QIM114B"
@@ -415,7 +415,7 @@ export const bq: Carrera = {
     {
         "name": "Introducción al Laboratorio Clínico",
         "code": "MEB176B",
-        "sctCredits": 10,
+        "ucCredits": 10,
         "type": "TL",
         "prerequisites": [
             "BIO266D",
@@ -426,7 +426,7 @@ export const bq: Carrera = {
     {
         "name": "Seminario de Investigacion Departamental",
         "code": "BIO295A",
-        "sctCredits": 15,
+        "ucCredits": 15,
         "type": "TL",
         "prerequisites": [],
         "semester": "s7"
@@ -434,7 +434,7 @@ export const bq: Carrera = {
     {
         "name": "Optativo de Profundización",
         "code": "OPR1",
-        "sctCredits": 5,
+        "ucCredits": 5,
         "type": "TL",
         "prerequisites": [],
         "semester": "s7"
@@ -442,7 +442,7 @@ export const bq: Carrera = {
     {
         "name": "Optativo de Profundización",
         "code": "OPR2",
-        "sctCredits": 10,
+        "ucCredits": 10,
         "type": "TL",
         "prerequisites": [],
         "semester": "s7"
@@ -450,7 +450,7 @@ export const bq: Carrera = {
     {
         "name": "Seminario de Investigación",
         "code": "BIO296F",
-        "sctCredits": 30,
+        "ucCredits": 30,
         "type": "TL",
         "prerequisites": [
             "BIO295A",
@@ -463,7 +463,7 @@ export const bq: Carrera = {
     {
         "name": "Práctica Extramural",
         "code": "BIO258F",
-        "sctCredits": 30,
+        "ucCredits": 30,
         "type": "TL",
         "prerequisites": [
             "BIO266D",
@@ -475,7 +475,7 @@ export const bq: Carrera = {
     {
         "name": "Optativo de Profundización",
         "code": "OPR3",
-        "sctCredits": 10,
+        "ucCredits": 10,
         "type": "TL",
         "prerequisites": [],
         "semester": "s8"
@@ -483,7 +483,7 @@ export const bq: Carrera = {
     {
         "name": "Optativo de Profundización",
         "code": "OPR4",
-        "sctCredits": 10,
+        "ucCredits": 10,
         "type": "TL",
         "prerequisites": [],
         "semester": "s8"
@@ -491,7 +491,7 @@ export const bq: Carrera = {
     {
         "name": "Examen de Grado",
         "code": "EXAMEN GRADO",
-        "sctCredits": 10,
+        "ucCredits": 10,
         "type": "TL",
         "prerequisites": [],
         "creditRequirement": 250,
@@ -500,7 +500,7 @@ export const bq: Carrera = {
     {
         "name": "Técnicas Avanzadas en Bioquímica",
         "code": "BIO3319",
-        "sctCredits": 50,
+        "ucCredits": 50,
         "type": "FT",
         "prerequisites": [
           "EXAMEN GRADO"
@@ -510,7 +510,7 @@ export const bq: Carrera = {
     {
         "name": "Memoria de Investigación",
         "code": "BIO285D",
-        "sctCredits": 50,
+        "ucCredits": 50,
         "type": "FT",
         "prerequisites": [
           "BIO3319"

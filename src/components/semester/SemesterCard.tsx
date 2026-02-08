@@ -1,6 +1,8 @@
 import { useRef } from 'react';
 import SubjectCard from './SubjectCard';
 import { Subject, SubjectColors, SubjectState } from '@/types/curriculum';
+import { getUcCredits } from '@/hooks/credits';
+
 
 interface SemesterCardProps {
   semester: string;
@@ -69,15 +71,15 @@ export default function SemesterCard({
 
   const getSemesterCredits = (subjects: Subject[]) => {
     const countableSubjects = getCountableSemesterSubjects(subjects);
-    return countableSubjects.reduce((total, subject) => total + Number(subject.sctCredits), 0);
+    return countableSubjects.reduce((total, subject) => total + getUcCredits(subject), 0);
   };
 
   const getSemesterApprovedCredits = (subjects: Subject[]) => {
     return subjects.reduce((total, subject) => {
       const state = subjectStates[subject.code];
-      return total + (state?.status === 'approved' ? Number(subject.sctCredits) : 0);
+      return total + (state?.status === 'approved' ? getUcCredits(subject) : 0);
     }, 0);
-  };
+  };  
 
   const semesterCredits = getSemesterCredits(subjects);
   const approvedCreditsInSemester = getSemesterApprovedCredits(subjects);
@@ -106,7 +108,7 @@ export default function SemesterCard({
         }`}>
           <span className="font-medium">{approvedCreditsInSemester}</span>
           <span className="mx-1">/</span>
-          <span>{semesterCredits} créditos</span>
+          <span>{semesterCredits} créditos UC</span>
         </div>
         <div className={`w-full rounded-full h-2 mt-2 overflow-hidden ${
           darkMode ? 'bg-gray-600' : 'bg-gray-300'

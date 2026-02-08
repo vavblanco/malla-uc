@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import type { Subject, SubjectState, CalculatorState } from '@/types/curriculum';
 import { logger } from '@/utils/logger';
+import { getUcCredits } from '@/hooks/credits';
+
 
 const STORAGE_KEY_PREFIX = 'curriculum-progress';
 
@@ -106,11 +108,12 @@ export function useCalculator(subjects?: Subject[], careerKey?: string) {
     return subjects.reduce((total, subject) => {
       const state = subjectStates[subject.code];
       if (state?.status === 'approved') {
-        return total + (Number(subject.sctCredits) || 0);
+        return total + getUcCredits(subject);
       }
       return total;
     }, 0);
   };
+
 
   const calculateCredits = () => {
     if (!subjects || subjects.length === 0) {
@@ -132,11 +135,11 @@ export function useCalculator(subjects?: Subject[], careerKey?: string) {
     let totalSubjects = countableSubjects.length;
 
     countableSubjects.forEach((subject) => {
-      totalCredits += Number(subject.sctCredits) || 0;
+      totalCredits += getUcCredits(subject);
       const state = subjectStates[subject.code];
       if (state?.status === 'approved') {
         approvedSubjects += 1;
-        approvedCredits += Number(subject.sctCredits) || 0;
+        approvedCredits += getUcCredits(subject);
       }
     });
 

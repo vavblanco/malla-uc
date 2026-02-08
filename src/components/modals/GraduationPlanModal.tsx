@@ -5,6 +5,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faGraduationCap, faCalendarAlt, faGripVertical, faExclamationTriangle, faBolt, faBan, faTrash, faPlus, faCheck, faCoins, faBook, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { Subject } from '@/types/curriculum';
 import { motion, AnimatePresence } from 'framer-motion';
+import { getUcCredits, UC_CREDITS_MAX } from '@/hooks/credits';
+
 
 interface SemesterPlan {
   semester: string; // Cambio de number a string para formato "2025-1"
@@ -166,7 +168,7 @@ export default function GraduationPlanModal({
           if (semesterName && draggedSubject) {
             const targetSemester = localPlan.find(s => s.semester === semesterName);
             const wouldExceedLimit = targetSemester && 
-              (targetSemester.credits + Number(draggedSubject.subject.sctCredits) > 35);
+              (targetSemester.credits + getUcCredits(draggedSubject.subject) > UC_CREDITS_MAX);
             if (!wouldExceedLimit) {
               setDragOverSemester(semesterName);
             } else {
@@ -242,7 +244,7 @@ export default function GraduationPlanModal({
     if (draggedSubject) {
       const targetSemester = localPlan.find(s => s.semester === semesterName);
       const wouldExceedLimit = targetSemester && 
-        (targetSemester.credits + Number(draggedSubject.subject.sctCredits) > 35);
+        (targetSemester.credits + getUcCredits(draggedSubject.subject) > UC_CREDITS_MAX);
       if (wouldExceedLimit) {
         e.dataTransfer.dropEffect = 'none';
         return;
@@ -296,8 +298,8 @@ export default function GraduationPlanModal({
     const targetSemester = localPlan.find(s => s.semester === toSemester);
     if (targetSemester) {
       const newCredits = targetSemester.credits + Number(draggedSubject.subject.sctCredits);
-      if (newCredits > 35) {
-        showMiniAlert(`No se puede mover esta asignatura. El semestre ${toSemester} tendría ${newCredits} créditos, pero el máximo permitido es 35 créditos.`);
+      if (newCredits > UC_CREDITS_MAX) {
+        showMiniAlert(`No se puede mover esta asignatura. El semestre ${toSemester} tendría ${newCredits} créditos UC, pero el máximo permitido es ${UC_CREDITS_MAX} créditos UC.`);
         return;
       }
     }
@@ -306,11 +308,11 @@ export default function GraduationPlanModal({
     const tempPlan = localPlan.map(semester => {
       if (semester.semester === draggedSubject.fromSemester) {
         // Remover del semestre origen
-        const newSubjects = semester.subjects.filter(s => s.code !== draggedSubject.subject.code);
+        const newSubjects = [...semester.subjects, draggedSubject.subject];
         return {
           ...semester,
           subjects: newSubjects,
-          credits: newSubjects.reduce((sum, s) => sum + Number(s.sctCredits), 0)
+          credits: newSubjects.reduce((sum, s) => sum + getUcCredits(s), 0)
         };
       } else if (semester.semester === toSemester) {
         // Agregar al semestre destino
@@ -631,10 +633,10 @@ export default function GraduationPlanModal({
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {localPlan.slice(0, visibleSemesters).map((semesterPlan, index) => {
                   // ...existing code for each semester card...
-                  const isOverloaded = semesterPlan.credits > 30;
-                  const wouldExceedWithDrag = draggedSubject && 
-                    dragOverSemester === semesterPlan.semester &&
-                    (semesterPlan.credits + Number(draggedSubject.subject.sctCredits) > 35);
+                    const isOverloaded = semesterPlan.credits > 60;
+                    const wouldExceedWithDrag = draggedSubject && 
+                      dragOverSemester === semesterPlan.semester &&
+                      (semesterPlan.credits + getUcCredits(draggedSubject.subject) > UC_CREDITS_MAX);
                   return (
                     <div 
                       key={semesterPlan.semester}
@@ -696,7 +698,7 @@ export default function GraduationPlanModal({
                         <div className="mb-3 p-2 bg-orange-100 border border-orange-300 rounded-lg">
                           <div className="flex items-center gap-2 text-orange-700">
                             <FontAwesomeIcon icon={faExclamationTriangle} className="text-sm" />
-                            <span className="text-sm font-medium">Sobrecargado por {semesterPlan.credits - 30} {(semesterPlan.credits - 30) === 1 ? 'crédito' : 'créditos'}</span>
+                            <span className="text-sm font-medium">Sobrecargado por {semesterPlan.credits - 50} {(semesterPlan.credits - 50) === 1 ? 'crédito' : 'créditos'}</span>
                           </div>
                         </div>
                       )}
@@ -706,7 +708,7 @@ export default function GraduationPlanModal({
                         <div className="border-2 border-dashed border-red-400 rounded-lg p-2 text-center text-red-600 text-xs mb-2 bg-red-50/30">
                           <FontAwesomeIcon icon={faBan} className="text-lg mb-1" />
                           <div className="font-medium text-xs">Límite excedido</div>
-                          <div className="text-xs">Máximo 35 créditos</div>
+                          <div className="text-xs">Máximo {UC_CREDITS_MAX} créditos UC</div>
                         </div>
                       )}
 
@@ -772,7 +774,7 @@ export default function GraduationPlanModal({
                                   </div>
                                   <div className="text-white/70 text-[11px]">{subject.code}</div>
                                   <div className="text-white/80 text-xs">
-                                    {subject.sctCredits} {subject.sctCredits === 1 ? 'crédito' : 'créditos'}
+                                    {getUcCredits(subject)} {getUcCredits(subject) === 1 ? 'crédito' : 'créditos'} UC
                                   </div>
                                 </div>
                               </div>
@@ -850,13 +852,13 @@ export default function GraduationPlanModal({
                             const overloadCredits = semester.credits - 30;
                             return (
                               <div key={semester.semester}>
-                                <span className="inline-block font-bold text-orange-900">{semester.semester}</span>: {semester.credits} {semester.credits === 1 ? 'crédito' : 'créditos'} (sobrecarga de {overloadCredits} {overloadCredits === 1 ? 'crédito' : 'créditos'})
+                                <span className="inline-block font-bold text-orange-900">{semester.semester}</span>: {semester.credits} {semester.credits === 1 ? 'crédito' : 'créditos'} (sobrecarga de {overloadCredits} {overloadCredits === 1 ? 'crédito UC' : 'créditos UC'})
                               </div>
                             );
                           })}
                         </div>
                         <div className="text-xs text-orange-600 mt-2 pt-2 border-t border-orange-200">
-                          La carga académica normal es de 30 créditos por semestre. Considera equilibrar tu carga para mantener un mejor rendimiento académico.
+                          La carga académica normal es de 50 créditos UC por semestre (máximo 60). Considera equilibrar tu carga para mantener un mejor rendimiento académico.
                         </div>
                       </div>
                     </div>

@@ -1,10 +1,12 @@
 import { useState, useCallback } from 'react';
 import { Subject, SubjectState } from '@/types/curriculum';
+import { getUcCredits, UC_CREDITS_MAX } from '@/hooks/credits';
+
 
 interface SemesterPlan {
-  semester: string; // Cambio de number a string para formato "2025-1"
+  semester: string;
   subjects: Subject[];
-  credits: number;
+  credits: number; // Ahora serán créditos UC
 }
 
 export const useGraduationPlan = (
@@ -83,7 +85,7 @@ export const useGraduationPlan = (
     const plan: SemesterPlan[] = [];
     const remainingSubjects = [...pendingSubjects];
     let currentSemester = 1;
-    const maxCreditsPerSemester = 60; // Límite de créditos por semestre en PUC
+    const maxCreditsPerSemester = UC_CREDITS_MAX; // CAMBIADO: Usar límite UC (60)
 
     const getSemesterName = (semesterNumber: number): string => {
       const currentDate = new Date();
@@ -117,7 +119,6 @@ export const useGraduationPlan = (
 
     let semesterPointer = 0;
 
-
     while (remainingSubjects.length > 0 && currentSemester <= 20) {
       // Determinar el nivel académico real del alumno según ramos aprobados
       let maxApprovedSemester = 0;
@@ -148,9 +149,10 @@ export const useGraduationPlan = (
           return subject.semester === currentSemesterCode && isSubjectAvailable(subject, completedSubjects);
         });
         for (const subject of available) {
-          if (semesterCredits + Number(subject.sctCredits) <= maxCreditsPerSemester) {
+          const subjectUcCredits = getUcCredits(subject); // CAMBIADO: Usar UC
+          if (semesterCredits + subjectUcCredits <= maxCreditsPerSemester) {
             semesterSubjects.push(subject);
-            semesterCredits += Number(subject.sctCredits);
+            semesterCredits += subjectUcCredits; // CAMBIADO: Usar UC
             completedSubjects.add(subject.code);
             const index = remainingSubjects.findIndex(s => s.code === subject.code);
             if (index !== -1) {
@@ -164,9 +166,10 @@ export const useGraduationPlan = (
           return subject.semester === 's1' && isSubjectAvailable(subject, completedSubjects);
         });
         for (const subject of availableFirst) {
-          if (semesterCredits + Number(subject.sctCredits) <= maxCreditsPerSemester) {
+          const subjectUcCredits = getUcCredits(subject); // CAMBIADO: Usar UC
+          if (semesterCredits + subjectUcCredits <= maxCreditsPerSemester) {
             semesterSubjects.push(subject);
-            semesterCredits += Number(subject.sctCredits);
+            semesterCredits += subjectUcCredits; // CAMBIADO: Usar UC
             completedSubjects.add(subject.code);
             const index = remainingSubjects.findIndex(s => s.code === subject.code);
             if (index !== -1) {
@@ -186,9 +189,10 @@ export const useGraduationPlan = (
           return bN - aN;
         });
         for (const subject of availableFirstSecond) {
-          if (semesterCredits + Number(subject.sctCredits) <= maxCreditsPerSemester) {
+          const subjectUcCredits = getUcCredits(subject); // CAMBIADO: Usar UC
+          if (semesterCredits + subjectUcCredits <= maxCreditsPerSemester) {
             semesterSubjects.push(subject);
-            semesterCredits += Number(subject.sctCredits);
+            semesterCredits += subjectUcCredits; // CAMBIADO: Usar UC
             completedSubjects.add(subject.code);
             const index = remainingSubjects.findIndex(s => s.code === subject.code);
             if (index !== -1) {
@@ -207,9 +211,10 @@ export const useGraduationPlan = (
           return aIdx - bIdx;
         });
         for (const subject of adelantables) {
-          if (semesterCredits + Number(subject.sctCredits) <= maxCreditsPerSemester) {
+          const subjectUcCredits = getUcCredits(subject); // CAMBIADO: Usar UC
+          if (semesterCredits + subjectUcCredits <= maxCreditsPerSemester) {
             semesterSubjects.push(subject);
-            semesterCredits += Number(subject.sctCredits);
+            semesterCredits += subjectUcCredits; // CAMBIADO: Usar UC
             completedSubjects.add(subject.code);
             const index = remainingSubjects.findIndex(s => s.code === subject.code);
             if (index !== -1) {
@@ -224,7 +229,7 @@ export const useGraduationPlan = (
         plan.push({
           semester: getSemesterName(currentSemester),
           subjects: semesterSubjects,
-          credits: semesterCredits
+          credits: semesterCredits // Ya está en UC
         });
       }
 

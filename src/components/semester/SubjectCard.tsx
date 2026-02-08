@@ -5,6 +5,7 @@ import { faLock, faCheck, faLink, faTrophy, faCodeBranch } from '@fortawesome/fr
 import type { Subject, SubjectState, CalculatorState, SubjectColors } from '@/types/curriculum';
 import { motion, AnimatePresence } from 'framer-motion';
 import Tooltip from '../ui/Tooltip';
+import { getUcCredits } from '@/hooks/credits';
 
 interface SubjectCardProps {
   subject: Subject;
@@ -418,9 +419,8 @@ export default function SubjectCard({
                   : 'bg-red-500/80'
               } text-white`}>
                 <FontAwesomeIcon icon={faTrophy} className="text-[0.6rem]" />
-                <span>{subject.creditRequirement} créd.</span>
+                <span>{subject.creditRequirement} créd. UC</span>
               </div>
-            </div>
           )}
           
           {/* Prerrequisitos y Correquisitos */}
