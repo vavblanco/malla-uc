@@ -159,7 +159,7 @@ export default function SubjectCard({
     const prereqTooltip = (
       <div className="space-y-1">
         <div className="font-bold">{prereqSubject.name}</div>
-        <div className="text-xs opacity-70">{prereqCode} • {prereqSubject.sctCredits} créditos</div>
+        <div className="text-xs opacity-70">{prereqCode} • {getUcCredits(prereqSubject)} créditos UC</div>
         <div className="text-xs pt-1 border-t border-gray-300 dark:border-gray-600">
           {prereqState?.status === 'approved' ? '✓ Aprobada' : '⚠️ Pendiente de aprobar'}
         </div>
@@ -209,7 +209,7 @@ export default function SubjectCard({
           Correquisito
         </div>
         <div className="text-sm">{coreqSubject.name}</div>
-        <div className="text-xs opacity-70">{coreqCode} • {coreqSubject.sctCredits} créditos</div>
+        <div className="text-xs opacity-70">{coreqCode} • {getUcCredits(coreqSubject)} créditos UC</div>
         <div className="text-xs pt-1 border-t border-gray-300 dark:border-gray-600">
           Debe cursarse simultáneamente
         </div>
@@ -237,7 +237,7 @@ export default function SubjectCard({
   const tooltipContent = (
     <div className="space-y-1">
       <div className="font-bold">{subject.name}</div>
-      <div className="text-xs opacity-70">{subject.code} • {subject.sctCredits} créditos</div>
+      <div className="text-xs opacity-70">{subject.code} • {getUcCredits(subject)} créditos UC</div>
       
       {subject.electiveGroup && electiveGroupMembers.length > 0 && (
         <div className="text-xs opacity-70 pt-1 border-t border-gray-300 dark:border-gray-600">
@@ -370,7 +370,7 @@ export default function SubjectCard({
         {/* Créditos como carátula en esquina superior derecha */}
         <div className={`absolute top-0 right-0 ${darkMode ? 'bg-gray-800/90' : 'bg-white/85'} rounded-bl-lg px-2 py-0.5`}>
           <span className="credits text-xs" style={{ color: getBackgroundColor() }}>
-            {subject.sctCredits}
+            {getUcCredits(subject)}
           </span>
         </div>
         
