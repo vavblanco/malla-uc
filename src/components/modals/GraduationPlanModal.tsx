@@ -297,7 +297,7 @@ export default function GraduationPlanModal({
     // Verificar límite de créditos antes de mover
     const targetSemester = localPlan.find(s => s.semester === toSemester);
     if (targetSemester) {
-      const newCredits = targetSemester.credits + Number(draggedSubject.subject.sctCredits);
+      const newCredits = targetSemester.credits + getUcCredits(draggedSubject.subject);
       if (newCredits > UC_CREDITS_MAX) {
         showMiniAlert(`No se puede mover esta asignatura. El semestre ${toSemester} tendría ${newCredits} créditos UC, pero el máximo permitido es ${UC_CREDITS_MAX} créditos UC.`);
         return;
@@ -307,28 +307,37 @@ export default function GraduationPlanModal({
     // Crear plan temporal con el movimiento
     const tempPlan = localPlan.map(semester => {
       if (semester.semester === draggedSubject.fromSemester) {
-        // Remover del semestre origen
-        const newSubjects = [...semester.subjects, draggedSubject.subject];
+        // Remover del semestre origen - ASEGURAR QUE SE ELIMINA
+        const newSubjects = semester.subjects.filter(s => s.code !== draggedSubject.subject.code);
         return {
           ...semester,
           subjects: newSubjects,
           credits: newSubjects.reduce((sum, s) => sum + getUcCredits(s), 0)
         };
       } else if (semester.semester === toSemester) {
-        // Agregar al semestre destino
+        // Agregar al semestre destino - SOLO SI NO EXISTE YA
+        const exists = semester.subjects.some(s => s.code === draggedSubject.subject.code);
+        if (exists) {
+          return semester; // Ya existe, no agregar
+        }
         const newSubjects = [...semester.subjects, draggedSubject.subject];
         return {
           ...semester,
           subjects: newSubjects,
-          credits: newSubjects.reduce((sum, s) => sum + Number(s.sctCredits), 0)
+          credits: newSubjects.reduce((sum, s) => sum + getUcCredits(s), 0)
         };
       }
       return semester;
     });
 
+
     // Recalcular todo el plan para manejar dependencias en cascada
     const recalculatedPlan = recalculatePlan(tempPlan);
     setLocalPlan(recalculatedPlan);
+    
+    // NUEVO: Limpiar el estado de drag inmediatamente
+    setDraggedSubject(null);
+    setDragOverSemester(null);
   };
 
   const handleDrop = (e: React.DragEvent, toSemester: string) => {
@@ -839,7 +848,7 @@ export default function GraduationPlanModal({
                     Resumen del Plan
                   </h5>
                   {/* Alertas de sobrecarga */}
-                  {localPlan.some(s => s.credits > 30) && (
+                  {localPlan.some(s => s.credits > 50) && (
                     <div className="mb-4 flex rounded-xl shadow border border-orange-300 bg-orange-50 relative overflow-hidden">
                       <div className="w-2 bg-orange-500 rounded-l-xl" />
                       <div className="flex-1 p-4">
@@ -848,11 +857,11 @@ export default function GraduationPlanModal({
                           <span className="text-base font-extrabold text-orange-800">Sobrecarga Académica</span>
                         </div>
                         <div className="text-xs text-orange-700 space-y-1 font-medium mb-2">
-                          {localPlan.filter(s => s.credits > 30).map(semester => {
-                            const overloadCredits = semester.credits - 30;
+                          {localPlan.filter(s => s.credits > 50).map(semester => {
+                            const overloadCredits = semester.credits - 50;
                             return (
                               <div key={semester.semester}>
-                                <span className="inline-block font-bold text-orange-900">{semester.semester}</span>: {semester.credits} {semester.credits === 1 ? 'crédito' : 'créditos'} (sobrecarga de {overloadCredits} {overloadCredits === 1 ? 'crédito UC' : 'créditos UC'})
+                                <span className="inline-block font-bold text-orange-900">{semester.semester}</span>: {semester.credits} {semester.credits === 1 ? 'crédito UC' : 'créditos UC'} (sobrecarga de {overloadCredits} {overloadCredits === 1 ? 'crédito UC' : 'créditos UC'})
                               </div>
                             );
                           })}

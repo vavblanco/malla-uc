@@ -64,11 +64,44 @@ export const useGraduationPlan = (
   };
 
   const calculateGraduationPlan = useCallback(() => {
-    // Obtener materias no aprobadas
-    const pendingSubjects = subjects.filter(subject => 
+    // NUEVO: Función para filtrar electivos mutuamente excluyentes
+    const filterElectiveGroups = (subjects: Subject[]) => {
+      const electiveGroups = new Map<string, Subject[]>();
+      const nonElectiveSubjects: Subject[] = [];
+
+      // Separar en grupos electivos y no electivos
+      subjects.forEach(subject => {
+        if (subject.electiveGroup) {
+          const group = electiveGroups.get(subject.electiveGroup) || [];
+          group.push(subject);
+          electiveGroups.set(subject.electiveGroup, group);
+        } else {
+          nonElectiveSubjects.push(subject);
+        }
+      });
+
+      // Para cada grupo electivo, incluir solo el primero pendiente
+      const electiveSubjects: Subject[] = [];
+      electiveGroups.forEach((group) => {
+        const approvedInGroup = group.find(s => subjectStates[s.code]?.status === 'approved');
+        if (!approvedInGroup) {
+          // Si ninguno está aprobado, incluir solo el primero del grupo
+          electiveSubjects.push(group[0]);
+        }
+        // Si ya hay uno aprobado, no incluir ninguno (ya está aprobado)
+      });
+
+      return [...nonElectiveSubjects, ...electiveSubjects];
+    };
+
+    // Obtener materias no aprobadas - FILTRAR ELECTIVOS
+    const allPendingSubjects = subjects.filter(subject => 
       !subjectStates[subject.code]?.status || 
       subjectStates[subject.code].status !== 'approved'
     );
+
+    // NUEVO: Filtrar electivos mutuamente excluyentes
+    const pendingSubjects = filterElectiveGroups(allPendingSubjects);
 
     if (pendingSubjects.length === 0) {
       setGraduationPlan([]);
