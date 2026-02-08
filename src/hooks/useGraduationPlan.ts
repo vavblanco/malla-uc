@@ -91,14 +91,11 @@ export const useGraduationPlan = (
         
         if (approvedInGroup) {
           // Si ya aprobaste uno del grupo, NO incluir ninguno más
-          // (ya cumpliste con el requisito del grupo electivo)
           return;
         }
         
-        // Si ninguno está aprobado, incluir solo el primero del grupo como opción
-        if (group.length > 0) {
-          electiveSubjects.push(group[0]);
-        }
+        // Si ninguno está aprobado, incluir TODOS del grupo como opciones
+        electiveSubjects.push(...group);
       });
 
       return [...nonElectiveSubjects, ...electiveSubjects];
@@ -130,7 +127,7 @@ export const useGraduationPlan = (
     let currentSemester = 1;
     const maxCreditsPerSemester = UC_CREDITS_MAX;
 
-    
+
     const getSemesterName = (semesterNumber: number): string => {
       const currentDate = new Date();
       const currentYear = currentDate.getFullYear();
