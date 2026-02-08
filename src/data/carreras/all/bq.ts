@@ -363,6 +363,7 @@ export const bq: Carrera = {
             "BIO257C",
             "BIO266D"
         ],
+        "corequisites": ["BIO288C"],
         "semester": "s6"
     },
     {
@@ -374,6 +375,7 @@ export const bq: Carrera = {
             "BIO152C",
             "BIO257C"
         ],
+        "corequisites": ["BIO299L"],
         "semester": "s6"
     },
     {
@@ -382,6 +384,7 @@ export const bq: Carrera = {
         "sctCredits": 3,
         "type": "CM",
         "prerequisites": [],
+        "corequisites": ["BIO299E"],
         "semester": "s6"
     },
     {
@@ -458,6 +461,7 @@ export const bq: Carrera = {
             "BIO266E",
             "BIO299L"
         ],
+        "electiveGroup": "8-AB",
         "semester": "s8"
     },
     {
@@ -470,6 +474,7 @@ export const bq: Carrera = {
             "BIO266E",
             "BIO299L"
         ],
+        "electiveGroup": "8-AB",
         "semester": "s8"
     },
     {
@@ -491,7 +496,7 @@ export const bq: Carrera = {
     {
         "name": "Examen de Grado",
         "code": "EXAMEN GRADO",
-        "sctCredits": 6,
+        "sctCredits": 0,
         "type": "TL",
         "prerequisites": [],
         "creditRequirement": 250,
@@ -505,6 +510,19 @@ export const bq: Carrera = {
         "prerequisites": [
           "EXAMEN GRADO"
         ],
+        "electiveGroup": "9-TIT",
+        "semester": "s9"
+    },
+    {
+        "name": "OPR'S",
+        "code": "OPR5",
+        "sctCredits": 30,
+        "ucCredits": 50,
+        "type": "FT",
+        "prerequisites": [
+          "EXAMEN GRADO"
+        ],
+        "electiveGroup": "9-TIT",
         "semester": "s9"
     },
     {
@@ -515,6 +533,19 @@ export const bq: Carrera = {
         "prerequisites": [
           "BIO3319"
         ],
+        "electiveGroup": "10-TIT",
+        "semester": "s10"
+    },
+    {
+        "name": "Memoria Profesional",
+        "code": "BIO285E",
+        "sctCredits": 30,
+        "ucCredits": 50,
+        "type": "FT",
+        "prerequisites": [
+          "OPR5"
+        ],
+        "electiveGroup": "10-TIT",
         "semester": "s10"
     }
 ],
