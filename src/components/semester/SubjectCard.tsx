@@ -419,8 +419,9 @@ export default function SubjectCard({
                   : 'bg-red-500/80'
               } text-white`}>
                 <FontAwesomeIcon icon={faTrophy} className="text-[0.6rem]" />
-                <span>{subject.creditRequirement} créd. UC</span>
+                <span>{subject.creditRequirement} créditos UC</span>
               </div>
+            </div>
           )}
           
           {/* Prerrequisitos y Correquisitos */}
