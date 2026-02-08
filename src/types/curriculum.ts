@@ -5,7 +5,7 @@
 export interface Subject {
 	name: string;
 	code: string;
-	sctCredits?: number;
+	sctCredits: number;
 	ucCredits?: number;
 	type: string;
 	prerequisites: string[];
