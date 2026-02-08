@@ -498,8 +498,12 @@ export const bq: Carrera = {
         "code": "EXAMEN GRADO",
         "sctCredits": 0,
         "type": "TL",
-        "prerequisites": [],
-        "creditRequirement": 250,
+        "prerequisites": [
+            "VRA2000",
+            "VRA100C",
+            "VRA4000"
+        ],
+        "creditRequirement": 415,
         "semester": "s8"
     },
     {
