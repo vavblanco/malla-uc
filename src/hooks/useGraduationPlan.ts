@@ -65,12 +65,12 @@ export const useGraduationPlan = (
 
   const calculateGraduationPlan = useCallback(() => {
     // NUEVO: Función para filtrar electivos mutuamente excluyentes
-    const filterElectiveGroups = (subjects: Subject[]) => {
+    const filterElectiveGroups = (pendingSubjects: Subject[]) => {
       const electiveGroups = new Map<string, Subject[]>();
       const nonElectiveSubjects: Subject[] = [];
 
       // Separar en grupos electivos y no electivos
-      subjects.forEach(subject => {
+      pendingSubjects.forEach(subject => {
         if (subject.electiveGroup) {
           const group = electiveGroups.get(subject.electiveGroup) || [];
           group.push(subject);
@@ -80,27 +80,37 @@ export const useGraduationPlan = (
         }
       });
 
-      // Para cada grupo electivo, incluir solo el primero pendiente
+      // Para cada grupo electivo, verificar si ya hay uno aprobado
       const electiveSubjects: Subject[] = [];
-      electiveGroups.forEach((group) => {
-        const approvedInGroup = group.find(s => subjectStates[s.code]?.status === 'approved');
-        if (!approvedInGroup) {
-          // Si ninguno está aprobado, incluir solo el primero del grupo
+      electiveGroups.forEach((group, groupId) => {
+        // Buscar si YA HAY uno aprobado de este grupo
+        const approvedInGroup = subjects.find(s => 
+          s.electiveGroup === groupId && 
+          subjectStates[s.code]?.status === 'approved'
+        );
+        
+        if (approvedInGroup) {
+          // Si ya aprobaste uno del grupo, NO incluir ninguno más
+          // (ya cumpliste con el requisito del grupo electivo)
+          return;
+        }
+        
+        // Si ninguno está aprobado, incluir solo el primero del grupo como opción
+        if (group.length > 0) {
           electiveSubjects.push(group[0]);
         }
-        // Si ya hay uno aprobado, no incluir ninguno (ya está aprobado)
       });
 
       return [...nonElectiveSubjects, ...electiveSubjects];
     };
 
-    // Obtener materias no aprobadas - FILTRAR ELECTIVOS
+    // Obtener materias no aprobadas (pendientes)
     const allPendingSubjects = subjects.filter(subject => 
       !subjectStates[subject.code]?.status || 
       subjectStates[subject.code].status !== 'approved'
     );
 
-    // NUEVO: Filtrar electivos mutuamente excluyentes
+    // Filtrar electivos mutuamente excluyentes
     const pendingSubjects = filterElectiveGroups(allPendingSubjects);
 
     if (pendingSubjects.length === 0) {
@@ -118,8 +128,9 @@ export const useGraduationPlan = (
     const plan: SemesterPlan[] = [];
     const remainingSubjects = [...pendingSubjects];
     let currentSemester = 1;
-    const maxCreditsPerSemester = UC_CREDITS_MAX; // CAMBIADO: Usar límite UC (60)
+    const maxCreditsPerSemester = UC_CREDITS_MAX;
 
+    
     const getSemesterName = (semesterNumber: number): string => {
       const currentDate = new Date();
       const currentYear = currentDate.getFullYear();
