@@ -858,7 +858,7 @@ export default function GraduationPlanModal({
                         </div>
                         <div className="text-xs text-orange-700 space-y-1 font-medium mb-2">
                           {localPlan.filter(s => s.credits > 50).map(semester => {
-                            const overloadCredits = semester.credits - 50;
+                            const overloadCredits = semester.credits - 60;
                             return (
                               <div key={semester.semester}>
                                 <span className="inline-block font-bold text-orange-900">{semester.semester}</span>: {semester.credits} {semester.credits === 1 ? 'crédito UC' : 'créditos UC'} (sobrecarga de {overloadCredits} {overloadCredits === 1 ? 'crédito UC' : 'créditos UC'})

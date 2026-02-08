@@ -451,7 +451,7 @@ export const bq: Carrera = {
         "semester": "s7"
     },
     {
-        "name": "Seminario de Investigación",
+        "name": "Seminario de Investigación (Opción Investigación)",
         "code": "BIO296F",
         "sctCredits": 18,
         "type": "TL",
@@ -465,7 +465,7 @@ export const bq: Carrera = {
         "semester": "s8"
     },
     {
-        "name": "Práctica Extramural",
+        "name": "Práctica Extramural (Opción Profesión)",
         "code": "BIO258F",
         "sctCredits": 18,
         "type": "TL",
@@ -474,6 +474,14 @@ export const bq: Carrera = {
             "BIO266E",
             "BIO299L"
         ],
+        "electiveGroup": "8-AB",
+        "semester": "s8"
+    },
+        "name": "Optativos de Profundización (Opción Cursos)",
+        "code": "OPRC",
+        "sctCredits": 18,
+        "type": "TL",
+        "prerequisites": [],
         "electiveGroup": "8-AB",
         "semester": "s8"
     },
@@ -518,7 +526,7 @@ export const bq: Carrera = {
         "semester": "s9"
     },
     {
-        "name": "OPR'S",
+        "name": "Optativos de Profundización",
         "code": "OPR5",
         "sctCredits": 30,
         "ucCredits": 50,
