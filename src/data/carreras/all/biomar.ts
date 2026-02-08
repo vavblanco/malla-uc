@@ -48,7 +48,7 @@ export const biomar: Carrera = {
     {
         "name": "Evolución BIOMAR",
         "code": "BIO101B",
-        "ucCredits": 5,
+        "sctCredits": 3,
         "type": "LP",
         "prerequisites": [],
         "semester": "s1"
@@ -56,7 +56,7 @@ export const biomar: Carrera = {
     {
         "name": "Biología de la Célula",
         "code": "BIO141C",
-        "ucCredits": 10,
+        "sctCredits": 6,
         "type": "FB",
         "prerequisites": [],
         "semester": "s1"
@@ -64,7 +64,7 @@ export const biomar: Carrera = {
     {
         "name": "Laboratorio de Química General",
         "code": "QIM101L",
-        "ucCredits": 10,
+        "sctCredits": 6,
         "type": "FB",
         "prerequisites": [],
         "semester": "s1"
@@ -72,7 +72,7 @@ export const biomar: Carrera = {
     {
         "name": "Química General I",
         "code": "QIM100I",
-        "ucCredits": 10,
+        "sctCredits": 6,
         "type": "FB",
         "prerequisites": [],
         "semester": "s1"
@@ -80,7 +80,7 @@ export const biomar: Carrera = {
     {
         "name": "Precálculo",
         "code": "MAT1000",
-        "ucCredits": 10,
+        "sctCredits": 6,
         "type": "FB",
         "prerequisites": [],
         "semester": "s1"
@@ -88,7 +88,7 @@ export const biomar: Carrera = {
     {
         "name": "Filosofía: ¿Para qué?",
         "code": "FIL2001",
-        "ucCredits": 10,
+        "sctCredits": 6,
         "type": "FG",
         "prerequisites": [],
         "semester": "s1"
@@ -96,7 +96,7 @@ export const biomar: Carrera = {
     {
         "name": "Test de Inglés",
         "code": "VRA2000",
-        "ucCredits": 0,
+        "sctCredits": 0,
         "type": "TEST",
         "prerequisites": [],
         "semester": "s1"
@@ -104,7 +104,7 @@ export const biomar: Carrera = {
     {
         "name": "Examen de Comunicación Escrita (ECE)",
         "code": "VRA100C",
-        "ucCredits": 0,
+        "sctCredits": 0,
         "type": "TEST",
         "prerequisites": [],
         "semester": "s1"
@@ -112,7 +112,7 @@ export const biomar: Carrera = {
     {
         "name": "Integridad Académica en la UC",
         "code": "VRA4000",
-        "ucCredits": 0,
+        "sctCredits": 0,
         "type": "TEST",
         "prerequisites": [],
         "semester": "s1"
@@ -120,7 +120,7 @@ export const biomar: Carrera = {
     {
         "name": "Física para Ciencias",
         "code": "FIS109C",
-        "ucCredits": 10,
+        "sctCredits": 6,
         "type": "FB",
         "prerequisites": [],
         "semester": "s2"
@@ -128,7 +128,7 @@ export const biomar: Carrera = {
     {
         "name": "Laboratorio de Física para Ciencias",
         "code": "FIS0109",
-        "ucCredits": 0,
+        "sctCredits": 0,
         "type": "FB",
         "prerequisites": [],
         "semester": "s2"
@@ -136,7 +136,7 @@ export const biomar: Carrera = {
     {
         "name": "Química General II",
         "code": "QIM100B",
-        "ucCredits": 10,
+        "sctCredits": 6,
         "type": "LP",
         "prerequisites": [
           "QIM100I",
@@ -147,7 +147,7 @@ export const biomar: Carrera = {
     {
         "name": "Cálculo I",
         "code": "MAT1100",
-        "ucCredits": 10,
+        "sctCredits": 6,
         "type": "LP",
         "prerequisites": [
             "MAT1000"
@@ -157,7 +157,7 @@ export const biomar: Carrera = {
     {
         "name": "Formación General",
         "code": "OFG1",
-        "ucCredits": 10,
+        "sctCredits": 6,
         "type": "FG",
         "prerequisites": [],
         "semester": "s2"
@@ -165,7 +165,7 @@ export const biomar: Carrera = {
     {
         "name": "Formación General",
         "code": "OFG2",
-        "ucCredits": 10,
+        "sctCredits": 6,
         "type": "FG",
         "prerequisites": [],
         "semester": "s2"
@@ -173,7 +173,7 @@ export const biomar: Carrera = {
     {
         "name": "Bases Físicas de los Procesos Biológicos",
         "code": "BIO152C",
-        "ucCredits": 10,
+        "sctCredits": 6,
         "type": "FB",
         "prerequisites": [
             "MAT1000",
@@ -186,7 +186,7 @@ export const biomar: Carrera = {
     {
         "name": "Bioestadística",
         "code": "BIO242C",
-        "ucCredits": 10,
+        "sctCredits": 6,
         "type": "LP",
         "prerequisites": [
             "MAT1000"
@@ -196,7 +196,7 @@ export const biomar: Carrera = {
     {
         "name": "Química Orgánica I",
         "code": "QIM102B",
-        "ucCredits": 10,
+        "sctCredits": 6,
         "type": "LP",
         "prerequisites": [
             "QIM100B"
@@ -206,7 +206,7 @@ export const biomar: Carrera = {
     {
         "name": "Química Analítica I",
         "code": "QIM109B",
-        "ucCredits": 10,
+        "sctCredits": 6,
         "type": "LP",
         "prerequisites": [
             "QIM100B"
@@ -216,7 +216,7 @@ export const biomar: Carrera = {
     {
         "name": "Formación General",
         "code": "OFG3",
-        "ucCredits": 10,
+        "sctCredits": 6,
         "type": "FG",
         "prerequisites": [],
         "semester": "s3"
@@ -224,7 +224,7 @@ export const biomar: Carrera = {
     {
         "name": "Biología de los Microorganismos",
         "code": "BIO151E",
-        "ucCredits": 10,
+        "sctCredits": 6,
         "type": "FB",
         "prerequisites": [
             "BIO141C"
@@ -234,7 +234,7 @@ export const biomar: Carrera = {
     {
         "name": "Química Orgánica II",
         "code": "QIM103A",
-        "ucCredits": 10,
+        "sctCredits": 6,
         "type": "LP",
         "prerequisites": [
             "QIM102B"
@@ -244,7 +244,7 @@ export const biomar: Carrera = {
     {
         "name": "Análisis Instrumental",
         "code": "QIM111",
-        "ucCredits": 10,
+        "sctCredits": 6,
         "type": "CM",
         "prerequisites": [
             "QIM109B"
@@ -254,7 +254,7 @@ export const biomar: Carrera = {
     {
         "name": "Formación General",
         "code": "OFG4",
-        "ucCredits": 10,
+        "sctCredits": 6,
         "type": "FG",
         "prerequisites": [],
         "semester": "s4"
@@ -262,7 +262,7 @@ export const biomar: Carrera = {
     {
         "name": "Formación General",
         "code": "OFG5",
-        "ucCredits": 10,
+        "sctCredits": 6,
         "type": "FG",
         "prerequisites": [],
         "semester": "s4"
@@ -270,7 +270,7 @@ export const biomar: Carrera = {
     {
         "name": "Genética y Evolución",
         "code": "BIO226E",
-        "ucCredits": 10,
+        "sctCredits": 6,
         "type": "CM",
         "prerequisites": [
             "BIO141C",
@@ -281,7 +281,7 @@ export const biomar: Carrera = {
     {
         "name": "Fisiología y Bioquímica Vegetal",
         "code": "BIO225C",
-        "ucCredits": 10,
+        "sctCredits": 6,
         "type": "CM",
         "prerequisites": [
             "BIO151E",
@@ -292,7 +292,7 @@ export const biomar: Carrera = {
     {
         "name": "Biología y Fisiología Celular",
         "code": "BIO274E",
-        "ucCredits": 10,
+        "sctCredits": 6,
         "type": "CM",
         "prerequisites": [
             "BIO151E",
@@ -303,7 +303,7 @@ export const biomar: Carrera = {
     {
         "name": "Bioquímica",
         "code": "BIO257C",
-        "ucCredits": 10,
+        "sctCredits": 6,
         "type": "CM",
         "prerequisites": [
             "BIO151E",
@@ -314,7 +314,7 @@ export const biomar: Carrera = {
     {
         "name": "Laboratorio de Bioquímica I: Biología Celular",
         "code": "BIO266D",
-        "ucCredits": 5,
+        "sctCredits": 3,
         "type": "CM",
         "prerequisites": [
             "BIO151E",
@@ -326,7 +326,7 @@ export const biomar: Carrera = {
     {
         "name": "Laboratorio de Química Orgánica",
         "code": "QIM104A",
-        "ucCredits": 10,
+        "sctCredits": 6,
         "type": "CM",
         "prerequisites": [
             "QIM103A"
@@ -336,7 +336,7 @@ export const biomar: Carrera = {
     {
         "name": "Formación General",
         "code": "OFG6",
-        "ucCredits": 10,
+        "sctCredits": 6,
         "type": "FG",
         "prerequisites": [],
         "semester": "s5"
@@ -344,7 +344,7 @@ export const biomar: Carrera = {
     {
         "name": "Genética Molecular",
         "code": "BIO288C",
-        "ucCredits": 10,
+        "sctCredits": 6,
         "type": "CM",
         "prerequisites": [
             "BIO257C"
@@ -354,7 +354,7 @@ export const biomar: Carrera = {
     {
         "name": "Laboratorio de Bioquímica II: Genética Molecular",
         "code": "BIO266E",
-        "ucCredits": 10,
+        "sctCredits": 6,
         "type": "CM",
         "prerequisites": [
             "BIO257C",
@@ -365,7 +365,7 @@ export const biomar: Carrera = {
     {
         "name": "Fisiología",
         "code": "BIO299E",
-        "ucCredits": 10,
+        "sctCredits": 6,
         "type": "CM",
         "prerequisites": [
             "BIO152C",
@@ -376,7 +376,7 @@ export const biomar: Carrera = {
     {
         "name": "Laboratorio de Fisiología",
         "code": "BIO299L",
-        "ucCredits": 5,
+        "sctCredits": 3,
         "type": "CM",
         "prerequisites": [],
         "semester": "s6"
@@ -384,7 +384,7 @@ export const biomar: Carrera = {
     {
         "name": "Química-Física I",
         "code": "QIM114B",
-        "ucCredits": 10,
+        "sctCredits": 6,
         "type": "CM",
         "prerequisites": [
             "MAT1100"
@@ -394,7 +394,7 @@ export const biomar: Carrera = {
     {
         "name": "Formación General",
         "code": "OFG7",
-        "ucCredits": 10,
+        "sctCredits": 6,
         "type": "FG",
         "prerequisites": [],
         "semester": "s6"
@@ -402,7 +402,7 @@ export const biomar: Carrera = {
     {
         "name": "Química-Física II",
         "code": "QIM115",
-        "ucCredits": 10,
+        "sctCredits": 6,
         "type": "TL",
         "prerequisites": [
             "QIM114B"
@@ -412,7 +412,7 @@ export const biomar: Carrera = {
     {
         "name": "Introducción al Laboratorio Clínico",
         "code": "MEB176B",
-        "ucCredits": 10,
+        "sctCredits": 6,
         "type": "TL",
         "prerequisites": [
             "BIO266D",
@@ -423,7 +423,7 @@ export const biomar: Carrera = {
     {
         "name": "Seminario de Investigacion Departamental",
         "code": "BIO295A",
-        "ucCredits": 15,
+        "sctCredits": 9,
         "type": "TL",
         "prerequisites": [],
         "semester": "s7"
@@ -431,7 +431,7 @@ export const biomar: Carrera = {
     {
         "name": "Optativo de Profundización",
         "code": "OPR1",
-        "ucCredits": 5,
+        "sctCredits": 3,
         "type": "TL",
         "prerequisites": [],
         "semester": "s7"
@@ -439,7 +439,7 @@ export const biomar: Carrera = {
     {
         "name": "Optativo de Profundización",
         "code": "OPR2",
-        "ucCredits": 10,
+        "sctCredits": 6,
         "type": "TL",
         "prerequisites": [],
         "semester": "s7"
@@ -447,7 +447,7 @@ export const biomar: Carrera = {
     {
         "name": "Seminario de Investigación",
         "code": "BIO296F",
-        "ucCredits": 30,
+        "sctCredits": 18,
         "type": "TL",
         "prerequisites": [
             "BIO295A",
@@ -460,7 +460,7 @@ export const biomar: Carrera = {
     {
         "name": "Práctica Extramural",
         "code": "BIO258F",
-        "ucCredits": 30,
+        "sctCredits": 18,
         "type": "TL",
         "prerequisites": [
             "BIO266D",
@@ -472,7 +472,7 @@ export const biomar: Carrera = {
     {
         "name": "Optativo de Profundización",
         "code": "OPR3",
-        "ucCredits": 10,
+        "sctCredits": 6,
         "type": "TL",
         "prerequisites": [],
         "semester": "s8"
@@ -480,7 +480,7 @@ export const biomar: Carrera = {
     {
         "name": "Optativo de Profundización",
         "code": "OPR4",
-        "ucCredits": 10,
+        "sctCredits": 6,
         "type": "TL",
         "prerequisites": [],
         "semester": "s8"
@@ -488,7 +488,7 @@ export const biomar: Carrera = {
     {
         "name": "Examen de Grado",
         "code": "EXAMEN GRADO",
-        "ucCredits": 10,
+        "sctCredits": 6,
         "type": "TL",
         "prerequisites": [],
         "semester": "s8"
@@ -496,7 +496,7 @@ export const biomar: Carrera = {
     {
         "name": "Técnicas Avanzadas en Bioquímica",
         "code": "BIO3319",
-        "ucCredits": 50,
+        "sctCredits": 30,
         "type": "FT",
         "prerequisites": [
           "EXAMEN GRADO"
@@ -506,7 +506,7 @@ export const biomar: Carrera = {
     {
         "name": "Memoria de Investigación",
         "code": "BIO285D",
-        "ucCredits": 50,
+        "sctCredits": 30,
         "type": "FT",
         "prerequisites": [
           "BIO3319"
