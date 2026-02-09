@@ -46,9 +46,10 @@ export const bio_0: Carrera = {
 
   asignaturas: [
     {
-        "name": "Desafíos BIO",
-        "code": "BIO101B",
+        "name": "Tópicos en Biología",
+        "code": "BIO101A",
         "sctCredits": 3,
+        "ucCredits": 5,
         "type": "LP",
         "prerequisites": [],
         "semester": "s1"
@@ -118,6 +119,15 @@ export const bio_0: Carrera = {
         "semester": "s1"
     },
     {
+        "name": "Biología de Organismos y Comunidades",
+        "code": "BIO110C",
+        "sctCredits": 6,
+        "ucCredits": 10,
+        "type": "FB",
+        "prerequisites": [],
+        "semester": "s2"
+    },
+    {
         "name": "Física para Ciencias",
         "code": "FIS109C",
         "sctCredits": 6,
@@ -163,17 +173,10 @@ export const bio_0: Carrera = {
         "semester": "s2"
     },
     {
-        "name": "Formación General",
-        "code": "OFG2",
-        "sctCredits": 6,
-        "type": "FG",
-        "prerequisites": [],
-        "semester": "s2"
-    },
-    {
         "name": "Bases Físicas de los Procesos Biológicos",
         "code": "BIO152C",
         "sctCredits": 6,
+        "ucCredits": 10,
         "type": "FB",
         "prerequisites": [
             "MAT1000",
@@ -187,6 +190,7 @@ export const bio_0: Carrera = {
         "name": "Bioestadística",
         "code": "BIO242C",
         "sctCredits": 6,
+        "ucCredits": 10,
         "type": "LP",
         "prerequisites": [
             "MAT1000"
@@ -194,9 +198,10 @@ export const bio_0: Carrera = {
         "semester": "s3"
     },
     {
-        "name": "Química Orgánica I",
-        "code": "QIM102B",
+        "name": "Química Orgánica Fundamental",
+        "code": "QIM200",
         "sctCredits": 6,
+        "ucCredits": 10,
         "type": "LP",
         "prerequisites": [
             "QIM100B"
@@ -204,13 +209,11 @@ export const bio_0: Carrera = {
         "semester": "s3"
     },
     {
-        "name": "Química Analítica I",
-        "code": "QIM109B",
+        "name": "Formación General",
+        "code": "OFG2",
         "sctCredits": 6,
-        "type": "LP",
-        "prerequisites": [
-            "QIM100B"
-        ],
+        "type": "FG",
+        "prerequisites": [],
         "semester": "s3"
     },
     {
@@ -232,22 +235,15 @@ export const bio_0: Carrera = {
         "semester": "s4"
     },
     {
-        "name": "Química Orgánica II",
-        "code": "QIM103A",
+        "name": "Química-Física",
+        "code": "QIM150",
         "sctCredits": 6,
+        "ucCredits": 10,
         "type": "LP",
         "prerequisites": [
-            "QIM102B"
-        ],
-        "semester": "s4"
-    },
-    {
-        "name": "Análisis Instrumental",
-        "code": "QIM111",
-        "sctCredits": 6,
-        "type": "CM",
-        "prerequisites": [
-            "QIM109B"
+            "MAT1100",
+            "FIS109C",
+            "QIM100B"
         ],
         "semester": "s4"
     },
@@ -262,6 +258,14 @@ export const bio_0: Carrera = {
     {
         "name": "Formación General",
         "code": "OFG5",
+        "sctCredits": 6,
+        "type": "FG",
+        "prerequisites": [],
+        "semester": "s4"
+    },
+    {
+        "name": "Formación General",
+        "code": "OFG6",
         "sctCredits": 6,
         "type": "FG",
         "prerequisites": [],
@@ -287,6 +291,7 @@ export const bio_0: Carrera = {
             "BIO151E",
             "BIO152C"
         ],
+        "electiveGroup": "5-VC",
         "semester": "s5"
     },
     {
@@ -298,67 +303,85 @@ export const bio_0: Carrera = {
             "BIO151E",
             "BIO152C"
         ],
+        "electiveGroup": "5-VC",
         "semester": "s5"
     },
     {
-        "name": "Bioquímica",
-        "code": "BIO257C",
+        "name": "Bioquímica y Genética Molecular",
+        "code": "BIO228C",
         "sctCredits": 6,
+        "ucCredits": 10,
         "type": "CM",
         "prerequisites": [
             "BIO151E",
-            "QIM103A"
+            "QIM200"
         ],
         "semester": "s5"
     },
     {
-        "name": "Laboratorio de Bioquímica I: Biología Celular",
-        "code": "BIO266D",
+        "name": "Laboratorio de Bioquímica: Biología Celular",
+        "code": "BIO297C",
         "sctCredits": 3,
         "type": "CM",
         "prerequisites": [
-            "BIO151E",
-            "QIM103A",
-            "QIM111"
-        ],
-        "semester": "s5"
-    },
-    {
-        "name": "Laboratorio de Química Orgánica",
-        "code": "QIM104A",
-        "sctCredits": 6,
-        "type": "CM",
-        "prerequisites": [
-            "QIM103A"
+            "QIM200",
+            "BIO151E"
         ],
         "semester": "s5"
     },
     {
         "name": "Formación General",
-        "code": "OFG6",
+        "code": "OFG7",
         "sctCredits": 6,
         "type": "FG",
         "prerequisites": [],
         "semester": "s5"
     },
     {
-        "name": "Genética Molecular",
-        "code": "BIO288C",
+        "name": "Ecología",
+        "code": "BIO231C",
         "sctCredits": 6,
+        "ucCredits": 10,
         "type": "CM",
         "prerequisites": [
-            "BIO257C"
+            "BIO110C",
+            "BIO242C",
+        ],
+        "corequisites": ["BIO298E"],
+        "semester": "s6"
+    },
+    {
+        "name": "Trabajo Experimental en Ecología",
+        "code": "BIO298E",
+        "sctCredits": 3,
+        "ucCredits": 5,
+        "type": "CM",
+        "prerequisites": [
+            "BIO242C"
+        ],
+        "corequisites": ["BIO231C"],
+        "semester": "s6"
+    },
+    {
+        "name": "Biología y Diversidad Vegetal",
+        "code": "BIO219E",
+        "sctCredits": 6,
+        "ucCredits": 10,
+        "type": "CM",
+        "prerequisites": [
+            "BIO110C"
         ],
         "semester": "s6"
     },
     {
-        "name": "Laboratorio de Bioquímica II: Genética Molecular",
-        "code": "BIO266E",
+        "name": "Biología y Diversidad Animal",
+        "code": "BIO227E",
         "sctCredits": 6,
+        "ucCredits": 10,
         "type": "CM",
         "prerequisites": [
-            "BIO257C",
-            "BIO266D"
+            "BIO110C",
+            "BIO141C"
         ],
         "semester": "s6"
     },
@@ -366,11 +389,13 @@ export const bio_0: Carrera = {
         "name": "Fisiología",
         "code": "BIO299E",
         "sctCredits": 6,
+        "ucCredits": 10,
         "type": "CM",
         "prerequisites": [
             "BIO152C",
-            "BIO257C"
+            "BIO228C"
         ],
+        "corequisites": ["BIO299L"],
         "semester": "s6"
     },
     {
@@ -379,24 +404,7 @@ export const bio_0: Carrera = {
         "sctCredits": 3,
         "type": "CM",
         "prerequisites": [],
-        "semester": "s6"
-    },
-    {
-        "name": "Química-Física I",
-        "code": "QIM114B",
-        "sctCredits": 6,
-        "type": "CM",
-        "prerequisites": [
-            "MAT1100"
-        ],
-        "semester": "s6"
-    },
-    {
-        "name": "Formación General",
-        "code": "OFG7",
-        "sctCredits": 6,
-        "type": "FG",
-        "prerequisites": [],
+        "corequisites": ["BIO299E"],
         "semester": "s6"
     },
     {
