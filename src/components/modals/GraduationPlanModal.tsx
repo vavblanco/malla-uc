@@ -852,55 +852,6 @@ export default function GraduationPlanModal({
                     </div>
                   );
                 })}
-                              title={`Arrastra para mover a otro semestre`}
-                              draggable={!isAnimating}
-                              onDragStart={(e) => {
-                                // Solo permitir drag global en escritorio
-                                if (window.innerWidth >= 768) handleDragStart(e, subject, semesterPlan.semester);
-                              }}
-                              onDragEnd={(e) => {
-                                if (window.innerWidth >= 768) handleDragEnd(e);
-                              }}
-                            >
-                              <div className="flex items-center gap-2">
-                                <span
-                                  // Solo permitir drag/touch en móvil desde el ícono
-                                  onTouchStart={(e) => {
-                                    if (window.innerWidth < 768) handleTouchStart(e, subject, semesterPlan.semester);
-                                  }}
-                                  onTouchMove={(e) => {
-                                    if (window.innerWidth < 768) handleTouchMove(e);
-                                  }}
-                                  onTouchEnd={(e) => {
-                                    if (window.innerWidth < 768) handleTouchEnd(e);
-                                  }}
-                                  className="cursor-grab active:cursor-grabbing"
-                                  style={{ WebkitTouchCallout: 'none', WebkitUserSelect: 'none', userSelect: 'none' }}
-                                  tabIndex={0}
-                                  aria-label="Mover asignatura"
-                                >
-                                  <FontAwesomeIcon
-                                    icon={faGripVertical}
-                                    className="no-print text-white/60 text-xs flex-shrink-0"
-                                  />
-                                </span>
-                                <div className="flex-1 min-w-0">
-                                  <div className="text-white font-bold text-xs truncate" title={subject.name}>
-                                    {subject.name}
-                                  </div>
-                                  <div className="text-white/70 text-[11px]">{subject.code}</div>
-                                  <div className="text-white/80 text-xs">
-                                    {getUcCredits(subject)} {getUcCredits(subject) === 1 ? 'crédito' : 'créditos'} UC
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  );
-                })}
                 {/* Tarjeta para añadir semestre */}
                 <button
                   className="no-print h-full min-h-[180px] flex flex-col items-center justify-center border-2 border-dashed border-blue-300 bg-white/60 rounded-2xl shadow-sm hover:bg-blue-50 hover:border-blue-400 transition-all focus:outline-none focus:ring-2 focus:ring-blue-300"
