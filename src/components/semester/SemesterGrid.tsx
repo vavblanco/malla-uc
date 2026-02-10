@@ -26,11 +26,13 @@ export default function SemesterGrid({
   approvedCredits = 0
 }: SemesterGridProps) {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
   const [velocity, setVelocity] = useState(0);
   const animationRef = useRef<number | null>(null);
+  const [contentFitsScreen, setContentFitsScreen] = useState(false);
 
   const getSemesterSubjects = (semester: string) => {
     return subjects.filter(subject => subject.semester === semester);
@@ -51,13 +53,35 @@ export default function SemesterGrid({
 
   const maxSemesters = getMaxSemesters();
 
+  // Verificar si el contenido cabe en la pantalla
+  useEffect(() => {
+    const checkFit = () => {
+      if (scrollContainerRef.current && contentRef.current) {
+        const containerWidth = scrollContainerRef.current.clientWidth;
+        const contentWidth = contentRef.current.scrollWidth;
+        setContentFitsScreen(contentWidth <= containerWidth);
+      }
+    };
+
+    checkFit();
+    window.addEventListener('resize', checkFit);
+    
+    // Timeout para asegurar que el contenido ya se renderizó
+    const timeout = setTimeout(checkFit, 100);
+
+    return () => {
+      window.removeEventListener('resize', checkFit);
+      clearTimeout(timeout);
+    };
+  }, [maxSemesters, subjects]);
+
   // Momentum scrolling (inercia)
   useEffect(() => {
     if (Math.abs(velocity) > 0.5) {
       animationRef.current = requestAnimationFrame(() => {
         if (scrollContainerRef.current) {
           scrollContainerRef.current.scrollLeft += velocity;
-          setVelocity(velocity * 0.95); // Friction
+          setVelocity(velocity * 0.95);
         }
       });
     } else {
@@ -65,7 +89,7 @@ export default function SemesterGrid({
     }
 
     return () => {
-      if (animationRef.current !== null) { // CORREGIDO
+      if (animationRef.current !== null) {
         cancelAnimationFrame(animationRef.current);
       }
     };
@@ -73,9 +97,9 @@ export default function SemesterGrid({
 
   // Handlers para drag-to-scroll con momentum
   const handleMouseDown = (e: React.MouseEvent) => {
-    if (!scrollContainerRef.current) return;
+    if (!scrollContainerRef.current || contentFitsScreen) return;
     setIsDragging(true);
-    setVelocity(0); // Detener momentum al empezar drag
+    setVelocity(0);
     setStartX(e.pageX - scrollContainerRef.current.offsetLeft);
     setScrollLeft(scrollContainerRef.current.scrollLeft);
     scrollContainerRef.current.style.cursor = 'grabbing';
@@ -101,19 +125,15 @@ export default function SemesterGrid({
   };
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging || !scrollContainerRef.current) return;
+    if (!isDragging || !scrollContainerRef.current || contentFitsScreen) return;
     e.preventDefault();
     const x = e.pageX - scrollContainerRef.current.offsetLeft;
-    const walk = (x - startX) * 2.5; // Más fluido
+    const walk = (x - startX) * 2.5;
     const newScrollLeft = scrollLeft - walk;
     scrollContainerRef.current.scrollLeft = newScrollLeft;
     
-    // Calcular velocidad para momentum
     setVelocity(-walk * 0.1);
   };
-
-  // Verificar si el contenido cabe en la pantalla
-  const contentFitsScreen = maxSemesters <= 5; // Aproximadamente 5 semestres caben en pantalla típica
 
   return (
     <div className="w-full">
@@ -161,10 +181,10 @@ export default function SemesterGrid({
             cursor: contentFitsScreen ? 'default' : 'grab',
             scrollBehavior: isDragging ? 'auto' : 'smooth'
           }}
-          onMouseDown={contentFitsScreen ? undefined : handleMouseDown}
-          onMouseLeave={contentFitsScreen ? undefined : handleMouseLeave}
-          onMouseUp={contentFitsScreen ? undefined : handleMouseUp}
-          onMouseMove={contentFitsScreen ? undefined : handleMouseMove}
+          onMouseDown={handleMouseDown}
+          onMouseLeave={handleMouseLeave}
+          onMouseUp={handleMouseUp}
+          onMouseMove={handleMouseMove}
         >
           <style jsx>{`
             div::-webkit-scrollbar {
@@ -172,6 +192,7 @@ export default function SemesterGrid({
             }
           `}</style>
           <div 
+            ref={contentRef}
             className={`flex flex-row gap-2 px-2 ${contentFitsScreen ? '' : 'pointer-events-none'}`}
             style={contentFitsScreen ? {} : { 
               minWidth: `${maxSemesters * 168}px`,
