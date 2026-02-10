@@ -1,9 +1,35 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { Subject, SubjectState, CalculatorState } from '@/types/curriculum';
 import { getUcCredits } from '@/hooks/credits';
 
-export const useCalculator = (subjects: Subject[]) => {
+export const useCalculator = (subjects: Subject[], careerCode: string = '') => {
   const [subjectStates, setSubjectStates] = useState<CalculatorState>({});
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  // Cargar estados desde localStorage
+  useEffect(() => {
+    if (careerCode) {
+      const storageKey = `calculator-state-${careerCode}`;
+      const saved = localStorage.getItem(storageKey);
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          setSubjectStates(parsed);
+        } catch (error) {
+          console.error('Error loading calculator state:', error);
+        }
+      }
+      setIsLoaded(true);
+    }
+  }, [careerCode]);
+
+  // Guardar estados en localStorage
+  useEffect(() => {
+    if (isLoaded && careerCode) {
+      const storageKey = `calculator-state-${careerCode}`;
+      localStorage.setItem(storageKey, JSON.stringify(subjectStates));
+    }
+  }, [subjectStates, isLoaded, careerCode]);
 
   const handleStateChange = useCallback((code: string, state: SubjectState) => {
     setSubjectStates(prev => ({
@@ -11,6 +37,16 @@ export const useCalculator = (subjects: Subject[]) => {
       [code]: state
     }));
   }, []);
+
+  const updateSubjectState = handleStateChange;
+
+  const resetCalculator = useCallback(() => {
+    setSubjectStates({});
+    if (careerCode) {
+      const storageKey = `calculator-state-${careerCode}`;
+      localStorage.removeItem(storageKey);
+    }
+  }, [careerCode]);
 
   // ACTUALIZADO: Filtrar ramos contables considerando tracks y grupos electivos
   const getCountableSubjects = (subjects: Subject[]): Subject[] => {
@@ -139,8 +175,11 @@ export const useCalculator = (subjects: Subject[]) => {
   return {
     subjectStates,
     handleStateChange,
+    updateSubjectState,
+    resetCalculator,
     calculateCredits,
     calculateSubjects,
-    getApprovedCredits
+    getApprovedCredits,
+    isLoaded
   };
 };
