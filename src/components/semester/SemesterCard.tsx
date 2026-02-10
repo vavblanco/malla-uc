@@ -122,7 +122,7 @@ export default function SemesterCard({
   };
 
   const semesterCredits = getSemesterCredits(subjects);
-  const approvedCredits = getSemesterApprovedCredits(subjects);
+  const semesterApprovedCredits = getSemesterApprovedCredits(subjects);
 
   if (subjects.length === 0) return null;
 
@@ -146,7 +146,7 @@ export default function SemesterCard({
         <div className={`text-xs mt-1 ${
           darkMode ? 'text-gray-300' : 'text-gray-700'
         }`}>
-          <span className="font-medium">{approvedCredits}</span>
+          <span className="font-medium">{semesterApprovedCredits}</span>
           <span className="mx-1">/</span>
           <span>{semesterCredits} créd. UC</span>
         </div>
@@ -155,7 +155,7 @@ export default function SemesterCard({
         }`}>
           <div 
             className="bg-gradient-to-r from-blue-500 to-indigo-500 h-2 rounded-full transition-all duration-500 shadow-sm"
-            style={{ width: `${semesterCredits > 0 ? (approvedCredits / semesterCredits) * 100 : 0}%` }}
+            style={{ width: `${semesterCredits > 0 ? (semesterApprovedCredits / semesterCredits) * 100 : 0}%` }}
           />
         </div>
       </div>
