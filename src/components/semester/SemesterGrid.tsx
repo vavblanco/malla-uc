@@ -30,7 +30,7 @@ export default function SemesterGrid({
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
   const [velocity, setVelocity] = useState(0);
-  const animationRef = useRef<number>();
+  const animationRef = useRef<number | null>(null);
 
   const getSemesterSubjects = (semester: string) => {
     return subjects.filter(subject => subject.semester === semester);
@@ -65,7 +65,7 @@ export default function SemesterGrid({
     }
 
     return () => {
-      if (animationRef.current) {
+      if (animationRef.current !== null) { // CORREGIDO
         cancelAnimationFrame(animationRef.current);
       }
     };
