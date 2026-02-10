@@ -143,7 +143,7 @@ export default function CurriculumGrid({ initialCareer }: CurriculumGridProps = 
     ...subjectStats,
   };
 
-  const approvedCredits = getApprovedCredits(); // NUEVO: Obtener créditos aprobados
+  const approvedCredits = approvedCredits(); // NUEVO: Obtener créditos aprobados
 
   // Verificar si se alcanzó el 100% para lanzar confetti
   useEffect(() => {
