@@ -2,17 +2,19 @@
 
 import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes, faGraduationCap, faCalendarAlt, faGripVertical, faExclamationTriangle, faBolt, faBan, faTrash, faPlus, faCheck, faCoins, faBook, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import { faTimes, faGraduationCap, faCalendarAlt, faGripVertical, faExclamationTriangle, faBan, faTrash, faPlus, faCoins, faBook, faCodeBranch } from '@fortawesome/free-solid-svg-icons';
 import { Subject } from '@/types/curriculum';
 import { motion, AnimatePresence } from 'framer-motion';
-import { faCodeBranch } from '@fortawesome/free-solid-svg-icons';
 import { getUcCredits, UC_CREDITS_MAX } from '@/hooks/credits';
 
-
 interface SemesterPlan {
-  semester: string; // Cambio de number a string para formato "2025-1"
+  semester: string;
   subjects: Subject[];
   credits: number;
+  electiveOptions?: {
+    groupId: string;
+    options: Subject[][];
+  }[];
 }
 
 interface GraduationPlanModalProps {
@@ -21,8 +23,8 @@ interface GraduationPlanModalProps {
   isAnimating: boolean;
   onClose: () => void;
   colors: Record<string, string[]>;
-  allSubjects?: Subject[]; // Agregar todas las asignaturas para validación
-  subjectStates?: Record<string, any>; // Estados de asignaturas para validación
+  allSubjects?: Subject[];
+  subjectStates?: Record<string, any>;
 }
 
 import { useRef } from 'react';
@@ -43,24 +45,19 @@ export default function GraduationPlanModal({
   const [touchStartPos, setTouchStartPos] = useState<{x: number, y: number} | null>(null);
   const [isDraggingTouch, setIsDraggingTouch] = useState(false);
   const [touchPosition, setTouchPosition] = useState<{x: number, y: number} | null>(null);
-  // Ref para el contenedor scrollable principal
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  // Ref para el contenido del plan (para exportar)
   const planContentRef = useRef<HTMLDivElement>(null);
 
-  // Mini alerta flotante
   const [miniAlert, setMiniAlert] = useState<{ message: string, visible: boolean }>({ message: '', visible: false });
   const showMiniAlert = (message: string) => {
     setMiniAlert({ message, visible: true });
     setTimeout(() => setMiniAlert({ message: '', visible: false }), 3200);
   };
 
-  // Sincronizar con el plan externo
   useEffect(() => {
     setLocalPlan(graduationPlan);
   }, [graduationPlan]);
 
-  // Prevenir scroll durante touch drag
   useEffect(() => {
     if (isDraggingTouch) {
       document.body.style.overflow = 'hidden';
@@ -87,7 +84,7 @@ export default function GraduationPlanModal({
           }
           return prev + 1;
         });
-      }, 1000); // Mostrar un semestre cada segundo
+      }, 1000);
 
       return () => clearInterval(interval);
     }
@@ -99,16 +96,12 @@ export default function GraduationPlanModal({
     }
   }, [show, isAnimating, localPlan.length]);
 
-
-  // Guardar la última posición Y del mouse durante drag
   const lastDragY = useRef<number | null>(null);
 
-  // Funciones de drag & drop (mouse)
   const handleDragStart = (e: React.DragEvent, subject: Subject, fromSemester: string) => {
     setDraggedSubject({ subject, fromSemester });
     e.dataTransfer.effectAllowed = 'move';
     lastDragY.current = e.clientY;
-    // Añadir efecto visual al elemento siendo arrastrado
     const target = e.target as HTMLElement;
     target.style.opacity = '0.5';
   };
@@ -116,21 +109,16 @@ export default function GraduationPlanModal({
   const handleDragEnd = (e: React.DragEvent) => {
     setDraggedSubject(null);
     setDragOverSemester(null);
-    
-    // Restaurar opacidad
     const target = e.target as HTMLElement;
     target.style.opacity = '1';
   };
 
-  // Funciones de touch (móvil)
   const handleTouchStart = (e: React.TouchEvent, subject: Subject, fromSemester: string) => {
     e.preventDefault();
     const touch = e.touches[0];
     setTouchStartPos({ x: touch.clientX, y: touch.clientY });
     setDraggedSubject({ subject, fromSemester });
     setIsDraggingTouch(true);
-    
-    // Añadir efecto visual
     const target = e.target as HTMLElement;
     target.style.opacity = '0.5';
     target.style.transform = 'scale(1.05)';
@@ -144,22 +132,18 @@ export default function GraduationPlanModal({
     const deltaY = Math.abs(touch.clientY - touchStartPos.y);
     setTouchPosition({ x: touch.clientX, y: touch.clientY });
 
-    // --- Auto-scroll en móvil ---
-  const SCROLL_EDGE_THRESHOLD = 60; // px desde el borde
-  const SCROLL_SPEED = 48; // px por evento (más rápido)
+    const SCROLL_EDGE_THRESHOLD = 60;
+    const SCROLL_SPEED = 48;
     if (scrollContainerRef.current) {
       const rect = scrollContainerRef.current.getBoundingClientRect();
-      // Si el dedo está cerca del borde superior
       if (touch.clientY - rect.top < SCROLL_EDGE_THRESHOLD) {
         scrollContainerRef.current.scrollBy({ top: -SCROLL_SPEED, behavior: 'smooth' });
       }
-      // Si el dedo está cerca del borde inferior
       if (rect.bottom - touch.clientY < SCROLL_EDGE_THRESHOLD) {
         scrollContainerRef.current.scrollBy({ top: SCROLL_SPEED, behavior: 'smooth' });
       }
     }
 
-    // Solo comenzar drag si se movió lo suficiente
     if (deltaX > 10 || deltaY > 10) {
       const elementUnderFinger = document.elementFromPoint(touch.clientX, touch.clientY);
       if (elementUnderFinger) {
@@ -196,27 +180,23 @@ export default function GraduationPlanModal({
     e.preventDefault();
     const touch = e.changedTouches[0];
     
-    // Encontrar el elemento de destino
     const elementUnderFinger = document.elementFromPoint(touch.clientX, touch.clientY);
     if (elementUnderFinger) {
       const semesterContainer = elementUnderFinger.closest('[data-semester]');
       if (semesterContainer) {
         const targetSemester = semesterContainer.getAttribute('data-semester');
         if (targetSemester && targetSemester !== draggedSubject.fromSemester) {
-          // Ejecutar el drop
           handleDropLogic(targetSemester);
         }
       }
     }
 
-    // Limpiar estado
     setIsDraggingTouch(false);
     setTouchStartPos(null);
     setTouchPosition(null);
     setDraggedSubject(null);
     setDragOverSemester(null);
     
-    // Restaurar estilos
     const target = e.target as HTMLElement;
     target.style.opacity = '1';
     target.style.transform = 'scale(1)';
@@ -226,22 +206,18 @@ export default function GraduationPlanModal({
     e.preventDefault();
     lastDragY.current = e.clientY;
 
-    // --- Auto-scroll en escritorio ---
-    const SCROLL_EDGE_THRESHOLD = 60; // px desde el borde
-    const SCROLL_SPEED = 18; // px por evento
+    const SCROLL_EDGE_THRESHOLD = 60;
+    const SCROLL_SPEED = 18;
     if (scrollContainerRef.current) {
       const rect = scrollContainerRef.current.getBoundingClientRect();
-      // Si el mouse está cerca del borde superior
       if (e.clientY - rect.top < SCROLL_EDGE_THRESHOLD) {
         scrollContainerRef.current.scrollBy({ top: -SCROLL_SPEED, behavior: 'smooth' });
       }
-      // Si el mouse está cerca del borde inferior
       if (rect.bottom - e.clientY < SCROLL_EDGE_THRESHOLD) {
         scrollContainerRef.current.scrollBy({ top: SCROLL_SPEED, behavior: 'smooth' });
       }
     }
 
-    // Verificar si se puede soltar aquí (créditos y prerrequisitos)
     if (draggedSubject) {
       const targetSemester = localPlan.find(s => s.semester === semesterName);
       const wouldExceedLimit = targetSemester && 
@@ -255,11 +231,10 @@ export default function GraduationPlanModal({
     setDragOverSemester(semesterName);
   };
 
-  // Auto-scroll global durante drag, incluso fuera del área scrollable
   useEffect(() => {
     if (!draggedSubject) return;
-  const SCROLL_EDGE_THRESHOLD = 60;
-  const SCROLL_SPEED = 48;
+    const SCROLL_EDGE_THRESHOLD = 60;
+    const SCROLL_SPEED = 48;
     let raf: number;
     function checkScroll() {
       if (scrollContainerRef.current && lastDragY.current != null) {
@@ -282,20 +257,17 @@ export default function GraduationPlanModal({
     setDragOverSemester(null);
   };
 
-  // Lógica común para drop (tanto mouse como touch)
   const handleDropLogic = (toSemester: string) => {
     if (!draggedSubject || draggedSubject.fromSemester === toSemester) {
       return;
     }
 
-    // Verificar prerrequisitos antes de mover
     const canMove = validateMove(draggedSubject.subject, toSemester);
     if (!canMove) {
       showMiniAlert('No se puede mover esta asignatura aquí debido a prerrequisitos no cumplidos en semestres anteriores.');
       return;
     }
 
-    // Verificar límite de créditos antes de mover
     const targetSemester = localPlan.find(s => s.semester === toSemester);
     if (targetSemester) {
       const newCredits = targetSemester.credits + getUcCredits(draggedSubject.subject);
@@ -305,10 +277,8 @@ export default function GraduationPlanModal({
       }
     }
 
-    // Crear plan temporal con el movimiento
     const tempPlan = localPlan.map(semester => {
       if (semester.semester === draggedSubject.fromSemester) {
-        // Remover del semestre origen - ASEGURAR QUE SE ELIMINA
         const newSubjects = semester.subjects.filter(s => s.code !== draggedSubject.subject.code);
         return {
           ...semester,
@@ -316,10 +286,9 @@ export default function GraduationPlanModal({
           credits: newSubjects.reduce((sum, s) => sum + getUcCredits(s), 0)
         };
       } else if (semester.semester === toSemester) {
-        // Agregar al semestre destino - SOLO SI NO EXISTE YA
         const exists = semester.subjects.some(s => s.code === draggedSubject.subject.code);
         if (exists) {
-          return semester; // Ya existe, no agregar
+          return semester;
         }
         const newSubjects = [...semester.subjects, draggedSubject.subject];
         return {
@@ -331,12 +300,9 @@ export default function GraduationPlanModal({
       return semester;
     });
 
-
-    // Recalcular todo el plan para manejar dependencias en cascada
     const recalculatedPlan = recalculatePlan(tempPlan);
     setLocalPlan(recalculatedPlan);
     
-    // NUEVO: Limpiar el estado de drag inmediatamente
     setDraggedSubject(null);
     setDragOverSemester(null);
   };
@@ -347,36 +313,29 @@ export default function GraduationPlanModal({
     setDragOverSemester(null);
   };
 
-  // Validar si se puede mover una asignatura a un semestre específico
   const validateMove = (subject: Subject, targetSemester: string): boolean => {
     const targetIndex = localPlan.findIndex(s => s.semester === targetSemester);
     if (targetIndex === -1) return false;
 
-    // Obtener todas las asignaturas completadas antes del semestre objetivo
     const completedSubjects = new Set<string>();
     
-    // Agregar asignaturas ya aprobadas externamente
     Object.keys(subjectStates).forEach(code => {
       if (subjectStates[code]?.status === 'approved') {
         completedSubjects.add(code);
       }
     });
 
-    // Agregar asignaturas de semestres anteriores en el plan
     for (let i = 0; i < targetIndex; i++) {
       localPlan[i].subjects.forEach(s => completedSubjects.add(s.code));
     }
 
-    // Verificar si todos los prerrequisitos están completados
     return subject.prerequisites.every(prereq => completedSubjects.has(prereq));
   };
 
-  // Recalcular plan completo después de mover una asignatura
   const recalculatePlan = (newPlan: SemesterPlan[]): SemesterPlan[] => {
     const updatedPlan = [...newPlan];
     let hasChanges = true;
     
-    // Iterar hasta que no haya más cambios necesarios
     while (hasChanges) {
       hasChanges = false;
       
@@ -384,22 +343,18 @@ export default function GraduationPlanModal({
         const semester = updatedPlan[semesterIndex];
         const subjectsToMove: Subject[] = [];
         
-        // Obtener asignaturas completadas hasta este semestre (excluyente)
         const completedSubjects = new Set<string>();
         
-        // Agregar asignaturas ya aprobadas externamente
         Object.keys(subjectStates).forEach(code => {
           if (subjectStates[code]?.status === 'approved') {
             completedSubjects.add(code);
           }
         });
 
-        // Agregar asignaturas de semestres anteriores
         for (let i = 0; i < semesterIndex; i++) {
           updatedPlan[i].subjects.forEach(s => completedSubjects.add(s.code));
         }
 
-        // Verificar cada asignatura en este semestre
         semester.subjects.forEach(subject => {
           const missingPrereqs = subject.prerequisites.filter(prereq => 
             !completedSubjects.has(prereq)
@@ -410,46 +365,39 @@ export default function GraduationPlanModal({
           }
         });
 
-        // Mover asignaturas problemáticas a semestres posteriores
         if (subjectsToMove.length > 0) {
           hasChanges = true;
           
           subjectsToMove.forEach(subject => {
-            // Remover del semestre actual
             semester.subjects = semester.subjects.filter(s => s.code !== subject.code);
-            semester.credits = semester.subjects.reduce((sum, s) => sum + Number(s.sctCredits), 0);
+            semester.credits = semester.subjects.reduce((sum, s) => sum + getUcCredits(s), 0);
             
-            // Encontrar el primer semestre posterior donde pueda ir
             let placed = false;
             for (let futureIndex = semesterIndex + 1; futureIndex < updatedPlan.length; futureIndex++) {
               const futureCompletedSubjects = new Set<string>();
               
-              // Agregar asignaturas ya aprobadas externamente
               Object.keys(subjectStates).forEach(code => {
                 if (subjectStates[code]?.status === 'approved') {
                   futureCompletedSubjects.add(code);
                 }
               });
 
-              // Agregar asignaturas de semestres anteriores al futuro semestre
               for (let i = 0; i < futureIndex; i++) {
                 updatedPlan[i].subjects.forEach(s => futureCompletedSubjects.add(s.code));
               }
 
-              // Verificar si puede ir a este semestre futuro
               const canPlace = subject.prerequisites.every(prereq => 
                 futureCompletedSubjects.has(prereq)
               );
 
               if (canPlace) {
                 updatedPlan[futureIndex].subjects.push(subject);
-                updatedPlan[futureIndex].credits += Number(subject.sctCredits);
+                updatedPlan[futureIndex].credits += getUcCredits(subject);
                 placed = true;
                 break;
               }
             }
 
-            // Si no se pudo colocar en ningún semestre existente, crear uno nuevo
             if (!placed) {
               const newSemesterNumber = updatedPlan.length + 1;
               const newSemesterName = getSemesterName(newSemesterNumber);
@@ -457,7 +405,7 @@ export default function GraduationPlanModal({
               updatedPlan.push({
                 semester: newSemesterName,
                 subjects: [subject],
-                credits: Number(subject.sctCredits)
+                credits: getUcCredits(subject)
               });
             }
           });
@@ -465,11 +413,9 @@ export default function GraduationPlanModal({
       }
     }
 
-    // Eliminar semestres vacíos
     return updatedPlan.filter(semester => semester.subjects.length > 0);
   };
 
-  // Función para generar nombres de semestre (copiada del hook)
   const getSemesterName = (semesterNumber: number): string => {
     const currentDate = new Date();
     const currentYear = currentDate.getFullYear();
@@ -498,18 +444,15 @@ export default function GraduationPlanModal({
     return `${finalYear}-${finalSemester}`;
   };
 
-  // Recalcular totales con mayor precisión
   const recalculateTotals = () => {
     const totalSemesters = localPlan.length;
     const totalCredits = localPlan.reduce((sum, semester) => sum + semester.credits, 0);
     const totalSubjects = localPlan.reduce((sum, semester) => sum + semester.subjects.length, 0);
     
-    // Calcular créditos aprobados
     const approvedCredits = allSubjects
       .filter(subject => subjectStates[subject.code]?.status === 'approved')
-      .reduce((sum, subject) => sum + Number(subject.sctCredits), 0);
+      .reduce((sum, subject) => sum + getUcCredits(subject), 0);
     
-    // Calcular años de forma más precisa: cada 2 semestres = 1 año
     const yearsRemaining = totalSemesters / 2;
     
     return { 
@@ -533,7 +476,6 @@ export default function GraduationPlanModal({
           transition={{ duration: 0.2 }}
           className="fixed inset-0 bg-black/30 backdrop-blur-sm z-60 flex items-center justify-center p-2 md:p-4"
         >
-          {/* Mini alerta flotante */}
           {miniAlert.visible && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -553,7 +495,6 @@ export default function GraduationPlanModal({
             transition={{ duration: 0.3, type: "spring", damping: 25, stiffness: 300 }}
             className="bg-white/95 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/30 max-w-6xl w-full max-h-[98vh] md:max-h-[80vh] overflow-hidden flex flex-col"
           >
-        {/* Header */}
         <div className="bg-gradient-to-r from-green-600/80 to-blue-600/80 backdrop-blur-lg text-white p-6 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center">
@@ -562,13 +503,13 @@ export default function GraduationPlanModal({
             <div>
               <h3 className="text-xl font-bold">Plan de Graduación</h3>
               <p className="text-sm text-white/80">
-                {totalSemesters} semestres • {totalCredits} {totalCredits === 1 ? 'crédito' : 'créditos'} • {yearsRemaining % 1 === 0 ? yearsRemaining : yearsRemaining.toFixed(1)} años restantes
+                {totalSemesters} semestres • {totalCredits} créditos UC • {yearsRemaining % 1 === 0 ? yearsRemaining : yearsRemaining.toFixed(1)} años restantes
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className={`no-print group text-white/80 hover:text-white transition-colors p-2 rounded-full backdrop-blur-sm hover:bg-white/10`}
+            className="no-print group text-white/80 hover:text-white transition-colors p-2 rounded-full backdrop-blur-sm hover:bg-white/10"
             style={{ aspectRatio: '1/1', minWidth: '40px', minHeight: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
             aria-label="Cerrar"
           >
@@ -576,9 +517,7 @@ export default function GraduationPlanModal({
           </button>
         </div>
         
-        {/* Content */}
-  <div className="p-3 md:p-6 overflow-y-auto max-h-[70vh] md:max-h-[60vh]" ref={scrollContainerRef}>
-        {/* Mini tarjeta flotante abajo cuando hay drag activo */}
+        <div className="p-3 md:p-6 overflow-y-auto max-h-[70vh] md:max-h-[60vh]" ref={scrollContainerRef}>
         {(draggedSubject || (isDraggingTouch && draggedSubject)) && (
           <div className="fixed left-0 right-0 bottom-2 z-50 flex justify-center pointer-events-none md:hidden">
             <div className="bg-blue-600 text-white text-xs px-4 py-2 rounded-xl shadow-lg flex flex-col items-center gap-1 pointer-events-auto animate-fade-in-up max-w-xs w-full">
@@ -593,13 +532,12 @@ export default function GraduationPlanModal({
             </div>
           </div>
         )}
-          {/* Indicador de drag en móvil - pequeño y que sigue el dedo */}
           {isDraggingTouch && draggedSubject && touchPosition && (
             <div 
               className="fixed z-50 pointer-events-none transform -translate-x-1/2 -translate-y-1/2"
               style={{ 
                 left: `${touchPosition.x}px`, 
-                top: `${touchPosition.y - 40}px` // Ligeramente arriba del dedo
+                top: `${touchPosition.y - 40}px`
               }}
             >
               <div className="bg-blue-600 text-white text-xs px-2 py-1 rounded-lg shadow-lg flex items-center gap-1">
@@ -617,7 +555,6 @@ export default function GraduationPlanModal({
             </div>
           ) : (
             <>
-              {/* Instrucciones de uso */}
               <div className="mb-4 p-0.5 md:p-1 rounded-2xl shadow border border-blue-100 bg-gradient-to-br from-blue-50/70 via-white/90 to-green-50/70">
                 <div className="p-3 md:p-4 flex items-center gap-3">
                   <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center shadow">
@@ -639,7 +576,6 @@ export default function GraduationPlanModal({
                 </div>
               </div>
 
-
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {localPlan.slice(0, visibleSemesters).map((semesterPlan, index) => {
                   const isOverloaded = semesterPlan.credits > 50;
@@ -651,10 +587,8 @@ export default function GraduationPlanModal({
                   const subjectsWithOptions = new Map<string, Subject[]>();
                   if (semesterPlan.electiveOptions) {
                     semesterPlan.electiveOptions.forEach(({ groupId, options }) => {
-                      // El primer ramo del grupo está en semesterPlan.subjects
                       const mainSubject = semesterPlan.subjects.find(s => s.electiveGroup === groupId);
                       if (mainSubject && options.length > 0) {
-                        // Recopilar todas las opciones del grupo
                         const allOptions = options.flat();
                         subjectsWithOptions.set(mainSubject.code, allOptions);
                       }
@@ -680,7 +614,6 @@ export default function GraduationPlanModal({
                       onDragLeave={handleDragLeave}
                       onDrop={(e) => handleDrop(e, semesterPlan.semester)}
                     >
-                      {/* Header del semestre */}
                       <div className="flex items-center gap-2 mb-4">
                         <FontAwesomeIcon icon={faCalendarAlt} className="text-blue-600" />
                         <div className="flex-1">
@@ -690,7 +623,7 @@ export default function GraduationPlanModal({
                           <p className={`text-xs ${
                             isOverloaded ? 'text-orange-600 font-medium' : 'text-gray-600'
                           }`}>
-                            {semesterPlan.subjects.length} asignaturas • {semesterPlan.credits} {semesterPlan.credits === 1 ? 'crédito UC' : 'créditos UC'}
+                            {semesterPlan.subjects.length} asignaturas • {semesterPlan.credits} créditos UC
                             {isOverloaded && (
                               <span className="ml-1">
                                 <FontAwesomeIcon icon={faExclamationTriangle} className="text-xs" />
@@ -717,26 +650,23 @@ export default function GraduationPlanModal({
                         )}
                       </div>
 
-                      {/* Advertencia de límite de créditos */}
                       {isOverloaded && (
                         <div className="mb-3 p-2 bg-orange-100 border border-orange-300 rounded-lg">
                           <div className="flex items-center gap-2 text-orange-700">
                             <FontAwesomeIcon icon={faExclamationTriangle} className="text-sm" />
-                            <span className="text-sm font-medium">Sobrecargado por {semesterPlan.credits - 50} {(semesterPlan.credits - 50) === 1 ? 'crédito UC' : 'créditos UC'}</span>
+                            <span className="text-sm font-medium">Sobrecargado por {semesterPlan.credits - 50} créditos UC</span>
                           </div>
                         </div>
                       )}
 
-                      {/* Indicador de drop prohibido */}
                       {wouldExceedWithDrag && (
                         <div className="border-2 border-dashed border-red-400 rounded-lg p-2 text-center text-red-600 text-xs mb-2 bg-red-50/30">
                           <FontAwesomeIcon icon={faBan} className="text-lg mb-1" />
                           <div className="font-medium text-xs">Límite excedido</div>
-                          <div className="text-xs">Máximo 60 créditos UC</div>
+                          <div className="text-xs">Máximo {UC_CREDITS_MAX} créditos UC</div>
                         </div>
                       )}
 
-                      {/* Drop zone visual cuando está vacío o durante drag móvil válido */}
                       {!wouldExceedWithDrag && ((semesterPlan.subjects.length === 0 && dragOverSemester === semesterPlan.semester) || 
                         (isDraggingTouch && dragOverSemester === semesterPlan.semester)) && (
                         <div className="border-2 border-dashed border-green-400 rounded-lg p-2 text-center text-green-600 text-xs mb-2 bg-green-50/30">
@@ -745,7 +675,6 @@ export default function GraduationPlanModal({
                         </div>
                       )}
 
-                      {/* Asignaturas */}
                       <div className="space-y-2 min-h-[60px]">
                         {semesterPlan.subjects.map((subject) => {
                           const subjectColor = colors[subject.type]?.[0] || '#6b7280';
@@ -755,7 +684,6 @@ export default function GraduationPlanModal({
 
                           return (
                             <div key={subject.code} className="space-y-1">
-                              {/* Ramo principal */}
                               <div
                                 className={`p-2 rounded-lg text-white text-xs font-medium shadow-sm transition-all duration-200 hover:shadow-md hover:scale-105 select-none ${
                                   isDragging ? 'opacity-50 scale-95' : 'opacity-100'
@@ -809,13 +737,12 @@ export default function GraduationPlanModal({
                                     </div>
                                     <div className="text-white/70 text-[11px]">{subject.code}</div>
                                     <div className="text-white/80 text-xs">
-                                      {getUcCredits(subject)} {getUcCredits(subject) === 1 ? 'crédito UC' : 'créditos UC'}
+                                      {getUcCredits(subject)} créditos UC
                                     </div>
                                   </div>
                                 </div>
                               </div>
 
-                              {/* Opciones del grupo electivo */}
                               {hasOptions && (
                                 <div className="pl-4 pr-2 pb-2 bg-white/30 rounded-b-lg border-2 border-t-0 border-dashed border-white/20" style={{ backgroundColor: `${subjectColor}20` }}>
                                   <div className="text-xs font-bold mb-1 flex items-center gap-1" style={{ color: subjectColor }}>
@@ -852,11 +779,9 @@ export default function GraduationPlanModal({
                     </div>
                   );
                 })}
-                {/* Tarjeta para añadir semestre */}
                 <button
                   className="no-print h-full min-h-[180px] flex flex-col items-center justify-center border-2 border-dashed border-blue-300 bg-white/60 rounded-2xl shadow-sm hover:bg-blue-50 hover:border-blue-400 transition-all focus:outline-none focus:ring-2 focus:ring-blue-300"
                   onClick={() => {
-                    // Generar nombre de semestre siguiente
                     const lastSemester = localPlan[localPlan.length - 1]?.semester;
                     let newSemesterName = 'Nuevo';
                     if (lastSemester) {
@@ -875,7 +800,6 @@ export default function GraduationPlanModal({
                         newSemesterName = `${lastSemester}-nuevo`;
                       }
                     } else {
-                      // Si no hay semestres, usar año actual
                       const now = new Date();
                       newSemesterName = `${now.getFullYear()}-1`;
                     }
@@ -896,16 +820,12 @@ export default function GraduationPlanModal({
                 </button>
               </div>
 
-
-
-              {/* Resumen de cambios */}
               <div className="mt-6 p-1 md:p-2 rounded-3xl shadow-xl border border-blue-100 bg-white">
                 <div className="p-5 md:p-8">
                   <h5 className="font-extrabold text-lg md:text-2xl text-blue-700 mb-4 flex items-center gap-2">
                     <FontAwesomeIcon icon={faGraduationCap} className="text-blue-500 text-xl md:text-2xl" />
                     Resumen del Plan
                   </h5>
-                  {/* Alertas de sobrecarga */}
                   {localPlan.some(s => s.credits > 50) && (
                     <div className="mb-4 flex rounded-xl shadow border border-orange-300 bg-orange-50 relative overflow-hidden">
                       <div className="w-2 bg-orange-500 rounded-l-xl" />
@@ -916,10 +836,10 @@ export default function GraduationPlanModal({
                         </div>
                         <div className="text-xs text-orange-700 space-y-1 font-medium mb-2">
                           {localPlan.filter(s => s.credits > 50).map(semester => {
-                            const overloadCredits = semester.credits - 60;
+                            const overloadCredits = semester.credits - 50;
                             return (
                               <div key={semester.semester}>
-                                <span className="inline-block font-bold text-orange-900">{semester.semester}</span>: {semester.credits} {semester.credits === 1 ? 'crédito UC' : 'créditos UC'} (sobrecarga de {overloadCredits} {overloadCredits === 1 ? 'crédito UC' : 'créditos UC'})
+                                <span className="inline-block font-bold text-orange-900">{semester.semester}</span>: {semester.credits} créditos UC (sobrecarga de {overloadCredits} créditos UC)
                               </div>
                             );
                           })}
@@ -931,9 +851,7 @@ export default function GraduationPlanModal({
                     </div>
                   )}
 
-                  
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm mb-4">
-                    {/* Cantidad de Semestres Restantes */}
                     <div className="text-center flex flex-col items-center">
                       <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mb-1">
                         <FontAwesomeIcon icon={faCalendarAlt} className="text-blue-500 text-xl" />
@@ -942,13 +860,12 @@ export default function GraduationPlanModal({
                       <div className="text-blue-900/80 font-medium">Semestres</div>
                     </div>
 
-                    {/* Créditos Acumulados */}
                     <div className="text-center flex flex-col items-center">
                       <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mb-1">
                         <FontAwesomeIcon icon={faCoins} className="text-green-500 text-xl" />
                       </div>
                       <div className="text-2xl font-extrabold text-green-700">{approvedCredits}/{approvedCredits + totalCredits}</div>
-                      <div className="text-green-900/80 font-medium">Créditos</div>
+                      <div className="text-green-900/80 font-medium">Créditos UC</div>
                     </div>
 
                     <div className="text-center flex flex-col items-center">
@@ -967,14 +884,12 @@ export default function GraduationPlanModal({
                     </div>
                   </div>
 
-                  {/* Información adicional */}
                   <div className="mt-2 text-sm text-blue-900/80 text-center font-medium">
                     <p className="mt-1 text-xs text-blue-700/80">
-                      Promedio de {totalSemesters > 0 ? Math.round(totalCredits / totalSemesters) : 0} {(totalSemesters > 0 && Math.round(totalCredits / totalSemesters) === 1) ? 'crédito' : 'créditos'} por semestre
+                      Promedio de {totalSemesters > 0 ? Math.round(totalCredits / totalSemesters) : 0} créditos UC por semestre
                     </p>
                   </div>
 
-                  {/* Disclaimer dentro del resumen */}
                   <div className="flex justify-center w-full mt-6">
                     <div className="bg-yellow-50 border border-yellow-200 rounded-2xl shadow-sm p-4 text-xs text-yellow-900 text-center max-w-xl w-full flex items-center gap-2">
                       <FontAwesomeIcon icon={faExclamationTriangle} className="text-yellow-500 text-base" />
@@ -986,7 +901,6 @@ export default function GraduationPlanModal({
             </>
           )}
 
-          {/* Progress indicator during animation */}
           {isAnimating && localPlan.length > 0 && (
             <div className="mt-6 text-center">
               <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-800 px-4 py-2 rounded-full">
