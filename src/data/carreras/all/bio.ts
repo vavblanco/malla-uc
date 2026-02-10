@@ -358,9 +358,7 @@ export const bio: Carrera = {
         "sctCredits": 6,
         "ucCredits": 10,
         "type": "CM",
-        "prerequisites": [
-            "QIM103A"
-        ],
+        "prerequisites": [],
         "semester": "s5"
     },
     {
@@ -467,9 +465,7 @@ export const bio: Carrera = {
         "sctCredits": 6,
         "ucCredits": 10,
         "type": "FG",
-        "prerequisites": [
-            "QIM114B"
-        ],
+        "prerequisites": [],
         "semester": "s7"
     },
     {
@@ -578,13 +574,14 @@ export const bio: Carrera = {
     },
     {
         "name": "Memoria de Investigación en Biología",
-        "code": "BIO416C",
+        "code": "BIO490C",
         "sctCredits": 30,
         "ucCredits": 50,
         "type": "TL",
         "prerequisites": [
             "BIO416C"
         ],
+        "electiveGroup": "10-PI",
         "semester": "s10"
     }
 ],
