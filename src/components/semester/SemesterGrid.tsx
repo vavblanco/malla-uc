@@ -72,40 +72,49 @@ export default function SemesterGrid({
               darkMode={darkMode}
               subjectRefs={subjectRefs}
               approvedCredits={approvedCredits}
-              allSubjects={subjects} // NUEVO: Pasar todos los ramos
+              allSubjects={subjects}
             />
           );
         })}
       </div>
 
-      {/* Desktop: Flex horizontal con scroll */}
-      <div className="hidden md:flex md:justify-center md:overflow-x-auto md:pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      {/* Desktop: Flex horizontal con scroll MEJORADO */}
+      <div className="hidden md:block md:w-full">
         <div 
-          className="flex flex-row gap-2"
-          style={{ 
-            minWidth: `${maxSemesters * 168}px`
+          className="overflow-x-auto pb-4 scroll-smooth"
+          style={{
+            scrollbarWidth: 'thin',
+            scrollbarColor: darkMode ? '#4b5563 #1f2937' : '#d1d5db #f3f4f6'
           }}
         >
-          {Array.from({ length: maxSemesters }, (_, i) => `s${i + 1}`).map((semester) => {
-            const semesterSubjects = getSemesterSubjects(semester);
-            
-            return (
-              <SemesterCard
-                key={semester}
-                semester={semester}
-                subjects={semesterSubjects}
-                subjectStates={subjectStates}
-                onStateChange={onStateChange}
-                colors={colors}
-                onPrerequisiteClick={onPrerequisiteClick}
-                findSubjectByCode={findSubjectByCode}
-                darkMode={darkMode}
-                subjectRefs={subjectRefs}
-                approvedCredits={approvedCredits}
-                allSubjects={subjects} // NUEVO: Pasar todos los ramos
-              />
-            );
-          })}
+          <div 
+            className="flex flex-row gap-2 px-2"
+            style={{ 
+              minWidth: `${maxSemesters * 168}px`,
+              width: 'max-content'
+            }}
+          >
+            {Array.from({ length: maxSemesters }, (_, i) => `s${i + 1}`).map((semester) => {
+              const semesterSubjects = getSemesterSubjects(semester);
+              
+              return (
+                <SemesterCard
+                  key={semester}
+                  semester={semester}
+                  subjects={semesterSubjects}
+                  subjectStates={subjectStates}
+                  onStateChange={onStateChange}
+                  colors={colors}
+                  onPrerequisiteClick={onPrerequisiteClick}
+                  findSubjectByCode={findSubjectByCode}
+                  darkMode={darkMode}
+                  subjectRefs={subjectRefs}
+                  approvedCredits={approvedCredits}
+                  allSubjects={subjects}
+                />
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>
