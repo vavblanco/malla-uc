@@ -826,7 +826,7 @@ export default function GraduationPlanModal({
                     <FontAwesomeIcon icon={faGraduationCap} className="text-blue-500 text-xl md:text-2xl" />
                     Resumen del Plan
                   </h5>
-                  {localPlan.some(s => s.credits > 50) && (
+                  {localPlan.some(s => s.credits > 60) && (
                     <div className="mb-4 flex rounded-xl shadow border border-orange-300 bg-orange-50 relative overflow-hidden">
                       <div className="w-2 bg-orange-500 rounded-l-xl" />
                       <div className="flex-1 p-4">
@@ -836,7 +836,7 @@ export default function GraduationPlanModal({
                         </div>
                         <div className="text-xs text-orange-700 space-y-1 font-medium mb-2">
                           {localPlan.filter(s => s.credits > 50).map(semester => {
-                            const overloadCredits = semester.credits - 50;
+                            const overloadCredits = semester.credits - 60;
                             return (
                               <div key={semester.semester}>
                                 <span className="inline-block font-bold text-orange-900">{semester.semester}</span>: {semester.credits} créditos UC (sobrecarga de {overloadCredits} créditos UC)
