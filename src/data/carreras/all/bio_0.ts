@@ -499,16 +499,16 @@ export const bio_0: Carrera = {
         "ucCredits": 10,
         "type": "TL",
         "prerequisites": [],
-        "semester": "s7"
+        "semester": "s8"
     },
     {
         "name": "Optativos de Profundización de Licenciatura",
-        "code": "OPR5",
+        "code": "OPR6",
         "sctCredits": 6,
         "ucCredits": 10,
         "type": "TL",
         "prerequisites": [],
-        "semester": "s7"
+        "semester": "s8"
     },
     {
         "name": "Examen de Grado",

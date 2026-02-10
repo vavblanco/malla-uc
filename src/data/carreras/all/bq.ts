@@ -123,6 +123,7 @@ export const bq: Carrera = {
         "sctCredits": 6,
         "type": "FB",
         "prerequisites": [],
+        "corequisites": ["FIS0109"],
         "semester": "s2"
     },
     {
@@ -131,6 +132,7 @@ export const bq: Carrera = {
         "sctCredits": 0,
         "type": "FB",
         "prerequisites": [],
+        "corequisites": ["FIS109C"],
         "semester": "s2"
     },
     {
