@@ -321,7 +321,8 @@ export const bio_0: Carrera = {
     {
         "name": "Laboratorio de Bioquímica: Biología Celular",
         "code": "BIO297C",
-        "sctCredits": 3,
+        "sctCredits": 6,
+        "ucCredits": 10,
         "type": "CM",
         "prerequisites": [
             "QIM200",
@@ -408,116 +409,151 @@ export const bio_0: Carrera = {
         "semester": "s6"
     },
     {
-        "name": "Química-Física II",
-        "code": "QIM115",
+        "name": "Optativos de Profundización de Licenciatura",
+        "code": "OPR1",
         "sctCredits": 6,
+        "ucCredits": 10,
         "type": "TL",
-        "prerequisites": [
-            "QIM114B"
-        ],
+        "prerequisites": [],
         "semester": "s7"
     },
     {
-        "name": "Introducción al Laboratorio Clínico",
-        "code": "MEB176B",
+        "name": "Optativos de Profundización de Licenciatura",
+        "code": "OPR2",
         "sctCredits": 6,
+        "ucCredits": 10,
         "type": "TL",
-        "prerequisites": [
-            "BIO266D",
-            "BIO266E"
-        ],
+        "prerequisites": [],
+        "semester": "s7"
+    },
+    {
+        "name": "Optativos de Profundización de Licenciatura",
+        "code": "OPR3",
+        "sctCredits": 6,
+        "ucCredits": 10,
+        "type": "TL",
+        "prerequisites": [],
+        "semester": "s7"
+    },
+    {
+        "name": "Optativos de Profundización de Licenciatura",
+        "code": "OPR4",
+        "sctCredits": 6,
+        "ucCredits": 10,
+        "type": "TL",
+        "prerequisites": [],
         "semester": "s7"
     },
     {
         "name": "Seminario de Investigacion Departamental",
         "code": "BIO295A",
         "sctCredits": 9,
+        "ucCredits": 15,
         "type": "TL",
-        "prerequisites": [],
+        "prerequisites": [
+            "BIO299L"
+        ],
         "semester": "s7"
     },
     {
-        "name": "Optativo de Profundización",
-        "code": "OPR1",
-        "sctCredits": 3,
-        "type": "TL",
-        "prerequisites": [],
-        "semester": "s7"
-    },
-    {
-        "name": "Optativo de Profundización",
-        "code": "OPR2",
-        "sctCredits": 6,
-        "type": "TL",
-        "prerequisites": [],
-        "semester": "s7"
-    },
-    {
-        "name": "Seminario de Investigación",
-        "code": "BIO296F",
+        "name": "Seminario de Investigación (Opción Investigación)",
+        "code": "BIO296C",
         "sctCredits": 18,
+        "ucCredits": 30,
         "type": "TL",
         "prerequisites": [
             "BIO295A",
-            "BIO266D",
-            "BIO266E",
+            "BIO297C",
+            "BIO298E",
             "BIO299L"
         ],
+        "electiveGroup": "8-ABC",
         "semester": "s8"
     },
     {
-        "name": "Práctica Extramural",
-        "code": "BIO258F",
+        "name": "Práctica Extramural (Opción Profesión)",
+        "code": "BIO258E",
         "sctCredits": 18,
         "type": "TL",
         "prerequisites": [
-            "BIO266D",
-            "BIO266E",
+            "BIO297C",
+            "BIO298E",
             "BIO299L"
         ],
+        "electiveGroup": "8-ABC",
         "semester": "s8"
     },
     {
-        "name": "Optativo de Profundización",
-        "code": "OPR3",
-        "sctCredits": 6,
+        "name": "Optativos de Profundización de Licenciatura (Opción Cursos)",
+        "code": "OPRLI",
+        "sctCredits": 18,
         "type": "TL",
         "prerequisites": [],
+        "electiveGroup": "8-ABC",
         "semester": "s8"
     },
     {
-        "name": "Optativo de Profundización",
-        "code": "OPR4",
+        "name": "Optativos de Profundización de Licenciatura",
+        "code": "OPR5",
         "sctCredits": 6,
+        "ucCredits": 10,
         "type": "TL",
         "prerequisites": [],
-        "semester": "s8"
+        "semester": "s7"
+    },
+    {
+        "name": "Optativos de Profundización de Licenciatura",
+        "code": "OPR5",
+        "sctCredits": 6,
+        "ucCredits": 10,
+        "type": "TL",
+        "prerequisites": [],
+        "semester": "s7"
     },
     {
         "name": "Examen de Grado",
         "code": "EXAMEN GRADO",
-        "sctCredits": 6,
+        "sctCredits": 0,
         "type": "TL",
-        "prerequisites": [],
+        "prerequisites": [
+            "VRA2000",
+            "VRA100C",
+            "VRA4000"
+        ],
+        "creditRequirement": 410,
         "semester": "s8"
     },
     {
-        "name": "Técnicas Avanzadas en Bioquímica",
-        "code": "BIO3319",
+        "name": "Optativos de Profundización (Especialidad Bioprocesos)",
+        "code": "OPR BP",
         "sctCredits": 30,
+        "ucCredits": 50,
         "type": "FT",
         "prerequisites": [
           "EXAMEN GRADO"
         ],
+        "electiveGroup": "9-BR",
         "semester": "s9"
     },
     {
-        "name": "Memoria de Investigación",
-        "code": "BIO285D",
+        "name": "Optativos de Profundización (Especialidad Recursos Naturales)",
+        "code": "OPR RN",
+        "sctCredits": 30,
+        "ucCredits": 50,
+        "type": "FT",
+        "prerequisites": [
+          "EXAMEN GRADO"
+        ],
+        "electiveGroup": "9-BR",
+        "semester": "s9"
+    },
+    {
+        "name": "Experiencia Profesional Dirigida",
+        "code": "BIO2300",
         "sctCredits": 30,
         "type": "FT",
         "prerequisites": [
-          "BIO3319"
+          "EXAMEN GRADO"
         ],
         "semester": "s10"
     }

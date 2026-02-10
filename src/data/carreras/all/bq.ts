@@ -437,7 +437,7 @@ export const bq: Carrera = {
     {
         "name": "Optativo de Profundización",
         "code": "OPR1",
-        "sctCredits": 3,
+        "sctCredits": 6,
         "type": "TL",
         "prerequisites": [],
         "semester": "s7"
@@ -461,7 +461,7 @@ export const bq: Carrera = {
             "BIO266E",
             "BIO299L"
         ],
-        "electiveGroup": "8-AB",
+        "electiveGroup": "8-ABC",
         "semester": "s8"
     },
     {
@@ -474,7 +474,7 @@ export const bq: Carrera = {
             "BIO266E",
             "BIO299L"
         ],
-        "electiveGroup": "8-AB",
+        "electiveGroup": "8-ABC",
         "semester": "s8"
     },
     {
@@ -483,7 +483,7 @@ export const bq: Carrera = {
         "sctCredits": 18,
         "type": "TL",
         "prerequisites": [],
-        "electiveGroup": "8-AB",
+        "electiveGroup": "8-ABC",
         "semester": "s8"
     },
     {
