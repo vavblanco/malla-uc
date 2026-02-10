@@ -137,11 +137,13 @@ export const useCalculator = (subjects: Subject[], careerCode: string = '') => {
     }, 0);
 
     const pendingCredits = totalCredits - approvedCredits;
+    const percentage = totalCredits > 0 ? (approvedCredits / totalCredits) * 100 : 0;
 
     return {
       totalCredits,
       approvedCredits,
-      pendingCredits
+      pendingCredits,
+      percentage
     };
   }, [subjects, subjectStates]);
 
@@ -164,11 +166,13 @@ export const useCalculator = (subjects: Subject[], careerCode: string = '') => {
       subject => subjectStates[subject.code]?.status === 'approved'
     ).length;
     const pendingSubjects = totalSubjects - approvedSubjects;
+    const percentage = totalSubjects > 0 ? (approvedSubjects / totalSubjects) * 100 : 0;
 
     return {
       totalSubjects,
       approvedSubjects,
-      pendingSubjects
+      pendingSubjects,
+      percentage
     };
   }, [subjects, subjectStates]);
 
