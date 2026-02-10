@@ -1,5 +1,6 @@
 import SemesterCard from './SemesterCard';
 import { Subject, SubjectColors, SubjectState } from '@/types/curriculum';
+import { useRef, useState } from 'react';
 
 interface SemesterGridProps {
   subjects: Subject[];
@@ -24,6 +25,11 @@ export default function SemesterGrid({
   subjectRefs,
   approvedCredits = 0
 }: SemesterGridProps) {
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
+
   const getSemesterSubjects = (semester: string) => {
     return subjects.filter(subject => subject.semester === semester);
   };
@@ -43,6 +49,37 @@ export default function SemesterGrid({
 
   const maxSemesters = getMaxSemesters();
 
+  // Handlers para drag-to-scroll
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!scrollContainerRef.current) return;
+    setIsDragging(true);
+    setStartX(e.pageX - scrollContainerRef.current.offsetLeft);
+    setScrollLeft(scrollContainerRef.current.scrollLeft);
+    scrollContainerRef.current.style.cursor = 'grabbing';
+  };
+
+  const handleMouseLeave = () => {
+    setIsDragging(false);
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.style.cursor = 'grab';
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.style.cursor = 'grab';
+    }
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging || !scrollContainerRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - scrollContainerRef.current.offsetLeft;
+    const walk = (x - startX) * 2; // Multiplicar por 2 para más velocidad
+    scrollContainerRef.current.scrollLeft = scrollLeft - walk;
+  };
+
   return (
     <div className="w-full">
       {/* Indicador de scroll solo en desktop para carreras largas */}
@@ -50,7 +87,7 @@ export default function SemesterGrid({
         <div className={`text-xs text-center mb-2 ${
           darkMode ? 'text-gray-400' : 'text-gray-600'
         } hidden md:block`}>
-          ← Desliza para ver todos los semestres →
+          ← Arrastra para ver todos los semestres →
         </div>
       )}
       
@@ -78,47 +115,39 @@ export default function SemesterGrid({
         })}
       </div>
 
-      {/* Desktop: Flex horizontal con scroll visible y centrado */}
+      {/* Desktop: Flex horizontal con drag-to-scroll */}
       <div className="hidden md:block md:w-full">
         <div 
-          className="overflow-x-auto pb-4 scroll-smooth"
+          ref={scrollContainerRef}
+          className="overflow-x-auto pb-4 select-none"
           style={{
-            scrollbarWidth: 'thin',
-            scrollbarColor: darkMode ? '#4b5563 #1f2937' : '#9ca3af #e5e7eb'
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none',
+            cursor: 'grab'
           }}
+          onMouseDown={handleMouseDown}
+          onMouseLeave={handleMouseLeave}
+          onMouseUp={handleMouseUp}
+          onMouseMove={handleMouseMove}
         >
           <style jsx>{`
             div::-webkit-scrollbar {
-              height: 8px;
-            }
-            div::-webkit-scrollbar-track {
-              background: ${darkMode ? '#1f2937' : '#e5e7eb'};
-              border-radius: 4px;
-            }
-            div::-webkit-scrollbar-thumb {
-              background: ${darkMode ? '#4b5563' : '#9ca3af'};
-              border-radius: 4px;
-            }
-            div::-webkit-scrollbar-thumb:hover {
-              background: ${darkMode ? '#6b7280' : '#6b7280'};
+              display: none;
             }
           `}</style>
-          
-          {/* Contenedor centrado */}
-          <div className="flex justify-center min-w-full">
-            <div 
-              className="flex flex-row gap-2"
-              style={{ 
-                width: maxSemesters <= 4 ? 'auto' : `${maxSemesters * 168}px`,
-                maxWidth: '100%'
-              }}
-            >
-              {Array.from({ length: maxSemesters }, (_, i) => `s${i + 1}`).map((semester) => {
-                const semesterSubjects = getSemesterSubjects(semester);
-                
-                return (
+          <div 
+            className="flex flex-row gap-2 px-2 pointer-events-none"
+            style={{ 
+              minWidth: `${maxSemesters * 168}px`,
+              width: 'max-content'
+            }}
+          >
+            {Array.from({ length: maxSemesters }, (_, i) => `s${i + 1}`).map((semester) => {
+              const semesterSubjects = getSemesterSubjects(semester);
+              
+              return (
+                <div key={semester} className="pointer-events-auto">
                   <SemesterCard
-                    key={semester}
                     semester={semester}
                     subjects={semesterSubjects}
                     subjectStates={subjectStates}
@@ -131,9 +160,9 @@ export default function SemesterGrid({
                     approvedCredits={approvedCredits}
                     allSubjects={subjects}
                   />
-                );
-              })}
-            </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
