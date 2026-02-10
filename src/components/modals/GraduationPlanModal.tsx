@@ -578,7 +578,7 @@ export default function GraduationPlanModal({
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {localPlan.slice(0, visibleSemesters).map((semesterPlan, index) => {
-                  const isOverloaded = semesterPlan.credits > 50;
+                  const isOverloaded = semesterPlan.credits > 60;
                   const wouldExceedWithDrag = draggedSubject && 
                     dragOverSemester === semesterPlan.semester &&
                     (semesterPlan.credits + getUcCredits(draggedSubject.subject) > UC_CREDITS_MAX);
