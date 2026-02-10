@@ -654,7 +654,7 @@ export default function GraduationPlanModal({
                         <div className="mb-3 p-2 bg-orange-100 border border-orange-300 rounded-lg">
                           <div className="flex items-center gap-2 text-orange-700">
                             <FontAwesomeIcon icon={faExclamationTriangle} className="text-sm" />
-                            <span className="text-sm font-medium">Sobrecargado por {semesterPlan.credits - 50} créditos UC</span>
+                            <span className="text-sm font-medium">Sobrecargado por {semesterPlan.credits - 60} créditos UC</span>
                           </div>
                         </div>
                       )}
