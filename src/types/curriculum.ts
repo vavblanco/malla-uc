@@ -3,29 +3,31 @@
 // ==========================================
 
 export interface Subject {
-	name: string;
-	code: string;
-	sctCredits: number;
-	ucCredits?: number;
-	type: string;
-	prerequisites: string[];
-	corequisites?: string[];
-	creditRequirement?: number;
-	electiveGroup?: string; 
-	semester?: string;
+  name: string;
+  code: string;
+  sctCredits: number;
+  ucCredits?: number;
+  type: string;
+  prerequisites: string[];
+  corequisites?: string[];
+  creditRequirement?: number;
+  semester?: string;
+  electiveGroup?: string;
+  // NUEVO: Para tracks de especialización (múltiples ramos mutuamente excluyentes)
+  electiveTrack?: string;    // ID del track (ej: "track-especialidad")
+  trackOption?: string;       // Letra de la opción (ej: "A", "B", "C")
+  trackName?: string;         // Nombre descriptivo (ej: "Certificado de Especialidad")
 }
 
-export type SubjectState = {
-	status: 'approved' | 'pending';
-};
+export interface SubjectState {
+  status: 'pending' | 'approved';
+}
 
-export type CalculatorState = {
-	[subjectCode: string]: SubjectState;
-};
+export type CalculatorState = Record<string, SubjectState>;
 
-export type SubjectColors = {
-	[category: string]: string[];
-};
+export interface SubjectColors {
+  [key: string]: string[];
+}
 
 // ==========================================
 // Category (Categoría) Types

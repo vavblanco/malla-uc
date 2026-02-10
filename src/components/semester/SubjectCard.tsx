@@ -19,7 +19,7 @@ interface SubjectCardProps {
   colors: SubjectColors;
   darkMode?: boolean;
   approvedCredits?: number;
-  allSubjects?: Subject[]; // NUEVO: Para verificar grupos electivos
+  allSubjects?: Subject[];
 }
 
 export default function SubjectCard({ 
@@ -34,14 +34,13 @@ export default function SubjectCard({
   colors,
   darkMode = false,
   approvedCredits = 0,
-  allSubjects = [] // NUEVO
+  allSubjects = []
 }: SubjectCardProps) {
 
-  // NUEVO: Verificar si otro ramo del mismo grupo electivo está aprobado
+  // Verificar si otro ramo del mismo grupo electivo está aprobado
   const getElectiveGroupConflict = () => {
     if (!subject.electiveGroup) return null;
     
-    // Buscar otros ramos del mismo grupo electivo que estén aprobados
     const conflictingSubject = allSubjects.find(s => 
       s.electiveGroup === subject.electiveGroup && 
       s.code !== subject.code && 
@@ -51,9 +50,29 @@ export default function SubjectCard({
     return conflictingSubject || null;
   };
 
+  // NUEVO: Verificar si otro ramo de un track diferente está aprobado
+  const getElectiveTrackConflict = () => {
+    if (!subject.electiveTrack) return null;
+    
+    // Buscar ramos de OTRAS opciones del mismo track que estén aprobados
+    const conflictingSubject = allSubjects.find(s => 
+      s.electiveTrack === subject.electiveTrack && 
+      s.trackOption !== subject.trackOption &&
+      subjectStates[s.code]?.status === 'approved'
+    );
+    
+    return conflictingSubject || null;
+  };
+
   const electiveConflict = getElectiveGroupConflict();
+  const electiveTrackConflict = getElectiveTrackConflict();
 
   const canTakeSubject = () => {
+    // Si hay un conflicto de track (aprobaste una opción diferente) y este ramo no está aprobado, está bloqueado
+    if (electiveTrackConflict && state?.status !== 'approved') {
+      return false;
+    }
+
     // Si hay un conflicto de grupo electivo y este ramo no está aprobado, está bloqueado
     if (electiveConflict && state?.status !== 'approved') {
       return false;
@@ -85,8 +104,6 @@ export default function SubjectCard({
     
     return subject.corequisites.filter((coreqCode: string) => {
       const coreqState = subjectStates[coreqCode];
-      // Un correquisito no está cumplido si el ramo actual está aprobado/pendiente 
-      // pero el correquisito no está también aprobado/pendiente
       return state?.status === 'approved' && coreqState?.status !== 'approved';
     });
   };
@@ -105,7 +122,27 @@ export default function SubjectCard({
 
   const electiveGroupMembers = getElectiveGroupMembers();
 
-  // Devuelve clases de texto y borde con el color de la categoría como texto
+  // NUEVO: Obtener todos los ramos del mismo track organizados por opción
+  const getElectiveTrackMembers = () => {
+    if (!subject.electiveTrack) return {};
+    
+    const trackMembers: Record<string, Subject[]> = {};
+    
+    allSubjects
+      .filter(s => s.electiveTrack === subject.electiveTrack)
+      .forEach(s => {
+        const option = s.trackOption || 'unknown';
+        if (!trackMembers[option]) {
+          trackMembers[option] = [];
+        }
+        trackMembers[option].push(s);
+      });
+    
+    return trackMembers;
+  };
+
+  const electiveTrackMembers = getElectiveTrackMembers();
+
   const getStatusColor = () => {
     if (isBlocked) {
       return 'border-gray-300 cursor-not-allowed';
@@ -118,27 +155,20 @@ export default function SubjectCard({
     }
   };
 
-  // El color del texto principal (ahora blanco para contrastar con el fondo de color)
   const getTextColor = () => {
-    if (isBlocked) return '#9ca3af'; // gray-400
-    if (state?.status === 'approved') return '#fff'; // blanco para green-50
-    // blanco para contrastar con el color de fondo
+    if (isBlocked) return '#9ca3af';
+    if (state?.status === 'approved') return '#fff';
     return '#fff';
   };
 
-  // El fondo ahora usa el color de la categoría
   const getBackgroundColor = () => {
-    if (isBlocked) return darkMode ? '#4b5563' : '#6b7280'; // gray-600 (dark) / gray-500 (light)
-    if (state?.status === 'approved') return '#10b981'; // green-500 (same for both modes)
-    // color de la categoría del JSON
-    return color || (darkMode ? '#374151' : '#fff'); // gray-700 (dark) / white (light)
+    if (isBlocked) return darkMode ? '#4b5563' : '#6b7280';
+    if (state?.status === 'approved') return '#10b981';
+    return color || (darkMode ? '#374151' : '#fff');
   };
 
   const handleClick = () => {
-    // No permitir cambios si está bloqueada (excepto si ya está aprobada)
     if (isBlocked) return;
-    
-    // Alternar entre pendiente y aprobado con un simple click
     const newStatus = state?.status === 'approved' ? 'pending' : 'approved';
     onStateChange({ status: newStatus });
   };
@@ -153,7 +183,6 @@ export default function SubjectCard({
         </span>
       );
     }
-    // Color de la categoría del prerrequisito
     const prereqColor = colors[prereqSubject.type]?.[0] || '#6b7280';
     
     const prereqTooltip = (
@@ -239,6 +268,46 @@ export default function SubjectCard({
       <div className="font-bold">{subject.name}</div>
       <div className="text-xs opacity-70">{subject.code} • {getUcCredits(subject)} créditos UC</div>
       
+      {/* NUEVO: Mostrar información del track */}
+      {subject.electiveTrack && Object.keys(electiveTrackMembers).length > 0 && (
+        <div className="text-xs opacity-70 pt-1 border-t border-gray-300 dark:border-gray-600">
+          <div className="font-bold mb-1 flex items-center gap-1">
+            📚 {subject.trackName || 'Especialización'}
+          </div>
+          {Object.entries(electiveTrackMembers)
+            .sort(([a], [b]) => a.localeCompare(b))
+            .map(([option, members]) => {
+              const isCurrentOption = option === subject.trackOption;
+              const hasApproved = members.some(m => subjectStates[m.code]?.status === 'approved');
+              
+              return (
+                <div 
+                  key={option} 
+                  className={`ml-2 mb-2 ${isCurrentOption ? 'font-bold' : 'opacity-60'}`}
+                >
+                  <div className="flex items-center gap-1 mb-1">
+                    <span className="font-bold">Opción {option}:</span>
+                    {hasApproved && <span className="text-green-500">✓</span>}
+                  </div>
+                  <div className="ml-4 text-[10px] space-y-0.5">
+                    {members.map(m => (
+                      <div key={m.code} className={subjectStates[m.code]?.status === 'approved' ? 'text-green-500 font-bold' : ''}>
+                        • {m.name} ({m.code})
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+        </div>
+      )}
+
+      {electiveTrackConflict && (
+        <div className="text-xs text-red-500 dark:text-red-400 pt-1 border-t border-gray-300 dark:border-gray-600">
+          📚 Bloqueado: Ya elegiste la opción {electiveTrackConflict.trackOption} de este track
+        </div>
+      )}
+      
       {subject.electiveGroup && electiveGroupMembers.length > 0 && (
         <div className="text-xs opacity-70 pt-1 border-t border-gray-300 dark:border-gray-600">
           <FontAwesomeIcon icon={faCodeBranch} className="mr-1" />
@@ -279,7 +348,7 @@ export default function SubjectCard({
       {subject.creditRequirement && (
         <div className="text-xs opacity-70 pt-1 border-t border-gray-300 dark:border-gray-600">
           <FontAwesomeIcon icon={faTrophy} className="mr-1" />
-          Requiere {subject.creditRequirement} créditos aprobados
+          Requiere {subject.creditRequirement} créditos UC aprobados
           {approvedCredits >= subject.creditRequirement ? (
             <span className="text-green-500 ml-1">✓</span>
           ) : (
@@ -322,13 +391,12 @@ export default function SubjectCard({
               ? hasCorequisiteWarning
                 ? 'shadow-lg shadow-orange-500/30 ring-2 ring-orange-400/50'
                 : 'shadow-lg shadow-green-500/30 ring-2 ring-green-400/50'
-              : subject.electiveGroup
+              : subject.electiveGroup || subject.electiveTrack
                 ? 'shadow-md hover:shadow-lg ring-1 ring-purple-400/30'
                 : 'shadow-md hover:shadow-lg'
           }`}
           onClick={handleClick}
         >
-        {/* Efecto de brillo para asignaturas aprobadas */}
         {state?.status === 'approved' && (
           <motion.div
             initial={{ opacity: 0 }}
@@ -338,7 +406,6 @@ export default function SubjectCard({
           />
         )}
         
-        {/* Ícono de check para asignaturas aprobadas */}
         <AnimatePresence>
           {state?.status === 'approved' && !hasCorequisiteWarning && (
             <motion.div
@@ -359,6 +426,11 @@ export default function SubjectCard({
         
         {/* Código como carátula en esquina superior izquierda */}
         <div className={`absolute top-0 left-0 ${darkMode ? 'bg-gray-800/90' : 'bg-white/85'} rounded-br-lg px-2 py-0.5 flex items-center gap-1`}>
+          {subject.electiveTrack && (
+            <span className="text-[0.6rem] font-bold" style={{ color: getBackgroundColor() }}>
+              {subject.trackOption}
+            </span>
+          )}
           {subject.electiveGroup && (
             <FontAwesomeIcon icon={faCodeBranch} className="text-[0.6rem] text-purple-500" />
           )}
@@ -367,14 +439,12 @@ export default function SubjectCard({
           </span>
         </div>
         
-        {/* Créditos como carátula en esquina superior derecha */}
         <div className={`absolute top-0 right-0 ${darkMode ? 'bg-gray-800/90' : 'bg-white/85'} rounded-bl-lg px-2 py-0.5`}>
           <span className="credits text-xs" style={{ color: getBackgroundColor() }}>
             {getUcCredits(subject)}
           </span>
         </div>
         
-        {/* Icono de bloqueo como carátula en esquina inferior derecha */}
         <AnimatePresence>
           {isBlocked && (
             <motion.div
@@ -389,7 +459,6 @@ export default function SubjectCard({
           )}
         </AnimatePresence>
         
-        {/* Advertencia de correquisitos faltantes */}
         <AnimatePresence>
           {hasCorequisiteWarning && (
             <motion.div
@@ -404,13 +473,11 @@ export default function SubjectCard({
           )}
         </AnimatePresence>
         
-        {/* Contenido principal */}
         <div className="flex-1 px-2 md:px-3 pt-8 md:pt-10 pb-1 md:pb-2">
           <h3 className="subject-name text-xs leading-tight text-white mb-1 flex items-center gap-1">
             {subject.name}
           </h3>
           
-          {/* Requisito de créditos */}
           {subject.creditRequirement && (
             <div className="mb-1">
               <div className={`inline-flex items-center gap-1 text-xs px-1.5 py-0.5 rounded-lg ${
@@ -424,10 +491,8 @@ export default function SubjectCard({
             </div>
           )}
           
-          {/* Prerrequisitos y Correquisitos */}
           {(subject.prerequisites.length > 0 || (subject.corequisites && subject.corequisites.length > 0)) && (
             <div className="mt-auto space-y-1">
-              {/* Prerrequisitos */}
               {subject.prerequisites.length > 0 && (
                 <div className="flex flex-wrap gap-1">
                   {subject.prerequisites.map((prereq: string) => (
@@ -436,7 +501,6 @@ export default function SubjectCard({
                 </div>
               )}
               
-              {/* Correquisitos */}
               {subject.corequisites && subject.corequisites.length > 0 && (
                 <div className="flex flex-wrap gap-1">
                   {subject.corequisites.map((coreq: string) => (

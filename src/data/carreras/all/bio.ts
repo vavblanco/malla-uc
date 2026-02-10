@@ -402,17 +402,6 @@ export const bio: Carrera = {
         "semester": "s6"
     },
     {
-        "name": "Fisiología de Sistemas",
-        "code": "BIO390C",
-        "sctCredits": 6,
-        "ucCredits": 10,
-        "type": "CM",
-        "prerequisites": [
-            "BIO324C"
-        ],
-        "semester": "s6"
-    },
-    {
         "name": "Ecoinformática",
         "code": "BIO408C",
         "sctCredits": 6,
@@ -436,6 +425,17 @@ export const bio: Carrera = {
             "BIO244C"
         ],
         "electiveGroup": "6-EB",
+        "semester": "s6"
+    },
+    {
+        "name": "Fisiología de Sistemas",
+        "code": "BIO390C",
+        "sctCredits": 6,
+        "ucCredits": 10,
+        "type": "CM",
+        "prerequisites": [
+            "BIO324C"
+        ],
         "semester": "s6"
     },
     {

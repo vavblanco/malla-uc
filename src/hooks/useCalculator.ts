@@ -1,165 +1,146 @@
-import { useState, useEffect } from 'react';
-import type { Subject, SubjectState, CalculatorState } from '@/types/curriculum';
-import { logger } from '@/utils/logger';
+import { useState, useCallback } from 'react';
+import { Subject, SubjectState, CalculatorState } from '@/types/curriculum';
 import { getUcCredits } from '@/hooks/credits';
 
-
-const STORAGE_KEY_PREFIX = 'curriculum-progress';
-
-export function useCalculator(subjects?: Subject[], careerKey?: string) {
+export const useCalculator = (subjects: Subject[]) => {
   const [subjectStates, setSubjectStates] = useState<CalculatorState>({});
-  const [isLoaded, setIsLoaded] = useState(false);
 
-  // Generar clave única para cada carrera
-  const getStorageKey = (career: string) => `${STORAGE_KEY_PREFIX}-${career}`;
+  const handleStateChange = useCallback((code: string, state: SubjectState) => {
+    setSubjectStates(prev => ({
+      ...prev,
+      [code]: state
+    }));
+  }, []);
 
-  // Cargar el progreso guardado al inicializar o cambiar de carrera
-  useEffect(() => {
-    if (!careerKey) {
-      setIsLoaded(true);
-      return;
-    }
-
-    try {
-      const storageKey = getStorageKey(careerKey);
-      const savedProgress = localStorage.getItem(storageKey);
-      if (savedProgress) {
-        const parsedProgress = JSON.parse(savedProgress) as CalculatorState;
-        setSubjectStates(parsedProgress);
-      } else {
-        // Si no hay progreso guardado para esta carrera, inicializar vacío
-        setSubjectStates({});
-      }
-    } catch (error) {
-      logger.error('Error loading saved progress:', error);
-      setSubjectStates({});
-    } finally {
-      setIsLoaded(true);
-    }
-  }, [careerKey]);
-
-  // Guardar el progreso cada vez que cambie el estado
-  useEffect(() => {
-    if (isLoaded && careerKey && Object.keys(subjectStates).length >= 0) {
-      try {
-        const storageKey = getStorageKey(careerKey);
-        localStorage.setItem(storageKey, JSON.stringify(subjectStates));
-      } catch (error) {
-        logger.error('Error saving progress:', error);
-      }
-    }
-  }, [subjectStates, isLoaded, careerKey]);
-
-  const updateSubjectState = (code: string, state: SubjectState) => {
-    setSubjectStates((prev) => ({ ...prev, [code]: state }));
-  };
-
-  const resetCalculator = () => {
-    setSubjectStates({});
-    if (careerKey) {
-      try {
-        const storageKey = getStorageKey(careerKey);
-        localStorage.removeItem(storageKey);
-      } catch (error) {
-        logger.error('Error clearing saved progress:', error);
-      }
-    }
-  };
-
-  // NUEVO: Obtener ramos que deben contarse (excluyendo electivos no seleccionados)
-  const getCountableSubjects = () => {
-    if (!subjects || subjects.length === 0) return [];
-
+  // ACTUALIZADO: Filtrar ramos contables considerando tracks y grupos electivos
+  const getCountableSubjects = (subjects: Subject[]): Subject[] => {
     const electiveGroups = new Map<string, Subject[]>();
-    const nonElectiveSubjects: Subject[] = [];
+    const electiveTracks = new Map<string, Map<string, Subject[]>>();
+    const regularSubjects: Subject[] = [];
 
-    // Separar ramos en grupos electivos y no electivos
     subjects.forEach(subject => {
-      if (subject.electiveGroup) {
+      // Agrupar por tracks primero (prioridad)
+      if (subject.electiveTrack) {
+        if (!electiveTracks.has(subject.electiveTrack)) {
+          electiveTracks.set(subject.electiveTrack, new Map());
+        }
+        const track = electiveTracks.get(subject.electiveTrack)!;
+        const option = subject.trackOption || 'unknown';
+        if (!track.has(option)) {
+          track.set(option, []);
+        }
+        track.get(option)!.push(subject);
+      }
+      // Luego por grupos electivos
+      else if (subject.electiveGroup) {
         const group = electiveGroups.get(subject.electiveGroup) || [];
         group.push(subject);
         electiveGroups.set(subject.electiveGroup, group);
-      } else {
-        nonElectiveSubjects.push(subject);
+      } 
+      // Ramos regulares
+      else {
+        regularSubjects.push(subject);
       }
     });
 
-    // Para cada grupo electivo, incluir solo el ramo aprobado (si hay alguno)
-    // o el primero del grupo si ninguno está aprobado
-    const electiveSubjects: Subject[] = [];
-    electiveGroups.forEach((group, groupId) => {
-      const approvedInGroup = group.find(s => subjectStates[s.code]?.status === 'approved');
-      if (approvedInGroup) {
-        // Si hay uno aprobado, solo contar ese
-        electiveSubjects.push(approvedInGroup);
+    const countableSubjects: Subject[] = [...regularSubjects];
+
+    // Para cada track, contar solo los ramos de la opción seleccionada
+    electiveTracks.forEach((track, trackId) => {
+      let selectedOption: string | null = null;
+      
+      // Encontrar qué opción tiene ramos aprobados
+      for (const [option, members] of track.entries()) {
+        if (members.some(s => subjectStates[s.code]?.status === 'approved')) {
+          selectedOption = option;
+          break;
+        }
+      }
+      
+      if (selectedOption) {
+        // Contar todos los ramos aprobados de esa opción
+        const approvedMembers = track.get(selectedOption)!
+          .filter(s => subjectStates[s.code]?.status === 'approved');
+        countableSubjects.push(...approvedMembers);
       } else {
-        // Si ninguno está aprobado, contar el primero (para créditos totales)
-        electiveSubjects.push(group[0]);
+        // Si no hay ninguno aprobado, contar el primero de la primera opción (para cálculo total)
+        const firstOption = Array.from(track.keys()).sort()[0];
+        const firstMember = track.get(firstOption)?.[0];
+        if (firstMember) {
+          countableSubjects.push(firstMember);
+        }
       }
     });
 
-    return [...nonElectiveSubjects, ...electiveSubjects];
+    // Para cada grupo electivo, contar solo uno
+    electiveGroups.forEach((group) => {
+      const approved = group.find(s => subjectStates[s.code]?.status === 'approved');
+      if (approved) {
+        countableSubjects.push(approved);
+      } else {
+        countableSubjects.push(group[0]);
+      }
+    });
+
+    return countableSubjects;
   };
 
-  // Calcular créditos aprobados totales
-  const getApprovedCredits = () => {
-    if (!subjects || subjects.length === 0) return 0;
+  const calculateCredits = useCallback(() => {
+    // Filtrar solo ramos contables (excluir duplicados de grupos electivos y tracks)
+    const countableSubjects = getCountableSubjects(subjects);
     
-    return subjects.reduce((total, subject) => {
-      const state = subjectStates[subject.code];
-      if (state?.status === 'approved') {
-        return total + getUcCredits(subject);
-      }
-      return total;
+    const totalCredits = countableSubjects.reduce((sum, subject) => {
+      return sum + getUcCredits(subject);
     }, 0);
-  };
 
-
-  const calculateCredits = () => {
-    if (!subjects || subjects.length === 0) {
-      return {
-        approvedCredits: 0,
-        totalCredits: 0,
-        approvedSubjects: 0,
-        totalSubjects: 0,
-        percentage: 0,
-      };
-    }
-
-    // Usar ramos contables (excluyendo duplicados de grupos electivos)
-    const countableSubjects = getCountableSubjects();
-
-    let approvedCredits = 0;
-    let totalCredits = 0;
-    let approvedSubjects = 0;
-    let totalSubjects = countableSubjects.length;
-
-    countableSubjects.forEach((subject) => {
-      totalCredits += getUcCredits(subject);
-      const state = subjectStates[subject.code];
-      if (state?.status === 'approved') {
-        approvedSubjects += 1;
-        approvedCredits += getUcCredits(subject);
+    const approvedCredits = countableSubjects.reduce((sum, subject) => {
+      if (subjectStates[subject.code]?.status === 'approved') {
+        return sum + getUcCredits(subject);
       }
-    });
+      return sum;
+    }, 0);
 
-    const percentage = totalCredits > 0 ? (approvedCredits / totalCredits) * 100 : 0;
-    
+    const pendingCredits = totalCredits - approvedCredits;
+
     return {
-      approvedCredits,
       totalCredits,
-      approvedSubjects,
-      totalSubjects,
-      percentage,
+      approvedCredits,
+      pendingCredits
     };
-  };
+  }, [subjects, subjectStates]);
+
+  const getApprovedCredits = useCallback(() => {
+    // Contar solo ramos individualmente aprobados
+    return subjects.reduce((sum, subject) => {
+      if (subjectStates[subject.code]?.status === 'approved') {
+        return sum + getUcCredits(subject);
+      }
+      return sum;
+    }, 0);
+  }, [subjects, subjectStates]);
+
+  const calculateSubjects = useCallback(() => {
+    // Filtrar solo ramos contables
+    const countableSubjects = getCountableSubjects(subjects);
+    
+    const totalSubjects = countableSubjects.length;
+    const approvedSubjects = countableSubjects.filter(
+      subject => subjectStates[subject.code]?.status === 'approved'
+    ).length;
+    const pendingSubjects = totalSubjects - approvedSubjects;
+
+    return {
+      totalSubjects,
+      approvedSubjects,
+      pendingSubjects
+    };
+  }, [subjects, subjectStates]);
 
   return {
     subjectStates,
-    updateSubjectState,
-    resetCalculator,
+    handleStateChange,
     calculateCredits,
-    getApprovedCredits,
-    isLoaded,
+    calculateSubjects,
+    getApprovedCredits
   };
-}
+};
