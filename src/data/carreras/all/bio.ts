@@ -413,6 +413,32 @@ export const bio: Carrera = {
         "semester": "s6"
     },
     {
+        "name": "Ecoinformática",
+        "code": "BIO408C",
+        "sctCredits": 6,
+        "ucCredits": 10,
+        "type": "CM",
+        "prerequisites": [
+            "BIO230C",
+            "BIO210C"
+        ],
+        "electiveGroup": "6-EB",
+        "semester": "s6"
+    },
+    {
+        "name": "Bioinformática Molecular",
+        "code": "BIO360B",
+        "sctCredits": 6,
+        "ucCredits": 10,
+        "type": "CM",
+        "prerequisites": [
+            "BIO230C",
+            "BIO244C"
+        ],
+        "electiveGroup": "6-EB",
+        "semester": "s6"
+    },
+    {
         "name": "Formación General",
         "code": "OFG4",
         "sctCredits": 3,
