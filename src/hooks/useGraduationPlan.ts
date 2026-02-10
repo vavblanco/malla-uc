@@ -2,11 +2,14 @@ import { useState, useCallback } from 'react';
 import { Subject, SubjectState } from '@/types/curriculum';
 import { getUcCredits, UC_CREDITS_MAX } from '@/hooks/credits';
 
-
 interface SemesterPlan {
   semester: string;
   subjects: Subject[];
-  credits: number; // Ahora serán créditos UC
+  credits: number;
+  electiveOptions?: { // NUEVO: Para grupos electivos
+    groupId: string;
+    options: Subject[][];
+  }[];
 }
 
 export const useGraduationPlan = (
@@ -22,7 +25,6 @@ export const useGraduationPlan = (
   };
 
   const getCurrentAcademicLevel = (completedSubjects: Set<string>): string => {
-    // Determinar el nivel académico actual basado en las materias completadas
     const semesterLevels = ['s1', 's2', 's3', 's4', 's5', 's6', 's7', 's8', 's9', 's10', 's11', 's12'];
 
     for (let i = semesterLevels.length - 1; i >= 0; i--) {
@@ -30,12 +32,10 @@ export const useGraduationPlan = (
       const completedInSemester = semesterSubjects.filter(s => completedSubjects.has(s.code));
       
       if (completedInSemester.length > 0) {
-        // Si tiene materias completadas en este semestre, su nivel mínimo es el siguiente
         return semesterLevels[Math.min(i + 1, semesterLevels.length - 1)];
       }
     }
     
-    // Si no tiene materias completadas, está en s1
     return 's1';
   };
 
@@ -48,28 +48,23 @@ export const useGraduationPlan = (
     const currentIndex = semesterLevels.indexOf(currentLevel);
     const subjectIndex = semesterLevels.indexOf(subjectSemester);
     
-    // Estudiantes de primer semestre solo pueden tomar materias de s1
     if (currentLevel === 's1') {
-      return subjectIndex === 0; // Solo s1
+      return subjectIndex === 0;
     }
     
-    // Estudiantes de segundo semestre pueden tomar s1 y s2
     if (currentLevel === 's2') {
-      return subjectIndex <= 1; // s1 o s2
+      return subjectIndex <= 1;
     }
     
-    // Estudiantes de tercer semestre en adelante pueden tomar cualquier materia
-    // siempre que cumplan los prerrequisitos (verificado en isSubjectAvailable)
     return true;
   };
 
   const calculateGraduationPlan = useCallback(() => {
-    // NUEVO: Función para filtrar electivos mutuamente excluyentes
-    const filterElectiveGroups = (pendingSubjects: Subject[]) => {
+    // Función para identificar grupos electivos en la lista de pendientes
+    const identifyElectiveGroups = (pendingSubjects: Subject[]) => {
       const electiveGroups = new Map<string, Subject[]>();
       const nonElectiveSubjects: Subject[] = [];
 
-      // Separar en grupos electivos y no electivos
       pendingSubjects.forEach(subject => {
         if (subject.electiveGroup) {
           const group = electiveGroups.get(subject.electiveGroup) || [];
@@ -80,42 +75,33 @@ export const useGraduationPlan = (
         }
       });
 
-      // Para cada grupo electivo, verificar si ya hay uno aprobado
-      const electiveSubjects: Subject[] = [];
-      electiveGroups.forEach((group, groupId) => {
-        // Buscar si YA HAY uno aprobado de este grupo
-        const approvedInGroup = subjects.find(s => 
-          s.electiveGroup === groupId && 
-          subjectStates[s.code]?.status === 'approved'
-        );
-        
-        if (approvedInGroup) {
-          // Si ya aprobaste uno del grupo, NO incluir ninguno más
-          return;
-        }
-        
-        // Si ninguno está aprobado, incluir TODOS del grupo como opciones
-        electiveSubjects.push(...group);
-      });
-
-      return [...nonElectiveSubjects, ...electiveSubjects];
+      return { electiveGroups, nonElectiveSubjects };
     };
 
-    // Obtener materias no aprobadas (pendientes)
+    // Obtener materias no aprobadas
     const allPendingSubjects = subjects.filter(subject => 
       !subjectStates[subject.code]?.status || 
       subjectStates[subject.code].status !== 'approved'
     );
 
-    // Filtrar electivos mutuamente excluyentes
-    const pendingSubjects = filterElectiveGroups(allPendingSubjects);
+    // Filtrar grupos donde ya aprobaste uno
+    const pendingSubjects = allPendingSubjects.filter(subject => {
+      if (!subject.electiveGroup) return true;
+      
+      // Verificar si ya aprobaste alguno del grupo
+      const approvedInGroup = subjects.find(s => 
+        s.electiveGroup === subject.electiveGroup && 
+        subjectStates[s.code]?.status === 'approved'
+      );
+      
+      return !approvedInGroup; // Solo incluir si NO hay ninguno aprobado del grupo
+    });
 
     if (pendingSubjects.length === 0) {
       setGraduationPlan([]);
       return;
     }
 
-    // Materias ya completadas
     const completedSubjects = new Set(
       subjects
         .filter(subject => subjectStates[subject.code]?.status === 'approved')
@@ -126,7 +112,6 @@ export const useGraduationPlan = (
     const remainingSubjects = [...pendingSubjects];
     let currentSemester = 1;
     const maxCreditsPerSemester = UC_CREDITS_MAX;
-
 
     const getSemesterName = (semesterNumber: number): string => {
       const currentDate = new Date();
@@ -150,7 +135,6 @@ export const useGraduationPlan = (
       return `${finalYear}-${finalSemester}`;
     };
 
-    // Obtener todos los semestres posibles en orden
     const semesterLevels = Array.from(new Set(subjects.map(s => s.semester))).filter(Boolean);
     semesterLevels.sort((a, b) => {
       const numA = parseInt((a || '').replace('s', ''));
@@ -158,10 +142,7 @@ export const useGraduationPlan = (
       return numA - numB;
     });
 
-    let semesterPointer = 0;
-
     while (remainingSubjects.length > 0 && currentSemester <= 20) {
-      // Determinar el nivel académico real del alumno según ramos aprobados
       let maxApprovedSemester = 0;
       for (const s of subjects) {
         if (completedSubjects.has(s.code) && s.semester && s.semester.startsWith('s')) {
@@ -171,7 +152,6 @@ export const useGraduationPlan = (
       }
       const realSemester = Math.max(1, maxApprovedSemester + 1);
 
-      // ¿Va al día? No tiene pendientes de semestres anteriores
       let vaAlDia = true;
       for (let i = 1; i < realSemester; i++) {
         if (remainingSubjects.some(s => s.semester === `s${i}`)) {
@@ -182,67 +162,147 @@ export const useGraduationPlan = (
 
       const semesterSubjects: Subject[] = [];
       let semesterCredits = 0;
+      const electiveGroupsInSemester = new Map<string, Subject[]>();
 
       if (vaAlDia) {
-        // Solo puede tomar ramos del semestre que le corresponde
         const currentSemesterCode = `s${realSemester}`;
         const available = remainingSubjects.filter(subject => {
           return subject.semester === currentSemesterCode && isSubjectAvailable(subject, completedSubjects);
         });
+        
         for (const subject of available) {
-          const subjectUcCredits = getUcCredits(subject); // CAMBIADO: Usar UC
-          if (semesterCredits + subjectUcCredits <= maxCreditsPerSemester) {
-            semesterSubjects.push(subject);
-            semesterCredits += subjectUcCredits; // CAMBIADO: Usar UC
-            completedSubjects.add(subject.code);
+          const subjectUcCredits = getUcCredits(subject);
+          
+          // Si es parte de un grupo electivo, guardar todas las opciones
+          if (subject.electiveGroup) {
+            const group = electiveGroupsInSemester.get(subject.electiveGroup) || [];
+            if (group.length === 0) {
+              // Solo contar créditos una vez por grupo
+              if (semesterCredits + subjectUcCredits <= maxCreditsPerSemester) {
+                group.push(subject);
+                electiveGroupsInSemester.set(subject.electiveGroup, group);
+                semesterCredits += subjectUcCredits;
+              }
+            } else {
+              // Agregar como opción sin contar créditos adicionales
+              group.push(subject);
+            }
+          } else {
+            // Ramo normal
+            if (semesterCredits + subjectUcCredits <= maxCreditsPerSemester) {
+              semesterSubjects.push(subject);
+              semesterCredits += subjectUcCredits;
+              completedSubjects.add(subject.code);
+              const index = remainingSubjects.findIndex(s => s.code === subject.code);
+              if (index !== -1) {
+                remainingSubjects.splice(index, 1);
+              }
+            }
+          }
+        }
+        
+        // Agregar el primer ramo de cada grupo electivo a semesterSubjects
+        // y remover todos los del grupo de remainingSubjects
+        electiveGroupsInSemester.forEach((group, groupId) => {
+          semesterSubjects.push(group[0]); // Agregar el primero
+          completedSubjects.add(group[0].code);
+          
+          // Remover todos los del grupo de remainingSubjects
+          group.forEach(subject => {
             const index = remainingSubjects.findIndex(s => s.code === subject.code);
             if (index !== -1) {
               remainingSubjects.splice(index, 1);
             }
-          }
-        }
+          });
+        });
       } else if (realSemester === 1) {
-        // Solo puede tomar ramos de primer semestre
         const availableFirst = remainingSubjects.filter(subject => {
           return subject.semester === 's1' && isSubjectAvailable(subject, completedSubjects);
         });
         for (const subject of availableFirst) {
-          const subjectUcCredits = getUcCredits(subject); // CAMBIADO: Usar UC
-          if (semesterCredits + subjectUcCredits <= maxCreditsPerSemester) {
-            semesterSubjects.push(subject);
-            semesterCredits += subjectUcCredits; // CAMBIADO: Usar UC
-            completedSubjects.add(subject.code);
+          const subjectUcCredits = getUcCredits(subject);
+          
+          if (subject.electiveGroup) {
+            const group = electiveGroupsInSemester.get(subject.electiveGroup) || [];
+            if (group.length === 0) {
+              if (semesterCredits + subjectUcCredits <= maxCreditsPerSemester) {
+                group.push(subject);
+                electiveGroupsInSemester.set(subject.electiveGroup, group);
+                semesterCredits += subjectUcCredits;
+              }
+            } else {
+              group.push(subject);
+            }
+          } else {
+            if (semesterCredits + subjectUcCredits <= maxCreditsPerSemester) {
+              semesterSubjects.push(subject);
+              semesterCredits += subjectUcCredits;
+              completedSubjects.add(subject.code);
+              const index = remainingSubjects.findIndex(s => s.code === subject.code);
+              if (index !== -1) {
+                remainingSubjects.splice(index, 1);
+              }
+            }
+          }
+        }
+        
+        electiveGroupsInSemester.forEach((group) => {
+          semesterSubjects.push(group[0]);
+          completedSubjects.add(group[0].code);
+          group.forEach(subject => {
             const index = remainingSubjects.findIndex(s => s.code === subject.code);
             if (index !== -1) {
               remainingSubjects.splice(index, 1);
             }
-          }
-        }
+          });
+        });
       } else if (realSemester === 2) {
-        // Solo puede tomar ramos de primer y segundo semestre
         const availableFirstSecond = remainingSubjects.filter(subject => {
           return (subject.semester === 's1' || subject.semester === 's2') && isSubjectAvailable(subject, completedSubjects);
         });
-        // Priorizar s2 sobre s1 para llenar créditos
         availableFirstSecond.sort((a, b) => {
           const aN = parseInt((a.semester || '').replace('s', ''));
           const bN = parseInt((b.semester || '').replace('s', ''));
           return bN - aN;
         });
         for (const subject of availableFirstSecond) {
-          const subjectUcCredits = getUcCredits(subject); // CAMBIADO: Usar UC
-          if (semesterCredits + subjectUcCredits <= maxCreditsPerSemester) {
-            semesterSubjects.push(subject);
-            semesterCredits += subjectUcCredits; // CAMBIADO: Usar UC
-            completedSubjects.add(subject.code);
+          const subjectUcCredits = getUcCredits(subject);
+          
+          if (subject.electiveGroup) {
+            const group = electiveGroupsInSemester.get(subject.electiveGroup) || [];
+            if (group.length === 0) {
+              if (semesterCredits + subjectUcCredits <= maxCreditsPerSemester) {
+                group.push(subject);
+                electiveGroupsInSemester.set(subject.electiveGroup, group);
+                semesterCredits += subjectUcCredits;
+              }
+            } else {
+              group.push(subject);
+            }
+          } else {
+            if (semesterCredits + subjectUcCredits <= maxCreditsPerSemester) {
+              semesterSubjects.push(subject);
+              semesterCredits += subjectUcCredits;
+              completedSubjects.add(subject.code);
+              const index = remainingSubjects.findIndex(s => s.code === subject.code);
+              if (index !== -1) {
+                remainingSubjects.splice(index, 1);
+              }
+            }
+          }
+        }
+        
+        electiveGroupsInSemester.forEach((group) => {
+          semesterSubjects.push(group[0]);
+          completedSubjects.add(group[0].code);
+          group.forEach(subject => {
             const index = remainingSubjects.findIndex(s => s.code === subject.code);
             if (index !== -1) {
               remainingSubjects.splice(index, 1);
             }
-          }
-        }
+          });
+        });
       } else {
-        // Puede tomar cualquier ramo disponible por prerrequisito
         const adelantables = remainingSubjects.filter(subject => {
           return isSubjectAvailable(subject, completedSubjects);
         });
@@ -252,25 +312,57 @@ export const useGraduationPlan = (
           return aIdx - bIdx;
         });
         for (const subject of adelantables) {
-          const subjectUcCredits = getUcCredits(subject); // CAMBIADO: Usar UC
-          if (semesterCredits + subjectUcCredits <= maxCreditsPerSemester) {
-            semesterSubjects.push(subject);
-            semesterCredits += subjectUcCredits; // CAMBIADO: Usar UC
-            completedSubjects.add(subject.code);
-            const index = remainingSubjects.findIndex(s => s.code === subject.code);
-            if (index !== -1) {
-              remainingSubjects.splice(index, 1);
+          const subjectUcCredits = getUcCredits(subject);
+          
+          if (subject.electiveGroup) {
+            const group = electiveGroupsInSemester.get(subject.electiveGroup) || [];
+            if (group.length === 0) {
+              if (semesterCredits + subjectUcCredits <= maxCreditsPerSemester) {
+                group.push(subject);
+                electiveGroupsInSemester.set(subject.electiveGroup, group);
+                semesterCredits += subjectUcCredits;
+              }
+            } else {
+              group.push(subject);
+            }
+          } else {
+            if (semesterCredits + subjectUcCredits <= maxCreditsPerSemester) {
+              semesterSubjects.push(subject);
+              semesterCredits += subjectUcCredits;
+              completedSubjects.add(subject.code);
+              const index = remainingSubjects.findIndex(s => s.code === subject.code);
+              if (index !== -1) {
+                remainingSubjects.splice(index, 1);
+              }
             }
           }
           if (semesterCredits >= maxCreditsPerSemester) break;
         }
+        
+        electiveGroupsInSemester.forEach((group) => {
+          semesterSubjects.push(group[0]);
+          completedSubjects.add(group[0].code);
+          group.forEach(subject => {
+            const index = remainingSubjects.findIndex(s => s.code === subject.code);
+            if (index !== -1) {
+              remainingSubjects.splice(index, 1);
+            }
+          });
+        });
       }
 
       if (semesterSubjects.length > 0) {
+        // Convertir grupos electivos a formato de opciones
+        const electiveOptions = Array.from(electiveGroupsInSemester.entries()).map(([groupId, options]) => ({
+          groupId,
+          options: options.map(opt => [opt]) // Cada opción como array individual
+        }));
+
         plan.push({
           semester: getSemesterName(currentSemester),
           subjects: semesterSubjects,
-          credits: semesterCredits // Ya está en UC
+          credits: semesterCredits,
+          electiveOptions: electiveOptions.length > 0 ? electiveOptions : undefined
         });
       }
 
@@ -285,7 +377,6 @@ export const useGraduationPlan = (
     setShowGraduationPlan(true);
     setIsAnimating(true);
 
-    // Detener animación después de mostrar todos los semestres
     setTimeout(() => {
       setIsAnimating(false);
     }, graduationPlan.length * 1000 + 2000);

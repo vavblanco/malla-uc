@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faGraduationCap, faCalendarAlt, faGripVertical, faExclamationTriangle, faBolt, faBan, faTrash, faPlus, faCheck, faCoins, faBook, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { Subject } from '@/types/curriculum';
 import { motion, AnimatePresence } from 'framer-motion';
+import { faCodeBranch } from '@fortawesome/free-solid-svg-icons';
 import { getUcCredits, UC_CREDITS_MAX } from '@/hooks/credits';
 
 
@@ -641,11 +642,25 @@ export default function GraduationPlanModal({
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {localPlan.slice(0, visibleSemesters).map((semesterPlan, index) => {
-                  // ...existing code for each semester card...
-                    const isOverloaded = semesterPlan.credits > 60;
-                    const wouldExceedWithDrag = draggedSubject && 
-                      dragOverSemester === semesterPlan.semester &&
-                      (semesterPlan.credits + getUcCredits(draggedSubject.subject) > UC_CREDITS_MAX);
+                  const isOverloaded = semesterPlan.credits > 50;
+                  const wouldExceedWithDrag = draggedSubject && 
+                    dragOverSemester === semesterPlan.semester &&
+                    (semesterPlan.credits + getUcCredits(draggedSubject.subject) > UC_CREDITS_MAX);
+                  
+                  // Identificar qué ramos tienen opciones electivas
+                  const subjectsWithOptions = new Map<string, Subject[]>();
+                  if (semesterPlan.electiveOptions) {
+                    semesterPlan.electiveOptions.forEach(({ groupId, options }) => {
+                      // El primer ramo del grupo está en semesterPlan.subjects
+                      const mainSubject = semesterPlan.subjects.find(s => s.electiveGroup === groupId);
+                      if (mainSubject && options.length > 0) {
+                        // Recopilar todas las opciones del grupo
+                        const allOptions = options.flat();
+                        subjectsWithOptions.set(mainSubject.code, allOptions);
+                      }
+                    });
+                  }
+
                   return (
                     <div 
                       key={semesterPlan.semester}
@@ -675,7 +690,7 @@ export default function GraduationPlanModal({
                           <p className={`text-xs ${
                             isOverloaded ? 'text-orange-600 font-medium' : 'text-gray-600'
                           }`}>
-                            {semesterPlan.subjects.length} asignaturas • {semesterPlan.credits} {semesterPlan.credits === 1 ? 'crédito' : 'créditos'}
+                            {semesterPlan.subjects.length} asignaturas • {semesterPlan.credits} {semesterPlan.credits === 1 ? 'crédito UC' : 'créditos UC'}
                             {isOverloaded && (
                               <span className="ml-1">
                                 <FontAwesomeIcon icon={faExclamationTriangle} className="text-xs" />
@@ -707,7 +722,7 @@ export default function GraduationPlanModal({
                         <div className="mb-3 p-2 bg-orange-100 border border-orange-300 rounded-lg">
                           <div className="flex items-center gap-2 text-orange-700">
                             <FontAwesomeIcon icon={faExclamationTriangle} className="text-sm" />
-                            <span className="text-sm font-medium">Sobrecargado por {semesterPlan.credits - 50} {(semesterPlan.credits - 50) === 1 ? 'crédito' : 'créditos'}</span>
+                            <span className="text-sm font-medium">Sobrecargado por {semesterPlan.credits - 50} {(semesterPlan.credits - 50) === 1 ? 'crédito UC' : 'créditos UC'}</span>
                           </div>
                         </div>
                       )}
@@ -717,7 +732,7 @@ export default function GraduationPlanModal({
                         <div className="border-2 border-dashed border-red-400 rounded-lg p-2 text-center text-red-600 text-xs mb-2 bg-red-50/30">
                           <FontAwesomeIcon icon={faBan} className="text-lg mb-1" />
                           <div className="font-medium text-xs">Límite excedido</div>
-                          <div className="text-xs">Máximo {UC_CREDITS_MAX} créditos UC</div>
+                          <div className="text-xs">Máximo 60 créditos UC</div>
                         </div>
                       )}
 
@@ -735,16 +750,108 @@ export default function GraduationPlanModal({
                         {semesterPlan.subjects.map((subject) => {
                           const subjectColor = colors[subject.type]?.[0] || '#6b7280';
                           const isDragging = draggedSubject?.subject.code === subject.code;
+                          const hasOptions = subjectsWithOptions.has(subject.code);
+                          const options = hasOptions ? subjectsWithOptions.get(subject.code)! : [];
+
                           return (
-                            <div
-                              key={subject.code}
-                              className={`p-2 rounded-lg text-white text-xs font-medium shadow-sm transition-all duration-200 hover:shadow-md hover:scale-105 select-none ${
-                                isDragging ? 'opacity-50 scale-95' : 'opacity-100'
-                              } ${!isAnimating ? 'hover:ring-2 hover:ring-white/30' : ''}`}
-                              style={{
-                                backgroundColor: subjectColor,
-                                touchAction: 'none',
-                              }}
+                            <div key={subject.code} className="space-y-1">
+                              {/* Ramo principal */}
+                              <div
+                                className={`p-2 rounded-lg text-white text-xs font-medium shadow-sm transition-all duration-200 hover:shadow-md hover:scale-105 select-none ${
+                                  isDragging ? 'opacity-50 scale-95' : 'opacity-100'
+                                } ${!isAnimating ? 'hover:ring-2 hover:ring-white/30' : ''} ${
+                                  hasOptions ? 'rounded-b-none border-b-2 border-dashed border-white/40' : ''
+                                }`}
+                                style={{
+                                  backgroundColor: subjectColor,
+                                  touchAction: 'none',
+                                }}
+                                title={hasOptions ? `Grupo electivo: Elige una opción` : `Arrastra para mover a otro semestre`}
+                                draggable={!isAnimating}
+                                onDragStart={(e) => {
+                                  if (window.innerWidth >= 768) handleDragStart(e, subject, semesterPlan.semester);
+                                }}
+                                onDragEnd={(e) => {
+                                  if (window.innerWidth >= 768) handleDragEnd(e);
+                                }}
+                              >
+                                <div className="flex items-center gap-2">
+                                  <span
+                                    onTouchStart={(e) => {
+                                      if (window.innerWidth < 768) handleTouchStart(e, subject, semesterPlan.semester);
+                                    }}
+                                    onTouchMove={(e) => {
+                                      if (window.innerWidth < 768) handleTouchMove(e);
+                                    }}
+                                    onTouchEnd={(e) => {
+                                      if (window.innerWidth < 768) handleTouchEnd(e);
+                                    }}
+                                    className="cursor-grab active:cursor-grabbing"
+                                    style={{ WebkitTouchCallout: 'none', WebkitUserSelect: 'none', userSelect: 'none' }}
+                                    tabIndex={0}
+                                    aria-label="Mover asignatura"
+                                  >
+                                    <FontAwesomeIcon
+                                      icon={faGripVertical}
+                                      className="no-print text-white/60 text-xs flex-shrink-0"
+                                    />
+                                  </span>
+                                  <div className="flex-1 min-w-0">
+                                    <div className="flex items-center gap-1">
+                                      <div className="text-white font-bold text-xs truncate" title={subject.name}>
+                                        {subject.name}
+                                      </div>
+                                      {hasOptions && (
+                                        <div className="flex-shrink-0 bg-white/30 text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold">
+                                          {options.length} opciones
+                                        </div>
+                                      )}
+                                    </div>
+                                    <div className="text-white/70 text-[11px]">{subject.code}</div>
+                                    <div className="text-white/80 text-xs">
+                                      {getUcCredits(subject)} {getUcCredits(subject) === 1 ? 'crédito UC' : 'créditos UC'}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              {/* Opciones del grupo electivo */}
+                              {hasOptions && (
+                                <div className="pl-4 pr-2 pb-2 bg-white/30 rounded-b-lg border-2 border-t-0 border-dashed border-white/20" style={{ backgroundColor: `${subjectColor}20` }}>
+                                  <div className="text-xs font-bold mb-1 flex items-center gap-1" style={{ color: subjectColor }}>
+                                    <FontAwesomeIcon icon={faCodeBranch} className="text-[10px]" />
+                                    <span>Opciones alternativas:</span>
+                                  </div>
+                                  <div className="space-y-1">
+                                    {options.map((option, idx) => (
+                                      <div
+                                        key={option.code}
+                                        className="p-1.5 rounded text-xs bg-white/50 border border-white/40 hover:bg-white/70 transition-colors"
+                                        style={{ borderLeftWidth: '3px', borderLeftColor: subjectColor }}
+                                      >
+                                        <div className="flex items-center gap-2">
+                                          <div className="flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold text-white" style={{ backgroundColor: subjectColor }}>
+                                            {idx + 2}
+                                          </div>
+                                          <div className="flex-1 min-w-0">
+                                            <div className="font-semibold truncate" style={{ color: subjectColor }} title={option.name}>
+                                              {option.name}
+                                            </div>
+                                            <div className="text-[10px] text-gray-600">{option.code} • {getUcCredits(option)} créd. UC</div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  );
+                })}
                               title={`Arrastra para mover a otro semestre`}
                               draggable={!isAnimating}
                               onDragStart={(e) => {
