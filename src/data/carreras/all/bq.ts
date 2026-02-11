@@ -453,7 +453,7 @@ export const bq: Carrera = {
         "semester": "s7"
     },
     {
-        "name": "Seminario de Investigación (Opción Investigación)",
+        "name": "Seminario de Investigación",
         "code": "BIO296F",
         "sctCredits": 18,
         "type": "TL",
@@ -464,10 +464,13 @@ export const bq: Carrera = {
             "BIO299L"
         ],
         "electiveGroup": "8-ABC",
-        "semester": "s8"
+        "semester": "s8",
+        "electiveTrack": "track-especialidad",           
+        "trackOption": "A",                              
+        "trackName": "Cursos + Investigación" 
     },
     {
-        "name": "Práctica Extramural (Opción Profesión)",
+        "name": "Práctica Extramural",
         "code": "BIO258F",
         "sctCredits": 18,
         "type": "TL",
@@ -477,32 +480,23 @@ export const bq: Carrera = {
             "BIO299L"
         ],
         "electiveGroup": "8-ABC",
-        "semester": "s8"
+        "semester": "s8",
+        "electiveTrack": "track-especialidad",           
+        "trackOption": "B",                              
+        "trackName": "Cursos + Experiencia Profesional" 
     },
     {
-        "name": "Optativos de Profundización (Opción Cursos)",
+        "name": "Optativos de Profundización de Licenciatura",
         "code": "OPRC",
-        "sctCredits": 18,
+        "sctCredits": 30,
+        "ucCredits": 50,
         "type": "TL",
         "prerequisites": [],
         "electiveGroup": "8-ABC",
-        "semester": "s8"
-    },
-    {
-        "name": "Optativo de Profundización",
-        "code": "OPR3",
-        "sctCredits": 6,
-        "type": "TL",
-        "prerequisites": [],
-        "semester": "s8"
-    },
-    {
-        "name": "Optativo de Profundización",
-        "code": "OPR4",
-        "sctCredits": 6,
-        "type": "TL",
-        "prerequisites": [],
-        "semester": "s8"
+        "semester": "s8",
+        "electiveTrack": "track-especialidad",           
+        "trackOption": "C",                              
+        "trackName": "Cursos + Cursos" 
     },
     {
         "name": "Examen de Grado",

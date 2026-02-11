@@ -497,8 +497,8 @@ export const bio: Carrera = {
     {
         "name": "Seminario de Investigación en Biología II",
         "code": "BIO416C",
-        "sctCredits": 6,
-        "ucCredits": 10,
+        "sctCredits": 15,
+        "ucCredits": 25,
         "type": "CM",
         "prerequisites": [
             "BIO415C"

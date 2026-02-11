@@ -148,7 +148,7 @@ export default function SemesterCard({
         }`}>
           <span className="font-medium">{semesterApprovedCredits}</span>
           <span className="mx-1">/</span>
-          <span>{semesterCredits} créd. UC</span>
+          <span>{semesterCredits} Créditos UC</span>
         </div>
         <div className={`w-full rounded-full h-2 mt-2 overflow-hidden ${
           darkMode ? 'bg-gray-600' : 'bg-gray-300'
