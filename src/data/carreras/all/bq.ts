@@ -463,11 +463,10 @@ export const bq: Carrera = {
             "BIO266E",
             "BIO299L"
         ],
-        "electiveGroup": "8-ABC",
-        "semester": "s8",
         "electiveTrack": "track-especialidad",           
         "trackOption": "A",                              
-        "trackName": "Cursos + Investigación" 
+        "trackName": "Cursos + Investigación",
+        "semester": "s8"
     },
     {
         "name": "Práctica Extramural",
@@ -479,24 +478,40 @@ export const bq: Carrera = {
             "BIO266E",
             "BIO299L"
         ],
-        "electiveGroup": "8-ABC",
-        "semester": "s8",
         "electiveTrack": "track-especialidad",           
         "trackOption": "B",                              
-        "trackName": "Cursos + Experiencia Profesional" 
+        "trackName": "Cursos + Experiencia Profesional",
+        "semester": "s8"
     },
     {
         "name": "Optativos de Profundización de Licenciatura",
-        "code": "OPRC",
-        "sctCredits": 30,
-        "ucCredits": 50,
+        "code": "OPR Lic",
+        "sctCredits": 18,
+        "ucCredits": 30,
         "type": "TL",
         "prerequisites": [],
-        "electiveGroup": "8-ABC",
-        "semester": "s8",
         "electiveTrack": "track-especialidad",           
         "trackOption": "C",                              
-        "trackName": "Cursos + Cursos" 
+        "trackName": "Cursos + Cursos",
+        "semester": "s8"
+    },
+    {
+        "name": "Optativo de Profundización de Licenciatura",
+        "code": "OPR4",
+        "sctCredits": 6,
+        "ucCredits": 10,
+        "type": "TL",
+        "prerequisites": [],
+        "semester": "s8"
+    },
+    {
+        "name": "Optativo de Profundización de Licenciatura",
+        "code": "OPR5",
+        "sctCredits": 6,
+        "ucCredits": 10,
+        "type": "TL",
+        "prerequisites": [],
+        "semester": "s8"
     },
     {
         "name": "Examen de Grado",
