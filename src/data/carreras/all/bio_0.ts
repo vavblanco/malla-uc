@@ -39,7 +39,7 @@ export const bio_0: Carrera = {
     },
     {
         "id": "TEST",
-        "nombre": "Habilidades Comunicativas",
+        "nombre": "Habilidades Comunicativas y Perfil UC",
         "color": "#9EA772"
     }
 ],
@@ -165,8 +165,8 @@ export const bio_0: Carrera = {
         "semester": "s2"
     },
     {
-        "name": "Formación General",
-        "code": "OFG1",
+        "name": "Formación Teológica",
+        "code": "TTF",
         "sctCredits": 6,
         "type": "FG",
         "prerequisites": [],
@@ -209,16 +209,16 @@ export const bio_0: Carrera = {
         "semester": "s3"
     },
     {
-        "name": "Formación General",
-        "code": "OFG2",
+        "name": "Artes",
+        "code": "ARTS",
         "sctCredits": 6,
         "type": "FG",
         "prerequisites": [],
         "semester": "s3"
     },
     {
-        "name": "Formación General",
-        "code": "OFG3",
+        "name": "Humanidades",
+        "code": "HUMS",
         "sctCredits": 6,
         "type": "FG",
         "prerequisites": [],
@@ -248,24 +248,24 @@ export const bio_0: Carrera = {
         "semester": "s4"
     },
     {
-        "name": "Formación General",
-        "code": "OFG4",
+        "name": "Ciencias Sociales",
+        "code": "CSOC",
         "sctCredits": 6,
         "type": "FG",
         "prerequisites": [],
         "semester": "s4"
     },
     {
-        "name": "Formación General",
-        "code": "OFG5",
+        "name": "Ecología Integral y Sustentabilidad",
+        "code": "EISU",
         "sctCredits": 6,
         "type": "FG",
         "prerequisites": [],
         "semester": "s4"
     },
     {
-        "name": "Formación General",
-        "code": "OFG6",
+        "name": "Salud y Bienestar",
+        "code": "SBIE",
         "sctCredits": 6,
         "type": "FG",
         "prerequisites": [],
@@ -331,8 +331,8 @@ export const bio_0: Carrera = {
         "semester": "s5"
     },
     {
-        "name": "Formación General",
-        "code": "OFG7",
+        "name": "Créditos Libres",
+        "code": "EISU",
         "sctCredits": 6,
         "type": "FG",
         "prerequisites": [],

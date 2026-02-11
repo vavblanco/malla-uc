@@ -20,26 +20,26 @@ export const bio: Carrera = {
     {
         "id": "CM",
         "nombre": "Cursos Mínimos",
-        "color": "#FF9800"
+        "color": "#C4893A"
     },
     {
-        "id": "TL",
-        "nombre": "Cursos Terminales de Licenciatura",
-        "color": "#FF69B4"
+        "id": "MJ",
+        "nombre": "Major",
+        "color": "#B05A8C"
     },
     {
-        "id": "FT",
-        "nombre": "Cursos de Fase de Título",
-        "color": "#607D8B"
+        "id": "OPT",
+        "nombre": "Optativo o Minor",
+        "color": "#4F8F8B"
     },
     {
         "id": "FG",
         "nombre": "Cursos de Formación General",
-        "color": "#FFC300"
+        "color": "#C2A23A"
     },
     {
         "id": "TEST",
-        "nombre": "Habilidades Comunicativas",
+        "nombre": "Habilidades Comunicativas y Perfil UC",
         "color": "#9EA772"
     }
 ],
@@ -168,8 +168,8 @@ export const bio: Carrera = {
         "semester": "s2"
     },
     {
-        "name": "Formación General",
-        "code": "OFG1",
+        "name": "Artes",
+        "code": "ARTS",
         "sctCredits": 6,
         "ucCredits": 10,
         "type": "FG",
@@ -286,8 +286,8 @@ export const bio: Carrera = {
         "semester": "s4"
     },
     {
-        "name": "Formación General",
-        "code": "OFG2",
+        "name": "Humanidades",
+        "code": "HUMS",
         "sctCredits": 6,
         "ucCredits": 10,
         "type": "FG",
@@ -323,7 +323,7 @@ export const bio: Carrera = {
         "code": "BIO324C",
         "sctCredits": 6,
         "ucCredits": 10,
-        "type": "CM",
+        "type": "MJ",
         "prerequisites": [
             "BIO114B",
             "FIS109C"
@@ -335,7 +335,7 @@ export const bio: Carrera = {
         "code": "BIO310C",
         "sctCredits": 6,
         "ucCredits": 10,
-        "type": "CM",
+        "type": "MJ",
         "prerequisites": [
             "MAT1100",
             "BIO230C",
@@ -348,16 +348,16 @@ export const bio: Carrera = {
         "code": "ETI2010",
         "sctCredits": 3,
         "ucCredits": 5,
-        "type": "CM",
+        "type": "MJ",
         "prerequisites": [],
         "semester": "s5"
     },
     {
-        "name": "Formación General",
-        "code": "OFG3",
+        "name": "Ciencias Sociales",
+        "code": "CSOC",
         "sctCredits": 6,
         "ucCredits": 10,
-        "type": "CM",
+        "type": "FG",
         "prerequisites": [],
         "semester": "s5"
     },
@@ -366,7 +366,7 @@ export const bio: Carrera = {
         "code": "BIO385C",
         "sctCredits": 6,
         "ucCredits": 10,
-        "type": "CM",
+        "type": "MJ",
         "prerequisites": [
             "BIO215C",
             "BIO230C",
@@ -380,7 +380,7 @@ export const bio: Carrera = {
         "code": "BIO372C",
         "sctCredits": 6,
         "ucCredits": 10,
-        "type": "CM",
+        "type": "MJ",
         "prerequisites": [
             "BIO324C",
             "BIO227E"
@@ -393,7 +393,7 @@ export const bio: Carrera = {
         "code": "BIO365C",
         "sctCredits": 6,
         "ucCredits": 10,
-        "type": "CM",
+        "type": "MJ",
         "prerequisites": [
             "BIO324C",
             "BIO120C"
@@ -406,7 +406,7 @@ export const bio: Carrera = {
         "code": "BIO408C",
         "sctCredits": 6,
         "ucCredits": 10,
-        "type": "CM",
+        "type": "MJ",
         "prerequisites": [
             "BIO230C",
             "BIO210C"
@@ -419,7 +419,7 @@ export const bio: Carrera = {
         "code": "BIO360B",
         "sctCredits": 6,
         "ucCredits": 10,
-        "type": "CM",
+        "type": "MJ",
         "prerequisites": [
             "BIO230C",
             "BIO244C"
@@ -432,14 +432,14 @@ export const bio: Carrera = {
         "code": "BIO390C",
         "sctCredits": 6,
         "ucCredits": 10,
-        "type": "CM",
+        "type": "MJ",
         "prerequisites": [
             "BIO324C"
         ],
         "semester": "s6"
     },
     {
-        "name": "Formación General",
+        "name": "Ecología Integral y Sustentabilidad",
         "code": "OFG4",
         "sctCredits": 3,
         "ucCredits": 10,
@@ -452,7 +452,7 @@ export const bio: Carrera = {
         "code": "BIO415C",
         "sctCredits": 6,
         "ucCredits": 10,
-        "type": "CM",
+        "type": "MJ",
         "prerequisites": [
             "BIO385C"
         ],
@@ -463,7 +463,7 @@ export const bio: Carrera = {
         "code": "OPT1",
         "sctCredits": 6,
         "ucCredits": 10,
-        "type": "CM",
+        "type": "OPT",
         "prerequisites": [],
         "semester": "s7"
     },
@@ -472,7 +472,7 @@ export const bio: Carrera = {
         "code": "OPT2",
         "sctCredits": 6,
         "ucCredits": 10,
-        "type": "CM",
+        "type": "OPT",
         "prerequisites": [],
         "semester": "s7"
     },
@@ -481,13 +481,13 @@ export const bio: Carrera = {
         "code": "OPT3",
         "sctCredits": 6,
         "ucCredits": 10,
-        "type": "CM",
+        "type": "OPT",
         "prerequisites": [],
         "semester": "s7"
     },
     {
-        "name": "Formación General",
-        "code": "OFG5",
+        "name": "Salud y Bienestar",
+        "code": "SBIE",
         "sctCredits": 6,
         "ucCredits": 10,
         "type": "FG",
@@ -499,7 +499,7 @@ export const bio: Carrera = {
         "code": "BIO416C",
         "sctCredits": 15,
         "ucCredits": 25,
-        "type": "CM",
+        "type": "MJ",
         "prerequisites": [
             "BIO415C"
         ],
@@ -510,7 +510,7 @@ export const bio: Carrera = {
         "code": "OPT4",
         "sctCredits": 6,
         "ucCredits": 10,
-        "type": "CM",
+        "type": "OPT",
         "prerequisites": [],
         "semester": "s8"
     },
@@ -519,13 +519,13 @@ export const bio: Carrera = {
         "code": "OPT5",
         "sctCredits": 6,
         "ucCredits": 10,
-        "type": "CM",
+        "type": "OPT",
         "prerequisites": [],
         "semester": "s8"
     },
     {
-        "name": "Formación General",
-        "code": "OFG6",
+        "name": "Créditos Libres",
+        "code": "OFG",
         "sctCredits": 6,
         "ucCredits": 10,
         "type": "FG",
@@ -537,7 +537,7 @@ export const bio: Carrera = {
         "code": "CAE",
         "sctCredits": 30,
         "ucCredits": 50,
-        "type": "TL",
+        "type": "OPT",
         "prerequisites": [],
         "electiveTrack": "track-especialidad",           
         "trackOption": "A",                              
@@ -549,7 +549,7 @@ export const bio: Carrera = {
         "code": "BIO458E",
         "sctCredits": 18,
         "ucCredits": 30,
-        "type": "TL",
+        "type": "OPT",
         "prerequisites": [
             "BIO416C"
         ],
@@ -564,7 +564,7 @@ export const bio: Carrera = {
         "code": "BIO432C",
         "sctCredits": 18,
         "ucCredits": 30,
-        "type": "TL",
+        "type": "OPT",
         "prerequisites": [
             "BIO416C"
         ],
@@ -579,7 +579,7 @@ export const bio: Carrera = {
         "code": "OPTB",
         "sctCredits": 12,
         "ucCredits": 20,
-        "type": "TL",
+        "type": "OPT",
         "prerequisites": [],
         "electiveTrack": "track-especialidad",           
         "trackOption": "B",                              
@@ -591,7 +591,7 @@ export const bio: Carrera = {
         "code": "OPTC",
         "sctCredits": 30,
         "ucCredits": 50,
-        "type": "TL",
+        "type": "OPT",
         "prerequisites": [],
         "electiveTrack": "track-especialidad",          
         "trackOption": "C",                             
@@ -603,7 +603,7 @@ export const bio: Carrera = {
         "code": "BIO480C",
         "sctCredits": 30,
         "ucCredits": 50,
-        "type": "TL",
+        "type": "CM",
         "prerequisites": [
             "BIO416C"
         ],
@@ -615,7 +615,7 @@ export const bio: Carrera = {
         "code": "BIO490C",
         "sctCredits": 30,
         "ucCredits": 50,
-        "type": "TL",
+        "type": "CM",
         "prerequisites": [
             "BIO416C"
         ],

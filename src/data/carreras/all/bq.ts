@@ -39,7 +39,7 @@ export const bq: Carrera = {
     },
     {
         "id": "TEST",
-        "nombre": "Habilidades Comunicativas",
+        "nombre": "Habilidades Comunicativas y Perfil UC",
         "color": "#9EA772"
     }
 ],

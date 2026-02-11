@@ -39,7 +39,7 @@ export const biomar_0: Carrera = {
     },
     {
         "id": "TEST",
-        "nombre": "Habilidades Comunicativas",
+        "nombre": "Habilidades Comunicativas y Perfil UC",
         "color": "#9EA772"
     }
 ],
@@ -326,13 +326,13 @@ export const biomar_0: Carrera = {
     },
     {
         "name": "Laboratorio de Bioquímica: Biología Celular",
-        "code": "BIO297E",
+        "code": "BIO297C",
         "sctCredits": 6,
         "ucCredits": 10,
         "type": "CM",
         "prerequisites": [
             "QIM200",
-            "BIO151C"
+            "BIO151E"
         ],
         "semester": "s5"
     },

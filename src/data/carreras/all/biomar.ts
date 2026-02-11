@@ -20,26 +20,26 @@ export const biomar: Carrera = {
     {
         "id": "CM",
         "nombre": "Cursos Mínimos",
-        "color": "#FF9800"
+        "color": "#C4893A"
     },
     {
-        "id": "TL",
-        "nombre": "Cursos Terminales de Licenciatura",
-        "color": "#FF69B4"
+        "id": "MJ",
+        "nombre": "Major",
+        "color": "#B05A8C"
     },
     {
-        "id": "FT",
-        "nombre": "Cursos de Fase de Título",
-        "color": "#607D8B"
+        "id": "OPT",
+        "nombre": "Optativo o Minor",
+        "color": "#4F8F8B"
     },
     {
         "id": "FG",
         "nombre": "Cursos de Formación General",
-        "color": "#FFC300"
+        "color": "#C2A23A"
     },
     {
         "id": "TEST",
-        "nombre": "Habilidades Comunicativas",
+        "nombre": "Habilidades Comunicativas y Perfil UC",
         "color": "#9EA772"
     }
 ],
@@ -166,8 +166,8 @@ export const biomar: Carrera = {
         "semester": "s2"
     },
     {
-        "name": "Formación General",
-        "code": "OFG1",
+        "name": "Artes",
+        "code": "ARTS",
         "sctCredits": 6,
         "ucCredits": 10,
         "type": "FG",
@@ -224,7 +224,7 @@ export const biomar: Carrera = {
         "code": "BIO215C",
         "sctCredits": 3,
         "ucCredits": 5,
-        "type": "LP",
+        "type": "CM",
         "prerequisites": [
             "BIO114B"
         ],
@@ -311,7 +311,7 @@ export const biomar: Carrera = {
         "code": "BIO330C",
         "sctCredits": 6,
         "ucCredits": 10,
-        "type": "CM",
+        "type": "MJ",
         "prerequisites": [
             "BIO118C",
             "BIO230C"
@@ -323,7 +323,7 @@ export const biomar: Carrera = {
         "code": "BIO324C",
         "sctCredits": 6,
         "ucCredits": 10,
-        "type": "CM",
+        "type": "MJ",
         "prerequisites": [
             "BIO114B",
             "FIS109C"
@@ -335,7 +335,7 @@ export const biomar: Carrera = {
         "code": "BIO310C",
         "sctCredits": 6,
         "ucCredits": 10,
-        "type": "CM",
+        "type": "MJ",
         "prerequisites": [
             "MAT1100",
             "BIO230C",
@@ -348,16 +348,16 @@ export const biomar: Carrera = {
         "code": "ETI2010",
         "sctCredits": 3,
         "ucCredits": 5,
-        "type": "CM",
+        "type": "MJ",
         "prerequisites": [],
         "semester": "s5"
     },
     {
-        "name": "Formación General",
-        "code": "OFG2",
+        "name": "Humanidades",
+        "code": "HUMS",
         "sctCredits": 6,
         "ucCredits": 10,
-        "type": "CM",
+        "type": "FG",
         "prerequisites": [],
         "semester": "s5"
     },
@@ -366,7 +366,7 @@ export const biomar: Carrera = {
         "code": "BIO374M",
         "sctCredits": 6,
         "ucCredits": 10,
-        "type": "CM",
+        "type": "MJ",
         "prerequisites": [
             "BIO130M",
             "BIO230C",
@@ -379,7 +379,7 @@ export const biomar: Carrera = {
         "code": "BIO372C",
         "sctCredits": 6,
         "ucCredits": 10,
-        "type": "CM",
+        "type": "MJ",
         "prerequisites": [
             "BIO324C",
             "BIO227E"
@@ -391,7 +391,7 @@ export const biomar: Carrera = {
         "code": "BIO408C",
         "sctCredits": 6,
         "ucCredits": 10,
-        "type": "CM",
+        "type": "MJ",
         "prerequisites": [
             "BIO230C",
             "BIO210C"
@@ -399,8 +399,8 @@ export const biomar: Carrera = {
         "semester": "s6"
     },
     {
-        "name": "Formación General",
-        "code": "OFG3",
+        "name": "Ciencias Sociales",
+        "code": "CSOC",
         "sctCredits": 3,
         "ucCredits": 10,
         "type": "FG",
@@ -408,8 +408,8 @@ export const biomar: Carrera = {
         "semester": "s6"
     },
     {
-        "name": "Formación General",
-        "code": "OFG4",
+        "name": "Ecología Integral y Sustentabilidad",
+        "code": "EISU",
         "sctCredits": 3,
         "ucCredits": 10,
         "type": "FG",
@@ -421,7 +421,7 @@ export const biomar: Carrera = {
         "code": "BIO415M",
         "sctCredits": 6,
         "ucCredits": 10,
-        "type": "CM",
+        "type": "MJ",
         "prerequisites": [
             "BIO374M"
         ],
@@ -432,7 +432,7 @@ export const biomar: Carrera = {
         "code": "OPT1",
         "sctCredits": 6,
         "ucCredits": 10,
-        "type": "CM",
+        "type": "OPT",
         "prerequisites": [],
         "semester": "s7"
     },
@@ -441,7 +441,7 @@ export const biomar: Carrera = {
         "code": "OPT2",
         "sctCredits": 6,
         "ucCredits": 10,
-        "type": "CM",
+        "type": "OPT",
         "prerequisites": [],
         "semester": "s7"
     },
@@ -450,13 +450,13 @@ export const biomar: Carrera = {
         "code": "OPT3",
         "sctCredits": 6,
         "ucCredits": 10,
-        "type": "CM",
+        "type": "OPT",
         "prerequisites": [],
         "semester": "s7"
     },
     {
-        "name": "Formación General",
-        "code": "OFG5",
+        "name": "Salud y Bienestar",
+        "code": "SBIE",
         "sctCredits": 6,
         "ucCredits": 10,
         "type": "FG",
@@ -468,7 +468,7 @@ export const biomar: Carrera = {
         "code": "BIO416M",
         "sctCredits": 15,
         "ucCredits": 25,
-        "type": "CM",
+        "type": "MJ",
         "prerequisites": [
             "BIO415M"
         ],
@@ -479,7 +479,7 @@ export const biomar: Carrera = {
         "code": "OPT4",
         "sctCredits": 6,
         "ucCredits": 10,
-        "type": "CM",
+        "type": "OPT",
         "prerequisites": [],
         "semester": "s8"
     },
@@ -488,13 +488,13 @@ export const biomar: Carrera = {
         "code": "OPT5",
         "sctCredits": 6,
         "ucCredits": 10,
-        "type": "CM",
+        "type": "OPT",
         "prerequisites": [],
         "semester": "s8"
     },
     {
-        "name": "Formación General",
-        "code": "OFG6",
+        "name": "Créditos Libres",
+        "code": "OFG",
         "sctCredits": 6,
         "ucCredits": 10,
         "type": "FG",
@@ -506,7 +506,7 @@ export const biomar: Carrera = {
         "code": "BIO320M",
         "sctCredits": 18,
         "ucCredits": 30,
-        "type": "TL",
+        "type": "MJ",
         "prerequisites": [
             "BIO416M"
         ],
@@ -520,7 +520,7 @@ export const biomar: Carrera = {
         "code": "BIO458E",
         "sctCredits": 18,
         "ucCredits": 30,
-        "type": "TL",
+        "type": "MJ",
         "prerequisites": [
             "BIO416M"
         ],
@@ -534,7 +534,7 @@ export const biomar: Carrera = {
         "code": "OPTC",
         "sctCredits": 18,
         "ucCredits": 30,
-        "type": "TL",
+        "type": "OPT",
         "prerequisites": [],
         "electiveTrack": "track-especialidad",          
         "trackOption": "C",                             
@@ -546,7 +546,7 @@ export const biomar: Carrera = {
         "code": "BIO402M",
         "sctCredits": 6,
         "ucCredits": 10,
-        "type": "TL",
+        "type": "CM",
         "prerequisites": [],
         "semester": "s9"
     },
@@ -555,7 +555,7 @@ export const biomar: Carrera = {
         "code": "BIO412M",
         "sctCredits": 6,
         "ucCredits": 10,
-        "type": "TL",
+        "type": "CM",
         "prerequisites": [],
         "semester": "s9"
     },
@@ -564,7 +564,7 @@ export const biomar: Carrera = {
         "code": "BIO480M",
         "sctCredits": 30,
         "ucCredits": 50,
-        "type": "TL",
+        "type": "CM",
         "prerequisites": [
             "BIO416M"
         ],
@@ -576,7 +576,7 @@ export const biomar: Carrera = {
         "code": "BIO490M",
         "sctCredits": 30,
         "ucCredits": 50,
-        "type": "TL",
+        "type": "CM",
         "prerequisites": [
             "BIO416M"
         ],
