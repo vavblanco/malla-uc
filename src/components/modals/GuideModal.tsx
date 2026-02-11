@@ -82,10 +82,14 @@ export default function GuideModal({ show, onClose, darkMode }: GuideModalProps)
                       : 'bg-purple-600'
                   }`}
                   style={{
-                    left: selectedTab === 'usage' ? '4px' : selectedTab === 'planning' ? '33.33%' : '66.66%',
-                    width: selectedTab === 'usage' ? 'calc(33.33% - 4px)' : selectedTab === 'planning' ? 'calc(33.33% - 4px)' : 'calc(33.33% - 4px)',
-                    top: '4px',
-                    bottom: '4px',
+                    inset: '4px',
+                    width: 'calc((100% - 8px) / 3)',
+                    transform:
+                      selectedTab === 'usage'
+                        ? 'translateX(0%)'
+                        : selectedTab === 'planning'
+                        ? 'translateX(100%)'
+                        : 'translateX(200%)',
                   }}
                   transition={{ type: "spring", stiffness: 300, damping: 30 }}
                 />
