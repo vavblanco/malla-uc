@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     default: "Malla FCB PUC - Avance Curricular",
     template: "%s | Malla FCB PUC"
   },
-  description: "Calculadora uc de progreso académico para todas las carreras de la Facultad de Ciencias Biológicas de la Pontificia Universidad Católica de Chile. Visualiza tu malla curricular, gestiona requisitos y calcula tu avance curricular.",
+  description: "Calculadora de avance curricular para las carreras de la Facultad de Ciencias Biológicas de la Pontificia Universidad Católica de Chile. Visualiza tu malla curricular, gestiona requisitos y calcula tu avance curricular.",
   manifest: "site.webmanifest",
   keywords: [
     "PUC",
