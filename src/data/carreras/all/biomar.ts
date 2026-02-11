@@ -10,12 +10,12 @@ export const biomar: Carrera = {
     {
         "id": "FB",
         "nombre": "Formación Básica Fundante",
-        "color": "#3F51B5"
+        "color": "#5A6FB3"
     },
     {
         "id": "LP",
         "nombre": "Cursos Propios de Licenciatura",
-        "color": "#4CAF50"
+        "color": "#7C6DB0"
     },
     {
         "id": "CM",

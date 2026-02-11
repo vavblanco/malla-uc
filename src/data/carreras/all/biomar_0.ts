@@ -221,8 +221,8 @@ export const biomar_0: Carrera = {
         "semester": "s3"
     },
     {
-        "name": "Formación General",
-        "code": "OFG1",
+        "name": "Artes",
+        "code": "ARTS",
         "sctCredits": 6,
         "ucCredits": 10,
         "type": "FG",
@@ -230,8 +230,8 @@ export const biomar_0: Carrera = {
         "semester": "s3"
     },
     {
-        "name": "Formación General",
-        "code": "OFG2",
+        "name": "Humanidades",
+        "code": "HUMS",
         "sctCredits": 6,
         "ucCredits": 10,
         "type": "FG",
@@ -272,8 +272,8 @@ export const biomar_0: Carrera = {
         "semester": "s4"
     },
     {
-        "name": "Formación General",
-        "code": "OFG3",
+        "name": "Formación Teológica",
+        "code": "TTF",
         "sctCredits": 6,
         "ucCredits": 10,
         "type": "FG",
@@ -281,8 +281,8 @@ export const biomar_0: Carrera = {
         "semester": "s4"
     },
     {
-        "name": "Formación General",
-        "code": "OFG4",
+        "name": "Ciencias Sociales",
+        "code": "CSOC",
         "sctCredits": 6,
         "ucCredits": 10,
         "type": "FG",
@@ -337,8 +337,8 @@ export const biomar_0: Carrera = {
         "semester": "s5"
     },
     {
-        "name": "Formación General",
-        "code": "OFG5",
+        "name": "Ecología Integral y Sustentabilidad",
+        "code": "EISU",
         "sctCredits": 6,
         "ucCredits": 10,
         "type": "FG",
@@ -413,8 +413,8 @@ export const biomar_0: Carrera = {
         "semester": "s6"
     },
     {
-        "name": "Formación General",
-        "code": "OFG6",
+        "name": "Salud y Bienestar",
+        "code": "SBIE",
         "sctCredits": 6,
         "ucCredits": 10,
         "type": "FG",
@@ -454,8 +454,8 @@ export const biomar_0: Carrera = {
         "semester": "s7"
     },
     {
-        "name": "Formación General",
-        "code": "OFG7",
+        "name": "Créditos Libres",
+        "code": "OFG",
         "sctCredits": 6,
         "ucCredits": 10,
         "type": "FG",

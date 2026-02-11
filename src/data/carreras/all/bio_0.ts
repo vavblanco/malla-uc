@@ -332,7 +332,7 @@ export const bio_0: Carrera = {
     },
     {
         "name": "Créditos Libres",
-        "code": "EISU",
+        "code": "OFG",
         "sctCredits": 6,
         "type": "FG",
         "prerequisites": [],
