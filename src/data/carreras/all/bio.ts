@@ -539,7 +539,7 @@ export const bio: Carrera = {
         "ucCredits": 50,
         "type": "TL",
         "prerequisites": [],
-        "semester": "s9"
+        "semester": "s9",
         "electiveTrack": "track-especialidad",           // ← ID del track
         "trackOption": "A",                              // ← Letra de la opción (A, B, C, etc.)
         "trackName": "Opción A" 
@@ -553,7 +553,7 @@ export const bio: Carrera = {
         "prerequisites": [
             "BIO416C"
         ],
-        "semester": "s9"
+        "semester": "s9",
         "electiveGroup": "optativos-b-1", 
         "electiveTrack": "track-especialidad",          
         "trackOption": "B",                              
@@ -568,7 +568,7 @@ export const bio: Carrera = {
         "prerequisites": [
             "BIO416C"
         ],
-        "semester": "s9"
+        "semester": "s9",
         "electiveGroup": "optativos-b-1", 
         "electiveTrack": "track-especialidad",           
         "trackOption": "B",                              
@@ -581,7 +581,7 @@ export const bio: Carrera = {
         "ucCredits": 20,
         "type": "TL",
         "prerequisites": [],
-        "semester": "s9"
+        "semester": "s9",
         "electiveTrack": "track-especialidad",           
         "trackOption": "B",                              
         "trackName": "Opción B" 
@@ -593,7 +593,7 @@ export const bio: Carrera = {
         "ucCredits": 50,
         "type": "TL",
         "prerequisites": [],
-        "semester": "s9"
+        "semester": "s9",
         "electiveTrack": "track-especialidad",          
         "trackOption": "C",                             
         "trackName": "Opción C" 
