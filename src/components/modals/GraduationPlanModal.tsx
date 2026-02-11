@@ -587,7 +587,10 @@ export default function GraduationPlanModal({
                   const subjectsWithOptions = new Map<string, Subject[]>();
                   if (semesterPlan.electiveOptions) {
                     semesterPlan.electiveOptions.forEach(({ groupId, options }) => {
-                      const mainSubject = semesterPlan.subjects.find(s => s.electiveGroup === groupId);
+                      // Buscar por grupo electivo O por track electivo
+                      const mainSubject = semesterPlan.subjects.find(s => 
+                        s.electiveGroup === groupId || s.electiveTrack === groupId
+                      );
                       if (mainSubject && options.length > 0) {
                         const allOptions = options.flat();
                         subjectsWithOptions.set(mainSubject.code, allOptions);
