@@ -10,32 +10,32 @@ export const biomar_0: Carrera = {
     {
         "id": "FB",
         "nombre": "Formación Básica Fundante",
-        "color": "#3F51B5"
+        "color": "#5A6FB3"
     },
     {
         "id": "LP",
         "nombre": "Cursos Propios de Licenciatura",
-        "color": "#4CAF50"
+        "color": "#7C6DB0"
     },
     {
         "id": "CM",
         "nombre": "Cursos Mínimos",
-        "color": "#FF9800"
+        "color": "#C2873C"
     },
     {
         "id": "TL",
         "nombre": "Cursos Terminales de Licenciatura",
-        "color": "#FF69B4"
+        "color": "#B35C8D"
     },
     {
         "id": "FT",
         "nombre": "Cursos de Fase de Título",
-        "color": "#607D8B"
+        "color": "#5F7688"
     },
     {
         "id": "FG",
         "nombre": "Cursos de Formación General",
-        "color": "#FFC300"
+        "color": "#C2A23A"
     },
     {
         "id": "TEST",
