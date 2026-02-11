@@ -539,8 +539,10 @@ export const bio: Carrera = {
         "ucCredits": 50,
         "type": "TL",
         "prerequisites": [],
-        "electiveGroup": "9-ABC",
         "semester": "s9"
+        "electiveTrack": "track-especialidad",           // ← ID del track
+        "trackOption": "A",                              // ← Letra de la opción (A, B, C, etc.)
+        "trackName": "Opción A" 
     },
     {
         "name": "Práctica Profesional Inversiva",
@@ -551,8 +553,11 @@ export const bio: Carrera = {
         "prerequisites": [
             "BIO416C"
         ],
-        "electiveGroup": "9-ABC-B",
         "semester": "s9"
+        "electiveGroup": "optativos-b-1", 
+        "electiveTrack": "track-especialidad",          
+        "trackOption": "B",                              
+        "trackName": "Opción A" 
     },
     {
         "name": "Técnicas Avanzadas en Biología",
@@ -563,8 +568,11 @@ export const bio: Carrera = {
         "prerequisites": [
             "BIO416C"
         ],
-        "electiveGroup": "9-ABC-B",
         "semester": "s9"
+        "electiveGroup": "optativos-b-1", 
+        "electiveTrack": "track-especialidad",           
+        "trackOption": "B",                              
+        "trackName": "Opción A" 
     },
     {
         "name": "Optativos de Profundización",
@@ -575,6 +583,9 @@ export const bio: Carrera = {
         "prerequisites": [],
         "electiveGroup": "9-ABC-B",
         "semester": "s9"
+        "electiveTrack": "track-especialidad",           
+        "trackOption": "B",                              
+        "trackName": "Opción B" 
     },
     {
         "name": "Optativos de Profundización",
@@ -585,6 +596,9 @@ export const bio: Carrera = {
         "prerequisites": [],
         "electiveGroup": "9-ABC",
         "semester": "s9"
+        "electiveTrack": "track-especialidad",          
+        "trackOption": "C",                             
+        "trackName": "Opción C" 
     },
     {
         "name": "Memoria Profesional en Biología",
