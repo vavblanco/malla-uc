@@ -400,7 +400,7 @@ export default function GuideModal({ show, onClose, darkMode }: GuideModalProps)
                             <p className="text-sm font-semibold mb-2">Puedes tomar los OFG cuando quieras, siempre que:</p>
                             <ul className="text-sm space-y-1 opacity-90">
                               <li>✓ Cumplas los <strong>requisitos de cada área</strong> especificados en la malla</li>
-                              <li>✓ Completes las <strong>4 áreas obligatorias</strong>: Salud, Artes, Humanidades, Ciencias Sociales</li>
+                              <li>✓ Completes las <strong>8 áreas obligatorias</strong>: Filosofía, Teología, Salud y Bienestar, Artes, Humanidades, Ciencias Sociales, Ecología y Créditos Libres</li>
                               <li>✓ No excedas el límite de créditos del semestre</li>
                             </ul>
                           </div>
@@ -621,10 +621,10 @@ export default function GuideModal({ show, onClose, darkMode }: GuideModalProps)
                             <div className={`p-4 rounded-lg ${darkMode ? 'bg-gray-700/50' : 'bg-white/80'}`}>
                               <h6 className="font-bold mb-2 text-sm">Fórmula:</h6>
                               <code className="text-xs font-mono bg-gray-800 text-green-400 px-2 py-1 rounded block mb-1">
-                                UC = SCT × (3 / 5)
+                                UC = SCT × (5 / 3)
                               </code>
                               <code className="text-xs font-mono bg-gray-800 text-green-400 px-2 py-1 rounded block">
-                                SCT = UC × (5 / 3)
+                                SCT = UC × (3 / 5)
                               </code>
                             </div>
                           </div>
@@ -687,13 +687,13 @@ export default function GuideModal({ show, onClose, darkMode }: GuideModalProps)
                         <div className="space-y-2">
                           <div className={`p-3 rounded-lg ${darkMode ? 'bg-gray-600/50' : 'bg-white'}`}>
                             <div className="flex justify-between items-center">
-                              <span className="text-sm font-semibold">10 SCT</span>
+                              <span className="text-sm font-semibold">6 SCT</span>
                               <span className="text-xs opacity-70">→</span>
-                              <span className="text-sm font-bold text-blue-600 dark:text-blue-400">6 UC</span>
+                              <span className="text-sm font-bold text-blue-600 dark:text-blue-400">10 UC</span>
                             </div>
                           </div>
                           <p className="text-xs opacity-70">
-                            Cálculo: 10 × (3/5) = 6 UC
+                            Cálculo: 6 × (5/3) = 10 UC
                           </p>
                         </div>
                       </div>
@@ -703,29 +703,29 @@ export default function GuideModal({ show, onClose, darkMode }: GuideModalProps)
                         <div className="space-y-2">
                           <div className={`p-3 rounded-lg ${darkMode ? 'bg-gray-600/50' : 'bg-white'}`}>
                             <div className="flex justify-between items-center">
-                              <span className="text-sm font-semibold">15 SCT</span>
+                              <span className="text-sm font-semibold">18 SCT</span>
                               <span className="text-xs opacity-70">→</span>
-                              <span className="text-sm font-bold text-purple-600 dark:text-purple-400">9 UC</span>
+                              <span className="text-sm font-bold text-purple-600 dark:text-purple-400">30 UC</span>
                             </div>
                           </div>
                           <p className="text-xs opacity-70">
-                            Cálculo: 15 × (3/5) = 9 UC
+                            Cálculo: 18 × (5/3) = 9 UC
                           </p>
                         </div>
                       </div>
 
                       <div className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-50'} border-l-4 border-green-500`}>
-                        <h5 className="font-bold text-base mb-3">OFG Estándar</h5>
+                        <h5 className="font-bold text-base mb-3">Ramo Ligero</h5>
                         <div className="space-y-2">
                           <div className={`p-3 rounded-lg ${darkMode ? 'bg-gray-600/50' : 'bg-white'}`}>
                             <div className="flex justify-between items-center">
-                              <span className="text-sm font-semibold">5 SCT</span>
+                              <span className="text-sm font-semibold">3 SCT</span>
                               <span className="text-xs opacity-70">→</span>
-                              <span className="text-sm font-bold text-green-600 dark:text-green-400">3 UC</span>
+                              <span className="text-sm font-bold text-green-600 dark:text-green-400">5 UC</span>
                             </div>
                           </div>
                           <p className="text-xs opacity-70">
-                            Cálculo: 5 × (3/5) = 3 UC
+                            Cálculo: 3 × (5/3) = 5 UC
                           </p>
                         </div>
                       </div>
@@ -735,13 +735,13 @@ export default function GuideModal({ show, onClose, darkMode }: GuideModalProps)
                         <div className="space-y-2">
                           <div className={`p-3 rounded-lg ${darkMode ? 'bg-gray-600/50' : 'bg-white'}`}>
                             <div className="flex justify-between items-center">
-                              <span className="text-sm font-semibold">80 SCT</span>
+                              <span className="text-sm font-semibold">30 SCT</span>
                               <span className="text-xs opacity-70">→</span>
-                              <span className="text-sm font-bold text-orange-600 dark:text-orange-400">48 UC</span>
+                              <span className="text-sm font-bold text-orange-600 dark:text-orange-400">50 UC</span>
                             </div>
                           </div>
                           <p className="text-xs opacity-70">
-                            Cálculo: 80 × (3/5) = 48 UC
+                            Cálculo: 30 × (5/3) = 48 UC
                           </p>
                         </div>
                       </div>
@@ -769,15 +769,15 @@ export default function GuideModal({ show, onClose, darkMode }: GuideModalProps)
                           <div className="grid md:grid-cols-3 gap-3">
                             <div className={`p-3 rounded-lg ${darkMode ? 'bg-gray-700/50' : 'bg-white/80'} text-center`}>
                               <p className="text-xs opacity-70 mb-1">Biología</p>
-                              <p className="text-2xl font-bold text-green-600 dark:text-green-400">~300 UC</p>
+                              <p className="text-2xl font-bold text-green-600 dark:text-green-400">~510 UC</p>
                             </div>
                             <div className={`p-3 rounded-lg ${darkMode ? 'bg-gray-700/50' : 'bg-white/80'} text-center`}>
                               <p className="text-xs opacity-70 mb-1">Biología Marina</p>
-                              <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">~300 UC</p>
+                              <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">~505  UC</p>
                             </div>
                             <div className={`p-3 rounded-lg ${darkMode ? 'bg-gray-700/50' : 'bg-white/80'} text-center`}>
                               <p className="text-xs opacity-70 mb-1">Bioquímica</p>
-                              <p className="text-2xl font-bold text-purple-600 dark:text-purple-400">~300 UC</p>
+                              <p className="text-2xl font-bold text-purple-600 dark:text-purple-400">~520 UC</p>
                             </div>
                           </div>
                           <p className="text-xs opacity-70 mt-3">
