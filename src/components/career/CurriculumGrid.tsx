@@ -117,15 +117,7 @@ export default function CurriculumGrid({ initialCareer }: CurriculumGridProps = 
     if (handleBackToCareerSelector) handleBackToCareerSelector();
   };
 
-  const {
-    subjectStates,
-    updateSubjectState,
-    resetCalculator,
-    calculateCredits,
-    calculateSubjects,
-    isLoaded,
-  } = useCalculator(subjects, careerCode || '');
-
+  const { subjectStates, updateSubjectState, resetCalculator, calculateCredits, calculateSubjects, getApprovedCredits, isLoaded } = useCalculator(subjects, careerCode || '');
   const { checkAndTriggerConfetti } = useConfetti();
   const {
     showGraduationPlan,
@@ -135,15 +127,14 @@ export default function CurriculumGrid({ initialCareer }: CurriculumGridProps = 
     closeGraduationPlan
   } = useGraduationPlan(subjects, subjectStates);
 
-  const creditStats = calculateCredits();
-  const subjectStats = calculateSubjects();
-
+  // ACTUALIZADO: Combinar estadísticas de créditos y asignaturas
+  const creditsStats = calculateCredits();
+  const subjectsStats = calculateSubjects();
   const stats = {
-    ...creditStats,
-    ...subjectStats,
+    ...creditsStats,
+    ...subjectsStats
   };
-
-  const approvedCredits = approvedCredits(); // NUEVO: Obtener créditos aprobados
+  const approvedCredits = getApprovedCredits();
 
   // Verificar si se alcanzó el 100% para lanzar confetti
   useEffect(() => {
@@ -193,12 +184,11 @@ export default function CurriculumGrid({ initialCareer }: CurriculumGridProps = 
                 findSubjectByCode={findSubjectByCode}
                 darkMode={darkMode}
                 subjectRefs={subjectRefs}
-                approvedCredits={approvedCredits} // NUEVO: Pasar créditos aprobados
+                approvedCredits={approvedCredits}
               />
             </div>
             
             <div className="p-1 md:p-2 lg:p-4">
-
               <Footer darkMode={darkMode} />
             </div>
           </>
