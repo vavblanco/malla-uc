@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     "Biología Marina",
     "Bioquímica"
   ],
-  authors: "Consejería Académica de Ciencias Biológicas"],
+  authors: "Consejería Académica de Ciencias Biológicas",
   creator: "FCB",
   publisher: "Facultad de Ciencias Biológicas",
   
