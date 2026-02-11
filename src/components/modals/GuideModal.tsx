@@ -55,7 +55,7 @@ export default function GuideModal({ show, onClose, darkMode }: GuideModalProps)
               </div>
             </div>
 
-            {/* Content con scroll */}
+             {/* Content con scroll */}
             <div className={`overflow-y-auto flex-1 pb-6 ${darkMode ? 'bg-gray-800' : 'bg-white'}`}>
               
               {/* Toggle de pestañas - Sticky con gradiente */}
@@ -82,14 +82,10 @@ export default function GuideModal({ show, onClose, darkMode }: GuideModalProps)
                       : 'bg-purple-600'
                   }`}
                   style={{
-                    inset: '4px',
-                    width: 'calc((100% - 8px) / 3)',
-                    transform:
-                      selectedTab === 'usage'
-                        ? 'translateX(0%)'
-                        : selectedTab === 'planning'
-                        ? 'translateX(100%)'
-                        : 'translateX(200%)',
+                    left: selectedTab === 'usage' ? '4px' : selectedTab === 'planning' ? '33.33%' : '66.66%',
+                    width: selectedTab === 'usage' ? 'calc(33.33% - 4px)' : selectedTab === 'planning' ? 'calc(33.33% - 4px)' : 'calc(33.33% - 4px)',
+                    top: '4px',
+                    bottom: '4px',
                   }}
                   transition={{ type: "spring", stiffness: 300, damping: 30 }}
                 />
@@ -105,7 +101,7 @@ export default function GuideModal({ show, onClose, darkMode }: GuideModalProps)
                         ? 'text-gray-400'
                         : 'text-gray-600'
                   }`}
-                >
+                >                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
                   <FontAwesomeIcon icon={faBookOpen} className="text-sm" />
                   Usar Malla
                 </div>
