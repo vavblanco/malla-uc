@@ -46,33 +46,28 @@ export const biomar: Carrera = {
 
   asignaturas: [
     {
-        "name": "Evolución BIOMAR",
-        "code": "BIO101B",
+        "name": "Biología Marina",
+        "code": "BIO130M",
+        "sctCredits": 6,
+        "ucCredits": 10,
+        "type": "LP",
+        "prerequisites": [],
+        "semester": "s1"
+    },
+    {
+        "name": "Evolución",
+        "code": "BIO118C",
         "sctCredits": 3,
+        "ucCredits": 10,
         "type": "LP",
         "prerequisites": [],
         "semester": "s1"
     },
     {
         "name": "Biología de la Célula",
-        "code": "BIO141C",
+        "code": "BIO114B",
         "sctCredits": 6,
-        "type": "FB",
-        "prerequisites": [],
-        "semester": "s1"
-    },
-    {
-        "name": "Laboratorio de Química General",
-        "code": "QIM101L",
-        "sctCredits": 6,
-        "type": "FB",
-        "prerequisites": [],
-        "semester": "s1"
-    },
-    {
-        "name": "Química General I",
-        "code": "QIM100I",
-        "sctCredits": 6,
+        "ucCredits": 10,
         "type": "FB",
         "prerequisites": [],
         "semester": "s1"
@@ -81,15 +76,17 @@ export const biomar: Carrera = {
         "name": "Precálculo",
         "code": "MAT1000",
         "sctCredits": 6,
+        "ucCredits": 10,
         "type": "FB",
         "prerequisites": [],
         "semester": "s1"
     },
     {
-        "name": "Filosofía: ¿Para qué?",
-        "code": "FIL2001",
+        "name": "Química General I",
+        "code": "QIM100I",
         "sctCredits": 6,
-        "type": "FG",
+        "ucCredits": 10,
+        "type": "FB",
         "prerequisites": [],
         "semester": "s1"
     },
@@ -118,29 +115,42 @@ export const biomar: Carrera = {
         "semester": "s1"
     },
     {
+        "name": "Invertebrados Marinos",
+        "code": "BIO140M",
+        "sctCredits": 6,
+        "ucCredits": 10,
+        "type": "LP",
+        "prerequisites": [],
+        "semester": "s2"
+    },
+    {
         "name": "Física para Ciencias",
         "code": "FIS109C",
         "sctCredits": 6,
+        "ucCredits": 10,
         "type": "FB",
         "prerequisites": [],
+        "corequisites": ["FIS0109"],
         "semester": "s2"
     },
     {
         "name": "Laboratorio de Física para Ciencias",
         "code": "FIS0109",
         "sctCredits": 0,
+        "ucCredits": 0,
         "type": "FB",
         "prerequisites": [],
+        "corequisites": ["FIS109C"],
         "semester": "s2"
     },
     {
         "name": "Química General II",
         "code": "QIM100B",
         "sctCredits": 6,
+        "ucCredits": 10,
         "type": "LP",
         "prerequisites": [
-          "QIM100I",
-          "QIM101L"
+          "QIM100I"
         ],
         "semester": "s2"
     },
@@ -148,6 +158,7 @@ export const biomar: Carrera = {
         "name": "Cálculo I",
         "code": "MAT1100",
         "sctCredits": 6,
+        "ucCredits": 10,
         "type": "LP",
         "prerequisites": [
             "MAT1000"
@@ -158,35 +169,27 @@ export const biomar: Carrera = {
         "name": "Formación General",
         "code": "OFG1",
         "sctCredits": 6,
+        "ucCredits": 10,
         "type": "FG",
         "prerequisites": [],
         "semester": "s2"
     },
     {
-        "name": "Formación General",
-        "code": "OFG2",
+        "name": "Vertebrados Marinos",
+        "code": "BIO205M",
         "sctCredits": 6,
-        "type": "FG",
-        "prerequisites": [],
-        "semester": "s2"
-    },
-    {
-        "name": "Bases Físicas de los Procesos Biológicos",
-        "code": "BIO152C",
-        "sctCredits": 6,
-        "type": "FB",
+        "ucCredits": 10,
+        "type": "LP",
         "prerequisites": [
-            "MAT1000",
-            "FIS109C",
-            "QIM100I",
-            "BIO141C"
+            "BIO118C"
         ],
         "semester": "s3"
     },
     {
         "name": "Bioestadística",
-        "code": "BIO242C",
+        "code": "BIO230C",
         "sctCredits": 6,
+        "ucCredits": 10,
         "type": "LP",
         "prerequisites": [
             "MAT1000"
@@ -194,9 +197,22 @@ export const biomar: Carrera = {
         "semester": "s3"
     },
     {
-        "name": "Química Orgánica I",
-        "code": "QIM102B",
+        "name": "Biología Computacional",
+        "code": "BIO210C",
+        "sctCredits": 3,
+        "ucCredits": 5,
+        "type": "CM",
+        "prerequisites": [
+            "MAT1000",
+            "BIO114B"
+        ],
+        "semester": "s3"
+    },
+    {
+        "name": "Química Orgánica Fundamental",
+        "code": "QIM200",
         "sctCredits": 6,
+        "ucCredits": 10,
         "type": "LP",
         "prerequisites": [
             "QIM100B"
@@ -204,313 +220,367 @@ export const biomar: Carrera = {
         "semester": "s3"
     },
     {
-        "name": "Química Analítica I",
-        "code": "QIM109B",
-        "sctCredits": 6,
+        "name": "Metodología para la Investigación Biológica",
+        "code": "BIO215C",
+        "sctCredits": 3,
+        "ucCredits": 5,
         "type": "LP",
         "prerequisites": [
-            "QIM100B"
+            "BIO114B"
         ],
         "semester": "s3"
+    },
+    {
+        "name": "Filosofía: ¿Para Qué?",
+        "code": "FIL2001",
+        "sctCredits": 6,
+        "ucCredits": 10,
+        "type": "FG",
+        "prerequisites": [],
+        "semester": "s3"
+    },
+    {
+        "name": "Botánica Marina",
+        "code": "BIO260M",
+        "sctCredits": 6,
+        "ucCredits": 10,
+        "type": "CM",
+        "prerequisites": [
+            "BIO118C"
+        ],
+        "semester": "s4"
+    },
+    {
+        "name": "Bioquímica",
+        "code": "BIO247C",
+        "sctCredits": 6,
+        "ucCredits": 10,
+        "type": "CM",
+        "prerequisites": [
+            "BIO114B",
+            "QIM200"
+        ],
+        "semester": "s4"
+    },
+    {
+        "name": "Genética Integrativa",
+        "code": "BIO244C",
+        "sctCredits": 6,
+        "ucCredits": 10,
+        "type": "CM",
+        "prerequisites": [
+            "BIO114B",
+            "BIO230C"
+        ],
+        "semester": "s4"
+    },
+    {
+        "name": "Oceanografía General",
+        "code": "BIO355M",
+        "sctCredits": 6,
+        "ucCredits": 10,
+        "type": "CM",
+        "prerequisites": [
+            "QIM100I",
+            "FIS109C"
+        ],
+        "semester": "s4"
+    },
+    {
+        "name": "Formación Teológica",
+        "code": "TTF",
+        "sctCredits": 6,
+        "ucCredits": 10,
+        "type": "FG",
+        "prerequisites": [],
+        "semester": "s4"
+    },
+    {
+        "name": "Microbiología Marina",
+        "code": "BIO342M",
+        "sctCredits": 6,
+        "ucCredits": 10,
+        "type": "CM",
+        "prerequisites": [
+            "BIO355M"
+        ],
+        "semester": "s5"
+    },
+    {
+        "name": "Ecología",
+        "code": "BIO330C",
+        "sctCredits": 6,
+        "ucCredits": 10,
+        "type": "CM",
+        "prerequisites": [
+            "BIO118C",
+            "BIO230C"
+        ],
+        "semester": "s5"
+    },
+    {
+        "name": "Fisiología Celular",
+        "code": "BIO324C",
+        "sctCredits": 6,
+        "ucCredits": 10,
+        "type": "CM",
+        "prerequisites": [
+            "BIO114B",
+            "FIS109C"
+        ],
+        "semester": "s5"
+    },
+    {
+        "name": "Biomatemáticas: Modelación de Sistemas Biológicos",
+        "code": "BIO310C",
+        "sctCredits": 6,
+        "ucCredits": 10,
+        "type": "CM",
+        "prerequisites": [
+            "MAT1100",
+            "BIO230C",
+            "BIO210C"
+        ],
+        "semester": "s5"
+    },
+    {
+        "name": "Filosofía y Ética de la Ciencia",
+        "code": "ETI2010",
+        "sctCredits": 3,
+        "ucCredits": 5,
+        "type": "CM",
+        "prerequisites": [],
+        "semester": "s5"
+    },
+    {
+        "name": "Formación General",
+        "code": "OFG2",
+        "sctCredits": 6,
+        "ucCredits": 10,
+        "type": "CM",
+        "prerequisites": [],
+        "semester": "s5"
+    },
+    {
+        "name": "Trabajo Experimental en Biología Marina",
+        "code": "BIO374M",
+        "sctCredits": 6,
+        "ucCredits": 10,
+        "type": "CM",
+        "prerequisites": [
+            "BIO130M",
+            "BIO230C",
+            "BIO330C"
+        ],
+        "semester": "s6"
+    },
+    {
+        "name": "Fisiología Animal Comparada",
+        "code": "BIO372C",
+        "sctCredits": 6,
+        "ucCredits": 10,
+        "type": "CM",
+        "prerequisites": [
+            "BIO324C",
+            "BIO227E"
+        ],
+        "semester": "s6"
+    },
+    {
+        "name": "Ecoinformática",
+        "code": "BIO408C",
+        "sctCredits": 6,
+        "ucCredits": 10,
+        "type": "CM",
+        "prerequisites": [
+            "BIO230C",
+            "BIO210C"
+        ],
+        "semester": "s6"
     },
     {
         "name": "Formación General",
         "code": "OFG3",
-        "sctCredits": 6,
+        "sctCredits": 3,
+        "ucCredits": 10,
         "type": "FG",
         "prerequisites": [],
-        "semester": "s3"
-    },
-    {
-        "name": "Biología de los Microorganismos",
-        "code": "BIO151E",
-        "sctCredits": 6,
-        "type": "FB",
-        "prerequisites": [
-            "BIO141C"
-        ],
-        "semester": "s4"
-    },
-    {
-        "name": "Química Orgánica II",
-        "code": "QIM103A",
-        "sctCredits": 6,
-        "type": "LP",
-        "prerequisites": [
-            "QIM102B"
-        ],
-        "semester": "s4"
-    },
-    {
-        "name": "Análisis Instrumental",
-        "code": "QIM111",
-        "sctCredits": 6,
-        "type": "CM",
-        "prerequisites": [
-            "QIM109B"
-        ],
-        "semester": "s4"
+        "semester": "s6"
     },
     {
         "name": "Formación General",
         "code": "OFG4",
-        "sctCredits": 6,
+        "sctCredits": 3,
+        "ucCredits": 10,
         "type": "FG",
         "prerequisites": [],
-        "semester": "s4"
+        "semester": "s6"
+    },
+    {
+        "name": "Seminario de Investigación en Biología Marina I",
+        "code": "BIO415M",
+        "sctCredits": 6,
+        "ucCredits": 10,
+        "type": "CM",
+        "prerequisites": [
+            "BIO374M"
+        ],
+        "semester": "s7"
+    },
+    {
+        "name": "Optativo de Profundización o Minor",
+        "code": "OPT1",
+        "sctCredits": 6,
+        "ucCredits": 10,
+        "type": "CM",
+        "prerequisites": [],
+        "semester": "s7"
+    },
+    {
+        "name": "Optativo de Profundización o Minor",
+        "code": "OPT2",
+        "sctCredits": 6,
+        "ucCredits": 10,
+        "type": "CM",
+        "prerequisites": [],
+        "semester": "s7"
+    },
+    {
+        "name": "Optativo de Profundización o Minor",
+        "code": "OPT3",
+        "sctCredits": 6,
+        "ucCredits": 10,
+        "type": "CM",
+        "prerequisites": [],
+        "semester": "s7"
     },
     {
         "name": "Formación General",
         "code": "OFG5",
         "sctCredits": 6,
+        "ucCredits": 10,
         "type": "FG",
         "prerequisites": [],
-        "semester": "s4"
+        "semester": "s7"
     },
     {
-        "name": "Genética y Evolución",
-        "code": "BIO226E",
+        "name": "Seminario de Investigación en Biología Marina II",
+        "code": "BIO416M",
+        "sctCredits": 15,
+        "ucCredits": 25,
+        "type": "CM",
+        "prerequisites": [
+            "BIO415M"
+        ],
+        "semester": "s8"
+    },
+    {
+        "name": "Optativo de Profundización o Minor",
+        "code": "OPT4",
         "sctCredits": 6,
+        "ucCredits": 10,
         "type": "CM",
-        "prerequisites": [
-            "BIO141C",
-            "BIO242C"
-        ],
-        "semester": "s5"
+        "prerequisites": [],
+        "semester": "s8"
     },
     {
-        "name": "Fisiología y Bioquímica Vegetal",
-        "code": "BIO225C",
+        "name": "Optativo de Profundización o Minor",
+        "code": "OPT5",
         "sctCredits": 6,
+        "ucCredits": 10,
         "type": "CM",
-        "prerequisites": [
-            "BIO151E",
-            "BIO152C"
-        ],
-        "semester": "s5"
-    },
-    {
-        "name": "Biología y Fisiología Celular",
-        "code": "BIO274E",
-        "sctCredits": 6,
-        "type": "CM",
-        "prerequisites": [
-            "BIO151E",
-            "BIO152C"
-        ],
-        "semester": "s5"
-    },
-    {
-        "name": "Bioquímica",
-        "code": "BIO257C",
-        "sctCredits": 6,
-        "type": "CM",
-        "prerequisites": [
-            "BIO151E",
-            "QIM103A"
-        ],
-        "semester": "s5"
-    },
-    {
-        "name": "Laboratorio de Bioquímica I: Biología Celular",
-        "code": "BIO266D",
-        "sctCredits": 3,
-        "type": "CM",
-        "prerequisites": [
-            "BIO151E",
-            "QIM103A",
-            "QIM111"
-        ],
-        "semester": "s5"
-    },
-    {
-        "name": "Laboratorio de Química Orgánica",
-        "code": "QIM104A",
-        "sctCredits": 6,
-        "type": "CM",
-        "prerequisites": [
-            "QIM103A"
-        ],
-        "semester": "s5"
+        "prerequisites": [],
+        "semester": "s8"
     },
     {
         "name": "Formación General",
         "code": "OFG6",
         "sctCredits": 6,
+        "ucCredits": 10,
         "type": "FG",
         "prerequisites": [],
-        "semester": "s5"
-    },
-    {
-        "name": "Genética Molecular",
-        "code": "BIO288C",
-        "sctCredits": 6,
-        "type": "CM",
-        "prerequisites": [
-            "BIO257C"
-        ],
-        "semester": "s6"
-    },
-    {
-        "name": "Laboratorio de Bioquímica II: Genética Molecular",
-        "code": "BIO266E",
-        "sctCredits": 6,
-        "type": "CM",
-        "prerequisites": [
-            "BIO257C",
-            "BIO266D"
-        ],
-        "semester": "s6"
-    },
-    {
-        "name": "Fisiología",
-        "code": "BIO299E",
-        "sctCredits": 6,
-        "type": "CM",
-        "prerequisites": [
-            "BIO152C",
-            "BIO257C"
-        ],
-        "semester": "s6"
-    },
-    {
-        "name": "Laboratorio de Fisiología",
-        "code": "BIO299L",
-        "sctCredits": 3,
-        "type": "CM",
-        "prerequisites": [],
-        "semester": "s6"
-    },
-    {
-        "name": "Química-Física I",
-        "code": "QIM114B",
-        "sctCredits": 6,
-        "type": "CM",
-        "prerequisites": [
-            "MAT1100"
-        ],
-        "semester": "s6"
-    },
-    {
-        "name": "Formación General",
-        "code": "OFG7",
-        "sctCredits": 6,
-        "type": "FG",
-        "prerequisites": [],
-        "semester": "s6"
-    },
-    {
-        "name": "Química-Física II",
-        "code": "QIM115",
-        "sctCredits": 6,
-        "type": "TL",
-        "prerequisites": [
-            "QIM114B"
-        ],
-        "semester": "s7"
-    },
-    {
-        "name": "Introducción al Laboratorio Clínico",
-        "code": "MEB176B",
-        "sctCredits": 6,
-        "type": "TL",
-        "prerequisites": [
-            "BIO266D",
-            "BIO266E"
-        ],
-        "semester": "s7"
-    },
-    {
-        "name": "Seminario de Investigacion Departamental",
-        "code": "BIO295A",
-        "sctCredits": 9,
-        "type": "TL",
-        "prerequisites": [],
-        "semester": "s7"
-    },
-    {
-        "name": "Optativo de Profundización",
-        "code": "OPR1",
-        "sctCredits": 3,
-        "type": "TL",
-        "prerequisites": [],
-        "semester": "s7"
-    },
-    {
-        "name": "Optativo de Profundización",
-        "code": "OPR2",
-        "sctCredits": 6,
-        "type": "TL",
-        "prerequisites": [],
-        "semester": "s7"
-    },
-    {
-        "name": "Seminario de Investigación",
-        "code": "BIO296F",
-        "sctCredits": 18,
-        "type": "TL",
-        "prerequisites": [
-            "BIO295A",
-            "BIO266D",
-            "BIO266E",
-            "BIO299L"
-        ],
         "semester": "s8"
     },
     {
-        "name": "Práctica Extramural",
-        "code": "BIO258F",
-        "sctCredits": 18,
-        "type": "TL",
-        "prerequisites": [
-            "BIO266D",
-            "BIO266E",
-            "BIO299L"
-        ],
-        "semester": "s8"
-    },
-    {
-        "name": "Optativo de Profundización",
-        "code": "OPR3",
-        "sctCredits": 6,
-        "type": "TL",
-        "prerequisites": [],
-        "semester": "s8"
-    },
-    {
-        "name": "Optativo de Profundización",
-        "code": "OPR4",
-        "sctCredits": 6,
-        "type": "TL",
-        "prerequisites": [],
-        "semester": "s8"
-    },
-    {
-        "name": "Examen de Grado",
-        "code": "EXAMEN GRADO",
-        "sctCredits": 6,
-        "type": "TL",
-        "prerequisites": [],
-        "semester": "s8"
-    },
-    {
-        "name": "Técnicas Avanzadas en Bioquímica",
-        "code": "BIO3319",
+        "name": "Técnicas Avanzadas en Biología Marina",
+        "code": "BIO320M",
         "sctCredits": 30,
-        "type": "FT",
+        "ucCredits": 50,
+        "type": "TL",
         "prerequisites": [
-          "EXAMEN GRADO"
+            "BIO416M"
         ],
+        "electiveTrack": "track-especialidad",           
+        "trackOption": "A",                              
+        "trackName": "Investigación",
         "semester": "s9"
     },
     {
-        "name": "Memoria de Investigación",
-        "code": "BIO285D",
-        "sctCredits": 30,
-        "type": "FT",
+        "name": "Práctica Profesional Inversiva",
+        "code": "BIO458E",
+        "sctCredits": 18,
+        "ucCredits": 30,
+        "type": "TL",
         "prerequisites": [
-          "BIO3319"
+            "BIO416M"
         ],
+        "electiveTrack": "track-especialidad",          
+        "trackOption": "B",                              
+        "trackName": "Experiencia Profesional",
+        "semester": "s9"
+    },
+    {
+        "name": "Optativos de Profundización",
+        "code": "OPTC",
+        "sctCredits": 30,
+        "ucCredits": 50,
+        "type": "TL",
+        "prerequisites": [],
+        "electiveTrack": "track-especialidad",          
+        "trackOption": "C",                             
+        "trackName": "Cursos",
+        "semester": "s9"
+    },
+    {
+        "name": "Gestión, Producción y Restauración Marina",
+        "code": "BIO402M",
+        "sctCredits": 30,
+        "ucCredits": 50,
+        "type": "TL",
+        "prerequisites": [],
+        "semester": "s9"
+    },
+    {
+        "name": "Socioecología y Conservación Marina",
+        "code": "BIO412M",
+        "sctCredits": 30,
+        "ucCredits": 50,
+        "type": "TL",
+        "prerequisites": [],
+        "semester": "s9"
+    },
+    {
+        "name": "Memoria Profesional en Biología Marina",
+        "code": "BIO480M",
+        "sctCredits": 30,
+        "ucCredits": 50,
+        "type": "TL",
+        "prerequisites": [
+            "BIO416C"
+        ],
+        "electiveGroup": "10-PI",
+        "semester": "s10"
+    },
+    {
+        "name": "Memoria de Investigación en Biología Marina",
+        "code": "BIO490M",
+        "sctCredits": 30,
+        "ucCredits": 50,
+        "type": "TL",
+        "prerequisites": [
+            "BIO416C"
+        ],
+        "electiveGroup": "10-PI",
         "semester": "s10"
     }
 ],

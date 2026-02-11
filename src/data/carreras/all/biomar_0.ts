@@ -326,7 +326,7 @@ export const biomar_0: Carrera = {
     },
     {
         "name": "Laboratorio de Bioquímica: Biología Celular",
-        "code": "BIO297C",
+        "code": "BIO297E",
         "sctCredits": 6,
         "ucCredits": 10,
         "type": "CM",
