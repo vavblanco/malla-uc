@@ -1,4 +1,4 @@
-// Service Worker para Malla Interactiva UTFSM
+// Service Worker para Malla Interactiva PUC
 // Versión: 1.0.0
 
 const CACHE_NAME = 'malla-interactiva-v1';

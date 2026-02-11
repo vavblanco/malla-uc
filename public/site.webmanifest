@@ -1,5 +1,5 @@
 {
-    "name": "Malla Interactiva PUC",
+    "name":"Malla Interactiva PUC",
     "short_name": "Malla PUC",
     "description": "Calculadora de Avance Curricular para Carreras de la FCB de la PUC",
     "start_url": "./",
@@ -10,18 +10,8 @@
     "categories": ["education", "productivity", "utilities"],
     "lang": "es-CL",
     "scope": "./",
-    "icons": [
-        {
-            "src": "android-chrome-192x192.png",
-            "sizes": "192x192",
-            "type": "image/png",
-            "purpose": "maskable any"
-        },
-        {
-            "src": "android-chrome-512x512.png",
-            "sizes": "512x512",
-            "type": "image/png",
-            "purpose": "maskable any"
-        }
+    "icons":[
+        {"src":"/android-chrome-192x192.png","sizes":"192x192","type":"image/png"},
+        {"src":"/android-chrome-512x512.png","sizes":"512x512","type":"image/png"}
     ]
-}
+    }
