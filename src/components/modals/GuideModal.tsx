@@ -67,79 +67,84 @@ export default function GuideModal({ show, onClose, darkMode }: GuideModalProps)
                 }`}
               >
               <div className="flex items-center justify-center pointer-events-auto">
-              <div 
-                className={`relative flex items-center rounded-full p-1 gap-0 backdrop-blur-md ${
-                  darkMode ? 'bg-gray-700/70' : 'bg-gray-100/70'
-                }`}
-              >
-                <motion.div
-                  layout
-                  className={`absolute rounded-full shadow-md ${
-                    selectedTab === 'usage'
-                      ? 'bg-green-600'
-                      : selectedTab === 'planning'
-                      ? 'bg-blue-600'
-                      : 'bg-purple-600'
-                  }`}
-                  style={{
-                    left: selectedTab === 'usage' ? '4px' : selectedTab === 'planning' ? '33.33%' : '66.66%',
-                    width: selectedTab === 'usage' ? 'calc(33.33% - 4px)' : selectedTab === 'planning' ? 'calc(33.33% - 4px)' : 'calc(33.33% - 4px)',
-                    top: '4px',
-                    bottom: '4px',
-                  }}
-                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                />
-                <div
-                  role="button"
-                  tabIndex={0}
-                  onClick={() => setSelectedTab('usage')}
-                  onKeyDown={(e) => e.key === 'Enter' && setSelectedTab('usage')}
-                  className={`relative z-10 px-4 py-2 text-sm font-semibold rounded-full transition-colors whitespace-nowrap cursor-pointer flex items-center gap-2 ${
-                    selectedTab === 'usage'
-                      ? 'text-white' 
-                      : darkMode
-                        ? 'text-gray-400'
-                        : 'text-gray-600'
-                  }`}
-                >                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
-                  <FontAwesomeIcon icon={faBookOpen} className="text-sm" />
-                  Usar Malla
-                </div>
-                <div
-                  role="button"
-                  tabIndex={0}
-                  onClick={() => setSelectedTab('planning')}
-                  onKeyDown={(e) => e.key === 'Enter' && setSelectedTab('planning')}
-                  className={`relative z-10 px-4 py-2 text-sm font-semibold rounded-full transition-colors whitespace-nowrap cursor-pointer flex items-center gap-2 ${
-                    selectedTab === 'planning'
-                      ? 'text-white'
-                      : darkMode
-                        ? 'text-gray-400'
-                        : 'text-gray-600'
+                <div 
+                  className={`relative flex items-center rounded-full p-1 gap-0 backdrop-blur-md ${
+                    darkMode ? 'bg-gray-700/70' : 'bg-gray-100/70'
                   }`}
                 >
-                  <FontAwesomeIcon icon={faGraduationCap} className="text-sm" />
-                  Tomar Ramos
-                </div>
-                <div
-                  role="button"
-                  tabIndex={0}
-                  onClick={() => setSelectedTab('credits')}
-                  onKeyDown={(e) => e.key === 'Enter' && setSelectedTab('credits')}
-                  className={`relative z-10 px-4 py-2 text-sm font-semibold rounded-full transition-colors whitespace-nowrap cursor-pointer flex items-center gap-2 ${
-                    selectedTab === 'credits'
-                      ? 'text-white'
-                      : darkMode
-                        ? 'text-gray-400'
-                        : 'text-gray-600'
-                  }`}
-                >
-                  <FontAwesomeIcon icon={faCoins} className="text-sm" />
-                  Créditos
+                  {/* Fondo animado */}
+                  <motion.div
+                    layout
+                    className={`absolute rounded-full shadow-md ${
+                      selectedTab === 'usage'
+                        ? 'bg-green-600'
+                        : selectedTab === 'planning'
+                        ? 'bg-blue-600'
+                        : 'bg-purple-600'
+                    }`}
+                    layoutId="tab-background"
+                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                    style={{
+                      top: '4px',
+                      bottom: '4px',
+                    }}
+                  />
+
+                  {/* Botón 1: Usar Malla */}
+                  <div
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => setSelectedTab('usage')}
+                    onKeyDown={(e) => e.key === 'Enter' && setSelectedTab('usage')}
+                    className={`relative z-10 px-4 py-2 text-sm font-semibold rounded-full transition-colors whitespace-nowrap cursor-pointer flex items-center gap-2 flex-1 justify-center ${
+                      selectedTab === 'usage'
+                        ? 'text-white' 
+                        : darkMode
+                          ? 'text-gray-400'
+                          : 'text-gray-600'
+                    }`}
+                  >                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+                    <FontAwesomeIcon icon={faBookOpen} className="text-sm" />
+                    Usar Malla
+                  </div>
+
+                  {/* Botón 2: Tomar Ramos */}
+                  <div
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => setSelectedTab('planning')}
+                    onKeyDown={(e) => e.key === 'Enter' && setSelectedTab('planning')}
+                    className={`relative z-10 px-4 py-2 text-sm font-semibold rounded-full transition-colors whitespace-nowrap cursor-pointer flex items-center gap-2 flex-1 justify-center ${
+                      selectedTab === 'planning'
+                        ? 'text-white'
+                        : darkMode
+                          ? 'text-gray-400'
+                          : 'text-gray-600'
+                    }`}
+                  >
+                    <FontAwesomeIcon icon={faGraduationCap} className="text-sm" />
+                    Tomar Ramos
+                  </div>
+
+                  {/* Botón 3: Créditos */}
+                  <div
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => setSelectedTab('credits')}
+                    onKeyDown={(e) => e.key === 'Enter' && setSelectedTab('credits')}
+                    className={`relative z-10 px-4 py-2 text-sm font-semibold rounded-full transition-colors whitespace-nowrap cursor-pointer flex items-center gap-2 flex-1 justify-center ${
+                      selectedTab === 'credits'
+                        ? 'text-white'
+                        : darkMode
+                          ? 'text-gray-400'
+                          : 'text-gray-600'
+                    }`}
+                  >
+                    <FontAwesomeIcon icon={faCoins} className="text-sm" />
+                    Créditos
+                  </div>
                 </div>
               </div>
-              </div>
-            </div>
 
               {/* Contenido: Usar la Malla */}
               {selectedTab === 'usage' && (
@@ -242,7 +247,7 @@ export default function GuideModal({ show, onClose, darkMode }: GuideModalProps)
                               Borde punteado naranja indica que debe cursarse <strong>junto con</strong> otro ramo.
                             </p>
                             <p className="text-xs opacity-70">
-                              Ej: Cálculo I y Taller de Cálculo I.
+                              Ej: Química General I y Laboratorio de Química General.
                             </p>
                           </div>
                         </div>
@@ -741,7 +746,7 @@ export default function GuideModal({ show, onClose, darkMode }: GuideModalProps)
                             </div>
                           </div>
                           <p className="text-xs opacity-70">
-                            Cálculo: 30 × (5/3) = 48 UC
+                            Cálculo: 30 × (5/3) = 50 UC
                           </p>
                         </div>
                       </div>
