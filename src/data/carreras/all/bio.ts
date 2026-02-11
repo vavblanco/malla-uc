@@ -572,7 +572,7 @@ export const bio: Carrera = {
         "electiveGroup": "optativos-b-1", 
         "electiveTrack": "track-especialidad",           
         "trackOption": "B",                              
-        "trackName": "Opción A" 
+        "trackName": "Opción B" 
     },
     {
         "name": "Optativos de Profundización",
@@ -581,7 +581,6 @@ export const bio: Carrera = {
         "ucCredits": 20,
         "type": "TL",
         "prerequisites": [],
-        "electiveGroup": "9-ABC-B",
         "semester": "s9"
         "electiveTrack": "track-especialidad",           
         "trackOption": "B",                              
@@ -594,7 +593,6 @@ export const bio: Carrera = {
         "ucCredits": 50,
         "type": "TL",
         "prerequisites": [],
-        "electiveGroup": "9-ABC",
         "semester": "s9"
         "electiveTrack": "track-especialidad",          
         "trackOption": "C",                             
