@@ -1,3 +1,20 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="32" height="32" viewBox="0 0 500 500">
-  <image id="Fondo" width="500" height="500" xlink:href="data:img/png;base64,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"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #a4d4d6;
+      }
+
+      .cls-2 {
+        font-size: 150px;
+        fill: #fff;
+        text-anchor: middle;
+        font-family: "Recoleta Alt";
+      }
+    </style>
+  </defs>
+  <g id="Mesa_de_trabajo_1" data-name="Mesa de trabajo 1">
+    <rect id="Rectángulo_1" data-name="Rectángulo 1" class="cls-1" width="512" height="512"/>
+    <text id="CA_CCBB" data-name="CA CCBB" class="cls-2" x="256" y="208.5">CA<tspan x="256" dy="180">CCBB</tspan></text>
+  </g>
 </svg>
