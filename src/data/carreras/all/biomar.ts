@@ -532,8 +532,8 @@ export const biomar: Carrera = {
     {
         "name": "Optativos de Profundización",
         "code": "OPTC",
-        "sctCredits": 30,
-        "ucCredits": 50,
+        "sctCredits": 18,
+        "ucCredits": 30,
         "type": "TL",
         "prerequisites": [],
         "electiveTrack": "track-especialidad",          
