@@ -504,8 +504,8 @@ export const biomar: Carrera = {
     {
         "name": "Técnicas Avanzadas en Biología Marina",
         "code": "BIO320M",
-        "sctCredits": 30,
-        "ucCredits": 50,
+        "sctCredits": 18,
+        "ucCredits": 30,
         "type": "TL",
         "prerequisites": [
             "BIO416M"
