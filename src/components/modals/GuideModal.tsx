@@ -370,7 +370,7 @@ export default function GuideModal({ show, onClose, darkMode }: GuideModalProps)
                               El máximo absoluto es <strong>60 créditos UC</strong> por semestre.
                             </p>
                             <p className="text-xs opacity-70">
-                              Solo recomendado si tienes experiencia y buen rendimiento académico.
+                              Usualmente, las mallas de la FCB suelen tener entre 50-55 créditos por semestre.
                             </p>
                           </div>
                         </div>
