@@ -276,25 +276,6 @@ El proyecto original fue creado para la Universidad Técnica Federico Santa Mar�
 
 ---
 
-## 🚀 Deployment
-
-### GitHub Pages
-
-```bash
-npm run build
-# Sube la carpeta out/ a tu repo
-```
-
-### Vercel
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/tu-usuario/malla-fcb-uc)
-
-### Netlify
-
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/tu-usuario/malla-fcb-uc)
-
----
-
 ## 📚 Recursos Adicionales
 
 ### Documentación
@@ -309,18 +290,6 @@ npm run build
 - [Sistema de Créditos UC](https://registrosacademicos.uc.cl/)
 - [Next.js Documentation](https://nextjs.org/docs)
 - [React Documentation](https://react.dev/)
-
----
-
-## 🌟 Muestra tu Apoyo
-
-Si este proyecto te ayudó, considera:
-
-- ⭐ Dar una estrella al repositorio
-- 🐛 Reportar bugs que encuentres
-- 💡 Sugerir nuevas características
-- 📣 Compartirlo con otros estudiantes de la UC
-- 🤝 Contribuir con código o documentación
 
 ---
 
