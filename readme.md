@@ -8,7 +8,6 @@ Una aplicación web interactiva para visualizar y planificar el avance curricula
   ![Next.js](https://img.shields.io/badge/Next.js-15-black)
   ![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)
   ![Tailwind](https://img.shields.io/badge/Tailwind-3.4-38bdf8)
-  ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 
   [🌐 Demo en Vivo](#) • [📖 Documentación](#características) • [🐛 Reportar Bug](#contribuir)
 
@@ -21,8 +20,6 @@ Una aplicación web interactiva para visualizar y planificar el avance curricula
 - [Descripción](#descripción)
 - [Características](#características)
 - [Carreras Disponibles](#carreras-disponibles)
-- [Capturas de Pantalla](#capturas-de-pantalla)
-- [Instalación](#instalación)
 - [Uso](#uso)
 - [Estructura del Proyecto](#estructura-del-proyecto)
 - [Tecnologías](#tecnologías)
@@ -101,75 +98,6 @@ Una aplicación web interactiva para visualizar y planificar el avance curricula
 - ⚗️ **Bioquímica** (Licenciatura en Bioquímica)
 
 > **Nota**: Si estudias otra carrera de la UC o de otra universidad, puedes adaptar el proyecto. Ver sección [Contribuir](#contribuir).
-
----
-
-## 📸 Capturas de Pantalla
-
-### Malla Curricular Completa
-![Malla Curricular](./screenshots/malla-completa.png)
-
-### Calculadora de Avance
-![Calculadora](./screenshots/calculadora.png)
-
-### Planificador de Graduación
-![Planificador](./screenshots/planificador.png)
-
-### Modo Oscuro
-![Dark Mode](./screenshots/dark-mode.png)
-
----
-
-## 🚀 Instalación
-
-### Prerrequisitos
-
-- **Node.js** 18+ ([Descargar](https://nodejs.org/))
-- **npm** o **pnpm** o **yarn**
-
-### Clonar el Repositorio
-
-```bash
-git clone https://github.com/tu-usuario/malla-fcb-uc.git
-cd malla-fcb-uc
-```
-
-### Instalar Dependencias
-
-```bash
-npm install
-# o
-pnpm install
-# o
-yarn install
-```
-
-### Ejecutar en Desarrollo
-
-```bash
-npm run dev
-# o
-pnpm dev
-# o
-yarn dev
-```
-
-Abre [http://localhost:3000](http://localhost:3000) en tu navegador.
-
-### Build de Producción
-
-```bash
-npm run build
-npm run start
-```
-
-### Exportar Sitio Estático
-
-```bash
-npm run build
-```
-
-Los archivos se generan en la carpeta `out/` lista para deployment en GitHub Pages, Vercel, Netlify, etc.
 
 ---
 
