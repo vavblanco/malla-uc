@@ -538,8 +538,8 @@ export const bq: Carrera = {
         "semester": "s9"
     },
     {
-        "name": "Optativos de Profundización",
-        "code": "OPR5",
+        "name": "Optativos de Profundización del Título Profesional",
+        "code": "OPRT",
         "sctCredits": 30,
         "ucCredits": 50,
         "type": "FT",
