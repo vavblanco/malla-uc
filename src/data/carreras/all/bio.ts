@@ -40,7 +40,7 @@ export const bio: Carrera = {
     {
         "id": "TEST",
         "nombre": "Habilidades Comunicativas",
-        "color": "#EFF1C5"
+        "color": "#9EA772"
     }
 ],
 

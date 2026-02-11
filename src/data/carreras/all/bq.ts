@@ -567,7 +567,7 @@ export const bq: Carrera = {
         "ucCredits": 50,
         "type": "FT",
         "prerequisites": [
-          "OPR5"
+          "OPRT"
         ],
         "electiveGroup": "10-TIT",
         "semester": "s10"
