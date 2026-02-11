@@ -1,4 +1,415 @@
-# Malla Interactiva FCB UC
+# 🧬 Malla Interactiva FCB UC
 
-Una aplicación web interactiva para visualizar el avance curricular de las carreras de la Facultad de Ciencias Biológicas de la Pontifica Universidad Católica de Chile.
+Una aplicación web interactiva para visualizar y planificar el avance curricular de las carreras de la **Facultad de Ciencias Biológicas** de la **Pontificia Universidad Católica de Chile**.
+
+<div align="center">
+  
+  ![Version](https://img.shields.io/badge/version-1.0.0-green.svg)
+  ![Next.js](https://img.shields.io/badge/Next.js-15-black)
+  ![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)
+  ![Tailwind](https://img.shields.io/badge/Tailwind-3.4-38bdf8)
+  ![License](https://img.shields.io/badge/license-MIT-blue.svg)
+
+  [🌐 Demo en Vivo](#) • [📖 Documentación](#características) • [🐛 Reportar Bug](#contribuir)
+
+</div>
+
+---
+
+## 📋 Tabla de Contenidos
+
+- [Descripción](#descripción)
+- [Características](#características)
+- [Carreras Disponibles](#carreras-disponibles)
+- [Capturas de Pantalla](#capturas-de-pantalla)
+- [Instalación](#instalación)
+- [Uso](#uso)
+- [Estructura del Proyecto](#estructura-del-proyecto)
+- [Tecnologías](#tecnologías)
+- [Contribuir](#contribuir)
+- [Créditos](#créditos)
+---
+
+## 📖 Descripción
+
+**Malla Interactiva FCB UC** es una herramienta diseñada para estudiantes de Ciencias Biológicas de la UC que permite:
+
+- 📊 **Visualizar** la malla curricular completa de tu carrera
+- ✅ **Marcar** ramos aprobados, en curso o reprobados
+- 📈 **Calcular** automáticamente tu avance en créditos UC y SCT
+- 🗓️ **Planificar** tu graduación semestre por semestre
+- 🔍 **Identificar** prerrequisitos, correquisitos y requisitos de créditos
+- 💾 **Guardar** tu progreso automáticamente en el navegador
+
+### 🎯 ¿Para quién es?
+
+- Estudiantes de **Biología**, **Biología Marina** y **Bioquímica**
+- Estudiantes que quieren planificar su avance académico
+- Quienes necesitan visualizar dependencias entre ramos
+- Personas que quieren calcular cuántos semestres les quedan
+
+---
+
+## ✨ Características
+
+### 🎨 Interfaz Interactiva
+
+- **Estados de Ramos**: Marca tus ramos como pendientes, aprobados, en curso o reprobados
+- **Drag & Drop**: Reorganiza ramos en el planificador de graduación
+- **Tema Oscuro**: Se adapta automáticamente a tus preferencias del sistema
+- **Responsive**: Funciona perfectamente en móvil, tablet y desktop
+- **Animaciones Suaves**: Transiciones fluidas con Framer Motion
+
+### 📊 Calculadora de Avance
+
+- **Créditos UC**: Sistema oficial de la UC
+- **Créditos SCT**: Sistema de Créditos Transferibles Chile
+- **Conversión Automática**: 5 SCT = 3 UC
+- **Progreso Visual**: Barras de progreso por categoría
+- **Estadísticas Detalladas**: Total de ramos, créditos aprobados, porcentaje de avance
+
+### 🗓️ Planificador de Graduación
+
+- **Distribución Inteligente**: Organiza automáticamente tus ramos pendientes
+- **Validación de Prerrequisitos**: Asegura que puedas tomar cada ramo
+- **Límites de Créditos**: Respeta los límites de 50 UC (normal) o 60 UC (máximo) por semestre
+- **Drag & Drop**: Reorganiza ramos entre semestres fácilmente
+- **Grupos Electivos**: Maneja correctamente ramos electivos y sus opciones
+
+### 🎓 Características Académicas UC
+
+- **OFG Flexibles**: Indica que el orden de los OFG es referencial
+- **4 Áreas OFG**: Salud, Artes, Humanidades, Ciencias Sociales
+- **Tracks Electivos**: Certificados, Prácticas, Optativos
+- **Correquisitos**: Ramos que deben cursarse juntos
+- **Requisitos de Créditos**: Para Práctica Profesional, Seminarios, etc
+
+### 💾 Guardado Automático
+
+- **LocalStorage**: Tu progreso se guarda automáticamente
+- **Sin Cuenta**: No requiere registro ni inicio de sesión
+- **Privado**: Tus datos nunca salen de tu navegador
+
+---
+
+## 🎓 Carreras Disponibles
+
+### Facultad de Ciencias Biológicas
+
+- 🧬 **Biología** (Licenciatura en Ciencias Biológicas)
+- 🌊 **Biología Marina** (Licenciatura en Biología Marina)
+- ⚗️ **Bioquímica** (Licenciatura en Bioquímica)
+
+> **Nota**: Si estudias otra carrera de la UC o de otra universidad, puedes adaptar el proyecto. Ver sección [Contribuir](#contribuir).
+
+---
+
+## 📸 Capturas de Pantalla
+
+### Malla Curricular Completa
+![Malla Curricular](./screenshots/malla-completa.png)
+
+### Calculadora de Avance
+![Calculadora](./screenshots/calculadora.png)
+
+### Planificador de Graduación
+![Planificador](./screenshots/planificador.png)
+
+### Modo Oscuro
+![Dark Mode](./screenshots/dark-mode.png)
+
+---
+
+## 🚀 Instalación
+
+### Prerrequisitos
+
+- **Node.js** 18+ ([Descargar](https://nodejs.org/))
+- **npm** o **pnpm** o **yarn**
+
+### Clonar el Repositorio
+
+```bash
+git clone https://github.com/tu-usuario/malla-fcb-uc.git
+cd malla-fcb-uc
+```
+
+### Instalar Dependencias
+
+```bash
+npm install
+# o
+pnpm install
+# o
+yarn install
+```
+
+### Ejecutar en Desarrollo
+
+```bash
+npm run dev
+# o
+pnpm dev
+# o
+yarn dev
+```
+
+Abre [http://localhost:3000](http://localhost:3000) en tu navegador.
+
+### Build de Producción
+
+```bash
+npm run build
+npm run start
+```
+
+### Exportar Sitio Estático
+
+```bash
+npm run build
+```
+
+Los archivos se generan en la carpeta `out/` lista para deployment en GitHub Pages, Vercel, Netlify, etc.
+
+---
+
+## 🎮 Uso
+
+### 1. Selecciona tu Carrera
+
+Al abrir la aplicación, selecciona tu carrera de la lista (Biología, Biología Marina o Bioquímica).
+
+### 2. Marca tus Ramos
+
+Haz clic en cada ramo para cambiar su estado:
+
+- 🔵 **Pendiente** (por defecto)
+- ✅ **Aprobado** (verde)
+
+### 3. Revisa tu Avance
+
+La **Calculadora de Créditos** se actualiza automáticamente mostrando:
+
+- Total de créditos UC y SCT
+- Ramos aprobados vs totales
+- Porcentaje de avance
+- Progreso por categoría
+
+### 4. Planifica tu Graduación
+
+Abre el **Plan de Graduación** para:
+
+- Ver cuántos semestres te quedan
+- Reorganizar ramos entre semestres
+- Validar que cumples prerrequisitos
+- Respetar límites de créditos
+
+### 5. Consulta la Guía
+
+Haz clic en el botón **📚 Guía** para aprender sobre:
+
+- Cómo usar la malla
+- Estrategias para tomar ramos
+- Equivalencia de créditos UC/SCT
+- OFG y su flexibilidad
+
+---
+
+## 📁 Estructura del Proyecto
+
+```
+malla-fcb-uc/
+├── public/                  # Assets estáticos
+│   ├── favicon.svg
+│   ├── icon.png
+│   └── screenshots/
+├── src/
+│   ├── app/                # Next.js App Router
+│   │   ├── layout.tsx      # Layout raíz + SEO
+│   │   ├── page.tsx        # Página principal
+│   │   └── globals.css     # Estilos globales
+│   ├── components/         # Componentes React
+│   │   ├── career/         # CurriculumGrid, CareerHeader
+│   │   ├── layout/         # Footer, StatsBar
+│   │   ├── modals/         # Todos los modales
+│   │   ├── semester/       # SemesterCard, SubjectCard
+│   │   └── ui/             # Componentes UI reutilizables
+│   ├── data/               # Datos de carreras
+│   │   └── fcb/            # Biología, Biología Marina, Bioquímica
+│   ├── hooks/              # Custom React Hooks
+│   │   ├── useCalculator.ts
+│   │   ├── useCareerData.ts
+│   │   └── useGraduationPlan.ts
+│   ├── types/              # Definiciones TypeScript
+│   │   └── curriculum.ts
+│   └── utils/              # Utilidades
+├── next.config.ts          # Configuración Next.js
+├── tailwind.config.ts      # Configuración Tailwind
+└── tsconfig.json           # Configuración TypeScript
+```
+
+Ver [STRUCTURE.md](./STRUCTURE.md) para documentación detallada de la arquitectura.
+
+---
+
+## 🛠️ Tecnologías
+
+### Frontend
+
+- **[Next.js 15](https://nextjs.org/)** - Framework React con App Router
+- **[React 19](https://react.dev/)** - Librería UI
+- **[TypeScript](https://www.typescriptlang.org/)** - Type safety
+- **[Tailwind CSS](https://tailwindcss.com/)** - Estilos utility-first
+- **[Framer Motion](https://www.framer.com/motion/)** - Animaciones
+
+### Librerías Adicionales
+
+- **[@fortawesome/react-fontawesome](https://fontawesome.com/v6/docs/web/use-with/react/)** - Iconos
+- **[react-beautiful-dnd](https://github.com/atlassian/react-beautiful-dnd)** - Drag & drop
+- **[canvas-confetti](https://github.com/catdad/canvas-confetti)** - Efectos de celebración
+
+### Herramientas de Desarrollo
+
+- **[ESLint](https://eslint.org/)** - Linter
+- **[Prettier](https://prettier.io/)** - Formatter (recomendado)
+- **[Turbopack](https://turbo.build/pack)** - Bundler rápido para dev
+
+---
+
+## 🤝 Contribuir
+
+¡Las contribuciones son bienvenidas! Hay varias formas de contribuir:
+
+### 🎓 Agregar Carreras
+
+Si quieres agregar otra carrera de la UC:
+
+1. Fork el repositorio
+2. Crea los archivos `data_CODIGO.ts` y `colors_CODIGO.ts` en `src/data/all/`
+3. Sigue la estructura de las carreras existentes
+4. Abre un Pull Request
+
+### 📝 Mejorar Documentación
+
+Ayuda a mejorar la documentación:
+
+- Corrige errores o typos
+- Agrega más ejemplos
+- Traduce a otros idiomas
+- Mejora las capturas de pantalla
+
+---
+
+## 🎖️ Créditos
+
+### Proyecto Original
+
+Este proyecto está **basado y adaptado** del excelente trabajo de:
+
+**[Malla Interactiva USM](https://github.com/MarceloMejias/malla-interactiva)** por [@MarceloMejias](https://github.com/MarceloMejias)
+
+El proyecto original fue creado para la Universidad Técnica Federico Santa María (USM) y soporta **46 carreras** de múltiples campus. Este proyecto toma esa base sólida y la adapta específicamente para las carreras de **Ciencias Biológicas de la UC**.
+
+### Agradecimientos Especiales
+
+- **Marcelo Mejías** - Por crear la aplicación original y el sistema modular que permitió esta adaptación
+- **Comunidad USM** - Por contribuir con las mallas curriculares originales
+- **Facultad de Ciencias Biológicas UC** - Por la información académica
+
+### Adaptaciones Realizadas para la UC
+
+- ✅ Sistema de créditos UC/SCT con conversión automática
+- ✅ Manejo de OFG (Optativos de Formación General) flexibles
+- ✅ Tracks electivos (Certificados, Prácticas, Optativos)
+- ✅ Requisitos de créditos para ramos específicos
+- ✅ Mallas de Biología, Biología Marina y Bioquímica
+- ✅ Guía específica para estudiantes UC
+- ✅ Calculadora adaptada al sistema UC
+- ✅ Colores y branding UC
+
+---
+
+# 📞 Contacto y Soporte
+
+## Mantener del Proyecto
+
+- **Nombre**: Vicente Villalobos Blanco
+- **GitHub**: [@vavblanco](https://github.com/vavblanco)
+
+## Proyecto Original
+
+- **Autor**: Marcelo Mejías
+- **Repo Original**: [malla-interactiva](https://github.com/MarceloMejias/malla-interactiva)
+
+## Reportar Problemas
+
+- [Issues de este proyecto](https://github.com/vavblanco/malla-uc/issues)
+- [Issues del proyecto original](https://github.com/MarceloMejias/malla-interactiva/issues)
+
+---
+
+## 🚀 Deployment
+
+### GitHub Pages
+
+```bash
+npm run build
+# Sube la carpeta out/ a tu repo
+```
+
+### Vercel
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/tu-usuario/malla-fcb-uc)
+
+### Netlify
+
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/tu-usuario/malla-fcb-uc)
+
+---
+
+## 📚 Recursos Adicionales
+
+### Documentación
+
+- [STRUCTURE.md](./STRUCTURE.md) - Arquitectura del proyecto
+- [scripts/README.md](./scripts/README.md) - Scripts de conversión de mallas
+- [Guía de Contribución](./.github/CONTRIBUTING.md)
+
+### Enlaces Útiles
+
+- [Facultad de Ciencias Biológicas UC](https://biologia.uc.cl/)
+- [Sistema de Créditos UC](https://registrosacademicos.uc.cl/)
+- [Next.js Documentation](https://nextjs.org/docs)
+- [React Documentation](https://react.dev/)
+
+---
+
+## 🌟 Muestra tu Apoyo
+
+Si este proyecto te ayudó, considera:
+
+- ⭐ Dar una estrella al repositorio
+- 🐛 Reportar bugs que encuentres
+- 💡 Sugerir nuevas características
+- 📣 Compartirlo con otros estudiantes de la UC
+- 🤝 Contribuir con código o documentación
+
+---
+
+## 📊 Estado del Proyecto
+
+- ✅ **Versión 1.0.0** - Release inicial con 3 carreras FCB
+- 🚧 **En desarrollo**: Más features y mejoras
+
+---
+
+<div align="center">
+  
+  **Hecho con ❤️ para estudiantes de Ciencias Biológicas UC**
+  
+  Basado en [Malla Interactiva USM](https://github.com/MarceloMejias/malla-interactiva) por [@MarceloMejias](https://github.com/MarceloMejias)
+  
+  [⬆ Volver arriba](#-malla-interactiva-fcb-uc)
+
+</div>
 

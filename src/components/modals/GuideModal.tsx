@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes, faBookOpen, faCheckCircle, faLightbulb, faCoins, faExclamationTriangle, faGraduationCap, faClock, faCalendarAlt, faRoute, faStar, faFileAlt, faBan, faLock, faSave, faSync, faBullseye, faTrash, faExclamationCircle, faUserTie, faChartLine, faHourglassHalf, faGripVertical } from '@fortawesome/free-solid-svg-icons';
+import { faTimes, faBookOpen, faCheckCircle, faLightbulb, faCoins, faExclamationTriangle, faGraduationCap, faClock, faCalendarAlt, faRoute, faStar, faFileAlt, faBan, faLock, faSave, faSync, faBullseye, faTrash, faExclamationCircle, faUserTie, faChartLine, faHourglassHalf, faGripVertical, faCalculator, faMapSigns, faTrophy } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
 
 interface GuideModalProps {
@@ -12,7 +12,7 @@ interface GuideModalProps {
 }
 
 export default function GuideModal({ show, onClose, darkMode }: GuideModalProps) {
-  const [selectedTab, setSelectedTab] = useState<'usage' | 'planning'>('usage');
+  const [selectedTab, setSelectedTab] = useState<'usage' | 'planning' | 'credits'>('usage');
 
   return (
     <AnimatePresence>
@@ -34,14 +34,14 @@ export default function GuideModal({ show, onClose, darkMode }: GuideModalProps)
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
-            <div className="bg-gradient-to-r from-blue-600/80 to-indigo-600/80 text-white p-6 backdrop-blur-lg">
+            <div className="bg-gradient-to-r from-green-600/80 to-blue-600/80 text-white p-6 backdrop-blur-lg">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center">
                     <FontAwesomeIcon icon={faBookOpen} className="text-white" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold">Guía</h3>
+                    <h3 className="text-xl font-bold">Guía Malla FCB PUC</h3>
                     <p className="text-sm text-white/80">Todo lo que necesitas saber</p>
                   </div>
                 </div>
@@ -76,12 +76,14 @@ export default function GuideModal({ show, onClose, darkMode }: GuideModalProps)
                   layout
                   className={`absolute rounded-full shadow-md ${
                     selectedTab === 'usage'
+                      ? 'bg-green-600'
+                      : selectedTab === 'planning'
                       ? 'bg-blue-600'
-                      : 'bg-indigo-600'
+                      : 'bg-purple-600'
                   }`}
                   style={{
-                    left: selectedTab === 'usage' ? '4px' : '50%',
-                    right: selectedTab === 'usage' ? '50%' : '4px',
+                    left: selectedTab === 'usage' ? '4px' : selectedTab === 'planning' ? '33.33%' : '66.66%',
+                    width: selectedTab === 'usage' ? 'calc(33.33% - 4px)' : selectedTab === 'planning' ? 'calc(33.33% - 4px)' : 'calc(33.33% - 4px)',
                     top: '4px',
                     bottom: '4px',
                   }}
@@ -92,7 +94,7 @@ export default function GuideModal({ show, onClose, darkMode }: GuideModalProps)
                   tabIndex={0}
                   onClick={() => setSelectedTab('usage')}
                   onKeyDown={(e) => e.key === 'Enter' && setSelectedTab('usage')}
-                  className={`relative z-10 px-6 py-2 text-sm font-semibold rounded-full transition-colors whitespace-nowrap cursor-pointer flex items-center gap-2 ${
+                  className={`relative z-10 px-4 py-2 text-sm font-semibold rounded-full transition-colors whitespace-nowrap cursor-pointer flex items-center gap-2 ${
                     selectedTab === 'usage'
                       ? 'text-white' 
                       : darkMode
@@ -108,7 +110,7 @@ export default function GuideModal({ show, onClose, darkMode }: GuideModalProps)
                   tabIndex={0}
                   onClick={() => setSelectedTab('planning')}
                   onKeyDown={(e) => e.key === 'Enter' && setSelectedTab('planning')}
-                  className={`relative z-10 px-6 py-2 text-sm font-semibold rounded-full transition-colors whitespace-nowrap cursor-pointer flex items-center gap-2 ${
+                  className={`relative z-10 px-4 py-2 text-sm font-semibold rounded-full transition-colors whitespace-nowrap cursor-pointer flex items-center gap-2 ${
                     selectedTab === 'planning'
                       ? 'text-white'
                       : darkMode
@@ -117,7 +119,23 @@ export default function GuideModal({ show, onClose, darkMode }: GuideModalProps)
                   }`}
                 >
                   <FontAwesomeIcon icon={faGraduationCap} className="text-sm" />
-                    Tomar Ramos
+                  Tomar Ramos
+                </div>
+                <div
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => setSelectedTab('credits')}
+                  onKeyDown={(e) => e.key === 'Enter' && setSelectedTab('credits')}
+                  className={`relative z-10 px-4 py-2 text-sm font-semibold rounded-full transition-colors whitespace-nowrap cursor-pointer flex items-center gap-2 ${
+                    selectedTab === 'credits'
+                      ? 'text-white'
+                      : darkMode
+                        ? 'text-gray-400'
+                        : 'text-gray-600'
+                  }`}
+                >
+                  <FontAwesomeIcon icon={faCoins} className="text-sm" />
+                  Créditos
                 </div>
               </div>
               </div>
@@ -144,376 +162,105 @@ export default function GuideModal({ show, onClose, darkMode }: GuideModalProps)
                           </div>
                         </div>
                       </div>
-                      
-                      <div className={`p-4 rounded-xl border-2 ${darkMode ? 'bg-green-900/30 border-green-900' : 'bg-green-50 border-green-200'}`}>
+
+                      <div className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-green-50'} border-2 ${darkMode ? 'border-green-800' : 'border-green-200'}`}>
                         <div className="flex flex-col items-center text-center gap-3">
                           <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center shadow-md flex-shrink-0">
                             <FontAwesomeIcon icon={faCheckCircle} className="text-white text-lg" />
                           </div>
                           <div>
-                            <h5 className="font-bold text-base mb-1">Aprobada</h5>
-                            <p className="text-xs opacity-70">Click para marcar/desmarcar como aprobada</p>
+                            <h5 className="font-bold text-base mb-1">Aprobado</h5>
+                            <p className="text-xs opacity-70">Asignatura completada exitosamente</p>
                           </div>
                         </div>
                       </div>
-                      
-                      <div className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-50'} border-2 ${darkMode ? 'border-gray-700' : 'border-gray-300'}`}>
+
+                      <div className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-red-50'} border-2 ${darkMode ? 'border-red-800' : 'border-red-200'}`}>
                         <div className="flex flex-col items-center text-center gap-3">
-                          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-gray-400 to-gray-600 flex items-center justify-center shadow-md flex-shrink-0">
-                            <FontAwesomeIcon icon={faLock} className="text-white text-lg" />
+                          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-red-400 to-red-600 flex items-center justify-center shadow-md flex-shrink-0">
+                            <FontAwesomeIcon icon={faBan} className="text-white text-lg" />
                           </div>
                           <div>
-                            <h5 className="font-bold text-base mb-1">Bloqueada</h5>
-                            <p className="text-xs opacity-70">Completa prerrequisitos para desbloquear</p>
+                            <h5 className="font-bold text-base mb-1">Reprobado</h5>
+                            <p className="text-xs opacity-70">Asignatura no aprobada, debe cursarse nuevamente</p>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  {/* Sección: Prerrequisitos */}
+                  {/* Sección: Indicadores Visuales */}
                   <div className="mb-6">
                     <h4 className="text-lg font-bold mb-4 flex items-center gap-2">
-                      <FontAwesomeIcon icon={faRoute} className="text-blue-500" />
-                      Navegación por Prerrequisitos
-                    </h4>
-                    <div className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-blue-50'} border-2 ${darkMode ? 'border-blue-800' : 'border-blue-200'}`}>
-                      <div className="space-y-3">
-                        <div className="flex items-start gap-3">
-                          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center shadow-md flex-shrink-0">
-                            <FontAwesomeIcon icon={faLightbulb} className="text-white" />
-                          </div>
-                          <div>
-                            <p className="text-sm font-semibold mb-1">Chips Interactivos</p>
-                            <p className="text-xs opacity-80">
-                              Los prerrequisitos aparecen como chips de colores en cada tarjeta de asignatura.
-                            </p>
-                          </div>
-                        </div>
-                        <div className="flex items-start gap-3">
-                          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center shadow-md flex-shrink-0">
-                            <FontAwesomeIcon icon={faRoute} className="text-white" />
-                          </div>
-                          <div>
-                            <p className="text-sm font-semibold mb-1">Navegación Rápida</p>
-                            <p className="text-xs opacity-80">
-                              <strong>Haz clic en cualquier chip</strong> para saltar directamente a esa asignatura en la malla.
-                            </p>
-                          </div>
-                        </div>
-                        <div className="flex items-start gap-3">
-                          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-red-400 to-red-600 flex items-center justify-center shadow-md flex-shrink-0">
-                            <FontAwesomeIcon icon={faLock} className="text-white" />
-                          </div>
-                          <div>
-                            <p className="text-sm font-semibold mb-1">Indicador Visual</p>
-                            <p className="text-xs opacity-80">
-                              Cada chip muestra un punto: <span className="text-green-500">●</span> aprobado o <span className="text-red-500">●</span> pendiente.
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Sección: Calculadora */}
-                  <div className="mb-6">
-                    <h4 className="text-lg font-bold mb-4 flex items-center gap-2">
-                      <FontAwesomeIcon icon={faChartLine} className="text-purple-500" />
-                      Barra de Progreso
+                      <FontAwesomeIcon icon={faMapSigns} className="text-blue-500" />
+                      Indicadores Visuales
                     </h4>
                     <div className="grid md:grid-cols-2 gap-3">
-                      <div className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-50'} border-2 ${darkMode ? 'border-purple-800' : 'border-purple-200'}`}>
-                        <div className="flex items-start gap-3">
-                          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center shadow-md flex-shrink-0">
-                            <FontAwesomeIcon icon={faCheckCircle} className="text-white" />
-                          </div>
-                          <div>
-                            <h5 className="font-semibold mb-2">Estadísticas en Vivo</h5>
-                            <ul className="text-xs space-y-1 opacity-80">
-                              <li>• Asignaturas aprobadas</li>
-                              <li>• Créditos acumulados</li>
-                              <li>• Porcentaje de avance</li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                      <div className={`p-4 rounded-xl ${darkMode ? 'bg-green-900/30 border border-green-900' : 'bg-green-50 border border-green-200'} border-2 ${darkMode ? 'border-green-800' : 'border-green-200'}`}>
-                        <div className="flex items-start gap-3">
-                          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center shadow-md flex-shrink-0">
-                            <FontAwesomeIcon icon={faGraduationCap} className="text-white" />
-                          </div>
-                          <div>
-                            <h5 className="font-semibold mb-2">Plan de Graduación</h5>
-                            <p className="text-xs opacity-80">
-                              Haz clic en el botón para abrir el modal de planificación personalizada.
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Sección: Plan de Graduación Interactivo */}
-                  <div className="mb-6">
-                    <h4 className="text-lg font-bold mb-4 flex items-center gap-2">
-                      <FontAwesomeIcon icon={faGraduationCap} className="text-green-500" />
-                      Plan de Graduación Interactivo
-                    </h4>
-                    <div className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-50'} border-2 ${darkMode ? 'border-green-800' : 'border-green-200'}`}>
-                      <div className="space-y-4">
-                        <div>
-                          <p className="text-sm font-semibold mb-2">Generación Automática</p>
-                          <p className="text-xs opacity-80">
-                            El sistema genera automáticamente un plan semestre por semestre basado en:
-                          </p>
-                          <ul className="text-xs space-y-1 ml-4 mt-2 opacity-80">
-                            <li>• Asignaturas que te faltan por aprobar</li>
-                            <li>• Respeto de prerrequisitos y dependencias</li>
-                            <li>• Distribución equilibrada de carga (25-30 créditos)</li>
-                          </ul>
-                        </div>
-
-                        <div className="grid md:grid-cols-2 gap-3">
-                          <div className={`p-3 rounded-lg ${darkMode ? 'bg-blue-900/30 border border-blue-800' : 'bg-blue-50 border border-blue-200'}`}>
-                            <div className="flex items-start gap-2 mb-2">
-                              <FontAwesomeIcon icon={faGripVertical} className="text-blue-500 flex-shrink-0 mt-0.5" />
-                              <p className="text-sm font-semibold">Arrastra y Suelta</p>
-                            </div>
-                            <p className="text-xs opacity-80">
-                              Puedes reorganizar las asignaturas arrastrándolas entre semestres para personalizar tu plan.
-                            </p>
-                          </div>
-
-                          <div className={`p-3 rounded-lg ${darkMode ? 'bg-purple-900/30 border border-purple-800' : 'bg-purple-50 border border-purple-200'}`}>
-                            <div className="flex items-start gap-2 mb-2">
-                              <FontAwesomeIcon icon={faExclamationTriangle} className="text-purple-500 flex-shrink-0 mt-0.5" />
-                              <p className="text-sm font-semibold">Validación Automática</p>
-                            </div>
-                            <p className="text-xs opacity-80">
-                              El sistema valida que los prerrequisitos se cumplan antes de permitir mover una asignatura.
-                            </p>
-                          </div>
-
-                          <div className={`p-3 rounded-lg ${darkMode ? 'bg-orange-900/30 border border-orange-800' : 'bg-orange-50 border border-orange-200'}`}>
-                            <div className="flex items-start gap-2 mb-2">
-                              <FontAwesomeIcon icon={faBan} className="text-orange-500 flex-shrink-0 mt-0.5" />
-                              <p className="text-sm font-semibold">Límite de Créditos</p>
-                            </div>
-                            <p className="text-xs opacity-80">
-                              No puedes agregar asignaturas que excedan los 35 créditos por semestre sin elevar solicitud formal (límite normal).
-                            </p>
-                          </div>
-
-                          <div className={`p-3 rounded-lg ${darkMode ? 'bg-teal-900/30 border border-teal-800' : 'bg-teal-50 border border-teal-200'}`}>
-                            <div className="flex items-start gap-2 mb-2">
-                              <FontAwesomeIcon icon={faSave} className="text-teal-500 flex-shrink-0 mt-0.5" />
-                              <p className="text-sm font-semibold">Guardado Local</p>
-                            </div>
-                            <p className="text-xs opacity-80">
-                              Tu plan personalizado se guarda automáticamente en tu navegador.
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Sección: Consejos de Uso */}
-                  <div>
-                    <h4 className="text-lg font-bold mb-4 flex items-center gap-2">
-                      <FontAwesomeIcon icon={faStar} className="text-orange-500" />
-                      Consejos Rápidos
-                    </h4>
-                    <div className="grid md:grid-cols-2 gap-3">
-                      <div className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-50'} border-l-4 border-green-500`}>
-                        <div className="flex items-center gap-2">
-                          <FontAwesomeIcon icon={faSave} className="text-green-500 flex-shrink-0" />
-                          <div>
-                            <p className="font-semibold text-sm mb-1">Guardado Automático</p>
-                            <p className="text-xs opacity-80">Tu progreso se guarda localmente en tu navegador.</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-50'} border-l-4 border-blue-500`}>
-                        <div className="flex items-center gap-2">
-                          <FontAwesomeIcon icon={faBullseye} className="text-blue-500 flex-shrink-0" />
-                          <div>
-                            <p className="font-semibold text-sm mb-1">Navegación Rápida</p>
-                            <p className="text-xs opacity-80">Click en prerrequisitos para saltar entre ramos.</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-50'} border-l-4 border-purple-500`}>
-                        <div className="flex items-center gap-2">
-                          <FontAwesomeIcon icon={faSync} className="text-purple-500 flex-shrink-0" />
-                          <div>
-                            <p className="font-semibold text-sm mb-1">Mantén Actualizado</p>
-                            <p className="text-xs opacity-80">Actualiza regularmente para planes precisos.</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-red-50'} border-l-4 border-red-500`}>
-                        <div className="flex items-center gap-2">
-                          <FontAwesomeIcon icon={faTrash} className="text-red-500 flex-shrink-0" />
-                          <div>
-                            <p className="font-semibold text-sm mb-1">Restablecer</p>
-                            <p className="text-xs opacity-80">Usa el botón "Restablecer" para empezar de cero.</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Contenido: Tomar Asignaturas */}
-              {selectedTab === 'planning' && (
-                <div className={`px-6 ${darkMode ? 'dark' : 'light'}`}>
-                  {/* Sección: ¿Qué son los Créditos SCT? */}
-                  <div className="mb-6">
-                    <h4 className="text-lg font-bold mb-4 flex items-center gap-2">
-                      <FontAwesomeIcon icon={faCoins} className="text-indigo-500" />
-                      ¿Qué son los Créditos SCT?
-                    </h4>
-                    <div className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-50'} border-2 ${darkMode ? 'border-indigo-800' : 'border-indigo-200'}`}>
-                      <div className="space-y-4">
-                        <div>
-                          <h5 className="text-sm font-semibold mb-2">
-                            Sistema de Créditos Transferibles (SCT)
-                          </h5>
-                          <p className="text-xs opacity-80">
-                            Es una medida estandarizada de la carga académica de una asignatura.
-                          </p>
-                        </div>
-
-                        <div className="grid md:grid-cols-2 gap-3">
-                          <div className={`p-3 rounded-lg ${darkMode ? 'bg-indigo-900/30' : 'bg-indigo-50'} border ${darkMode ? 'border-indigo-800' : 'border-indigo-200'}`}>
-                            <p className="text-sm font-bold mb-1">1 Crédito SCT</p>
-                            <p className="text-xs opacity-80">= 27-30 horas de trabajo total</p>
-                            <p className="text-xs opacity-70 mt-2">
-                              Incluye: clases, laboratorios, estudio, tareas y evaluaciones.
-                            </p>
-                          </div>
-
-                          <div className="space-y-2">
-                            <div className={`p-3 rounded-lg ${darkMode ? 'bg-blue-900/30' : 'bg-blue-50'}`}>
-                              <p className="text-xs font-semibold">5 SCT: ~135-150 horas/semestre</p>
-                            </div>
-                            <div className={`p-3 rounded-lg ${darkMode ? 'bg-purple-900/30' : 'bg-purple-50'}`}>
-                              <p className="text-xs font-semibold">10 SCT: ~270-300 horas/semestre</p>
-                            </div>
-                            <div className={`p-3 rounded-lg ${darkMode ? 'bg-pink-900/30' : 'bg-pink-50'}`}>
-                              <p className="text-xs font-semibold">30 SCT: ~810-900 horas/semestre</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Sección: Cómo Elegir Tus Asignaturas */}
-                  <div className="mb-6">
-                    <h4 className="text-lg font-bold mb-4 flex items-center gap-2">
-                      <FontAwesomeIcon icon={faRoute} className="text-blue-500" />
-                      Guía de Selección de Asignaturas
-                    </h4>
-                    <div className="space-y-3">
                       
-                      {/* Paso 1: Carga académica */}
-                      <div className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-blue-50'} border-l-4 border-blue-500`}>
-                        <div className="flex items-start gap-3">
-                          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center flex-shrink-0 shadow-md">
-                            <span className="text-white text-lg font-bold">1</span>
-                          </div>
-                          <div className="flex-1">
-                            <h5 className="font-bold text-base mb-2 flex items-center gap-2">
-                              Planifica tu Carga Académica
-                            </h5>
-                            <p className="text-sm mb-2"><strong>Carga recomendada:</strong> 25-30 créditos SCT por semestre</p>
-                            <div className="grid grid-cols-2 gap-2 text-xs">
-                              {/* Carga Reducida */}
-                              <div className={`p-3 rounded-lg ${darkMode ? 'bg-green-900/30' : 'bg-green-50'}`}>
-                                <p className="font-semibold">20-24 SCT</p>
-                                <p className="opacity-70">Carga reducida</p>
-                              </div>
-                              {/* Carga Normal */}
-                              <div className={`p-3 rounded-lg ${darkMode ? 'bg-yellow-900/30' : 'bg-yellow-50'}`}>
-                                <p className="font-semibold">25-28 SCT</p>
-                                <p className="opacity-70">Carga normal</p>
-                              </div>
-                              {/* Carga Completa */}
-                              <div className={`p-3 rounded-lg ${darkMode ? 'bg-orange-900/30' : 'bg-orange-50'}`}>
-                                <p className="font-semibold">30-32 SCT</p>
-                                <p className="opacity-70">Tiempo completo</p>
-                              </div>
-                              {/* Sobrecarga */}
-                              <div className={`p-3 rounded-lg ${darkMode ? 'bg-red-900/30' : 'bg-red-50'}`}>
-                                <p className="font-semibold">33+ SCT</p>
-                                <p className="opacity-70">Sobrecarga</p>
-                              </div>
-
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Paso 2: Prerrequisitos */}
-                      <div className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-pink-50'} border-l-4 border-pink-500`}>
-                        <div className="flex items-start gap-3">
-                          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-pink-400 to-pink-600 flex items-center justify-center flex-shrink-0 shadow-md">
-                            <span className="text-white text-lg font-bold">2</span>
-                          </div>
-                          <div className="flex-1">
-                            <h5 className="font-bold text-base mb-2 flex items-center gap-2">
-                              Prioriza Asignaturas Clave
-                            </h5>
-                            <p className="text-sm mb-2">Enfócate en asignaturas que <strong>desbloquean otras asignaturas</strong> para mantener tu progreso fluido.</p>
-
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Paso 3: Balance */}
-                      <div className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-yellow-50'} border-l-4 border-yellow-500`}>
-                        <div className="flex items-start gap-3">
-                          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center flex-shrink-0 shadow-md">
-                            <span className="text-white text-lg font-bold">3</span>
-                          </div>
-                          <div className="flex-1">
-                            <h5 className="font-bold text-base mb-2 flex items-center gap-2">
-                              Balancea Dificultad y Tiempo
-                            </h5>
-                            <p className="text-sm opacity-90 mb-2">
-                              No todas las asignaturas tienen la misma dificultad.
-                            </p>
-                            <ul className="text-xs space-y-1 opacity-80">
-                              <li>• Mezcla asignaturas difíciles con otras más llevaderas</li>
-                              <li>• Considera laboratorios y trabajos grupales</li>
-                              <li>• Evita muchos proyectos grandes simultáneamente</li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Paso 4: Progresión */}
-                      {/* Paso 4: Progresión */}
-                      <div className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-purple-50'} border-l-4 border-purple-500`}>
+                      <div className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-50'} border-l-4 border-purple-500`}>
                         <div className="flex items-start gap-3">
                           <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center flex-shrink-0 shadow-md">
-                            <span className="text-white text-lg font-bold">4</span>
+                            <span className="text-white text-lg">🔀</span>
                           </div>
                           <div className="flex-1">
-                            <h5 className="font-bold text-base mb-2 flex items-center gap-2">
-                              Mantén Progreso Constante
-                            </h5>
-                            <p className="text-sm opacity-90 mb-2">
-                              Seguir el avance sugerido te ayuda a mantener un ritmo constante.
+                            <h5 className="font-bold text-base mb-2">Grupos Electivos</h5>
+                            <p className="text-xs opacity-80 mb-2">
+                              Ramos con borde morado y símbolo 🔀 indican que debes <strong>elegir uno</strong> del grupo.
                             </p>
-                            <ul className="text-xs space-y-1 opacity-80">
-                              <li>• Sigue la secuencia de semestres recomendada</li>
-                              <li>• Consulta con tu jefe de carrera si te atrasas mucho</li>
-                            </ul>
+                            <p className="text-xs opacity-70">
+                              Al aprobar uno, los demás se marcan como no necesarios.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-50'} border-l-4 border-indigo-500`}>
+                        <div className="flex items-start gap-3">
+                          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-indigo-400 to-indigo-600 flex items-center justify-center flex-shrink-0 shadow-md">
+                            <span className="text-white text-base font-bold">A</span>
+                          </div>
+                          <div className="flex-1">
+                            <h5 className="font-bold text-base mb-2">Tracks Electivos</h5>
+                            <p className="text-xs opacity-80 mb-2">
+                              Letra (A, B, C) indica opciones <strong>mutuamente excluyentes</strong> completas.
+                            </p>
+                            <p className="text-xs opacity-70">
+                              Ej: Certificado vs Práctica vs Optativos en Semestre 9.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-50'} border-l-4 border-orange-500`}>
+                        <div className="flex items-start gap-3">
+                          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center flex-shrink-0 shadow-md">
+                            <span className="text-white text-lg">🔗</span>
+                          </div>
+                          <div className="flex-1">
+                            <h5 className="font-bold text-base mb-2">Correquisitos</h5>
+                            <p className="text-xs opacity-80 mb-2">
+                              Borde punteado naranja indica que debe cursarse <strong>junto con</strong> otro ramo.
+                            </p>
+                            <p className="text-xs opacity-70">
+                              Ej: Cálculo I y Taller de Cálculo I.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-50'} border-l-4 border-yellow-500`}>
+                        <div className="flex items-start gap-3">
+                          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center flex-shrink-0 shadow-md">
+                            <span className="text-white text-lg">🏆</span>
+                          </div>
+                          <div className="flex-1">
+                            <h5 className="font-bold text-base mb-2">Requisitos de Créditos</h5>
+                            <p className="text-xs opacity-80 mb-2">
+                              Trofeo indica que necesitas <strong>cierta cantidad de créditos</strong> aprobados antes.
+                            </p>
+                            <p className="text-xs opacity-70">
+                              Ej: 120 UC para tomar Práctica Profesional.
+                            </p>
                           </div>
                         </div>
                       </div>
@@ -521,11 +268,11 @@ export default function GuideModal({ show, onClose, darkMode }: GuideModalProps)
                     </div>
                   </div>
 
-                  {/* Sección: Estrategias de Planificación */}
+                  {/* Sección: Funciones */}
                   <div className="mb-6">
                     <h4 className="text-lg font-bold mb-4 flex items-center gap-2">
-                      <FontAwesomeIcon icon={faLightbulb} className="text-teal-500" />
-                      Estrategias de Planificación
+                      <FontAwesomeIcon icon={faGripVertical} className="text-teal-500" />
+                      Funciones Principales
                     </h4>
                     <div className="grid md:grid-cols-2 gap-3">
                       
@@ -534,88 +281,517 @@ export default function GuideModal({ show, onClose, darkMode }: GuideModalProps)
                           <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-teal-400 to-teal-600 flex items-center justify-center shadow-md flex-shrink-0">
                             <FontAwesomeIcon icon={faChartLine} className="text-white" />
                           </div>
-                          <h5 className="font-bold text-base">Visión a Largo Plazo</h5>
+                          <h5 className="font-bold text-base">Plan de Graduación</h5>
                         </div>
                         <p className="text-xs opacity-80">
-                          Usa el <strong>Plan de Graduación</strong> para visualizar cuántos semestres te quedan y organizar tu avance estratégicamente.
+                          Visualiza cuántos semestres te quedan y organiza tu avance. Puedes arrastrar ramos entre semestres para reorganizar.
                         </p>
                       </div>
 
                       <div className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-50'} border-l-4 border-blue-500`}>
                         <div className="flex items-center gap-3 mb-2">
                           <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center shadow-md flex-shrink-0">
-                            <FontAwesomeIcon icon={faBullseye} className="text-white" />
+                            <FontAwesomeIcon icon={faCalculator} className="text-white" />
                           </div>
-                          <h5 className="font-bold text-base">Asignaturas Críticas</h5>
+                          <h5 className="font-bold text-base">Calculadora de Créditos</h5>
                         </div>
                         <p className="text-xs opacity-80">
-                          Identifica asignaturas que son prerrequisitos de muchas otras y priórízalas para no bloquear tu avance futuro.
+                          Muestra tu avance en créditos UC y asignaturas. Se actualiza automáticamente al marcar ramos.
                         </p>
                       </div>
 
                       <div className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-50'} border-l-4 border-green-500`}>
                         <div className="flex items-center gap-3 mb-2">
                           <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center shadow-md flex-shrink-0">
-                            <FontAwesomeIcon icon={faCheckCircle} className="text-white" />
+                            <FontAwesomeIcon icon={faSave} className="text-white" />
                           </div>
-                          <h5 className="font-bold text-base">Actualiza tu Progreso</h5>
+                          <h5 className="font-bold text-base">Guardado Automático</h5>
                         </div>
                         <p className="text-xs opacity-80">
-                          Marca regularmente tus asignaturas aprobadas para mantener el plan de graduación actualizado y preciso.
+                          Tu progreso se guarda automáticamente en el navegador. No perderás tu avance al cerrar la página.
                         </p>
                       </div>
 
                       <div className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-50'} border-l-4 border-purple-500`}>
                         <div className="flex items-center gap-3 mb-2">
                           <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center shadow-md flex-shrink-0">
-                            <FontAwesomeIcon icon={faSync} className="text-white" />
+                            <FontAwesomeIcon icon={faTrash} className="text-white" />
                           </div>
-                          <h5 className="font-bold text-base">Ajusta Sobre la Marcha</h5>
+                          <h5 className="font-bold text-base">Reiniciar Progreso</h5>
                         </div>
                         <p className="text-xs opacity-80">
-                          Si repruebas una asignatura, reorganiza tu plan considerando que deberás retomarla antes de continuar.
+                          Usa el botón de reinicio en la calculadora para borrar todo tu progreso y empezar de nuevo.
                         </p>
                       </div>
 
                     </div>
                   </div>
 
-                  {/* Sección: Consejos */}
+                </div>
+              )}
+
+              {/* Contenido: Tomar Ramos */}
+              {selectedTab === 'planning' && (
+                <div className={`px-6 ${darkMode ? 'text-gray-200' : 'text-gray-800'}`}>
+                  
+                  {/* Sección: Límites de Créditos */}
+                  <div className="mb-6">
+                    <h4 className="text-lg font-bold mb-4 flex items-center gap-2">
+                      <FontAwesomeIcon icon={faExclamationTriangle} className="text-orange-500" />
+                      Límites de Créditos por Semestre
+                    </h4>
+                    <div className="grid md:grid-cols-2 gap-3">
+                      
+                      <div className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-orange-50'} border-2 ${darkMode ? 'border-orange-800' : 'border-orange-300'}`}>
+                        <div className="flex items-start gap-3">
+                          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center flex-shrink-0 shadow-md">
+                            <span className="text-white text-xl font-bold">50</span>
+                          </div>
+                          <div className="flex-1">
+                            <h5 className="font-bold text-base mb-2">Límite Normal</h5>
+                            <p className="text-sm opacity-90 mb-2">
+                              Puedes tomar hasta <strong>50 créditos UC</strong> por semestre.
+                            </p>
+                            <p className="text-xs opacity-70">
+                              Esto equivale a aproximadamente 5-6 ramos dependiendo de sus créditos.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-red-50'} border-2 ${darkMode ? 'border-red-800' : 'border-red-300'}`}>
+                        <div className="flex items-start gap-3">
+                          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-red-400 to-red-600 flex items-center justify-center flex-shrink-0 shadow-md">
+                            <span className="text-white text-xl font-bold">60</span>
+                          </div>
+                          <div className="flex-1">
+                            <h5 className="font-bold text-base mb-2">Límite Máximo</h5>
+                            <p className="text-sm opacity-90 mb-2">
+                              El máximo absoluto es <strong>60 créditos UC</strong> por semestre.
+                            </p>
+                            <p className="text-xs opacity-70">
+                              Solo recomendado si tienes experiencia y buen rendimiento académico.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  {/* Sección: OFG */}
+                  <div className="mb-6">
+                    <h4 className="text-lg font-bold mb-4 flex items-center gap-2">
+                      <FontAwesomeIcon icon={faRoute} className="text-blue-500" />
+                      Optativos de Formación General (OFG)
+                    </h4>
+                    
+                    <div className={`p-5 rounded-xl ${darkMode ? 'bg-blue-900/20' : 'bg-blue-50'} border-2 ${darkMode ? 'border-blue-700' : 'border-blue-300'} mb-4`}>
+                      <div className="flex items-start gap-3">
+                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center flex-shrink-0 shadow-md">
+                          <FontAwesomeIcon icon={faMapSigns} className="text-white text-xl" />
+                        </div>
+                        <div className="flex-1">
+                          <h5 className="font-bold text-lg mb-3">El Orden es Flexible</h5>
+                          <p className="text-sm opacity-90 mb-3">
+                            <strong>Importante:</strong> El orden mostrado en la malla para los OFG es solo <strong>referencial</strong>.
+                          </p>
+                          <div className={`p-3 rounded-lg ${darkMode ? 'bg-gray-700/50' : 'bg-white/80'} mb-3`}>
+                            <p className="text-sm font-semibold mb-2">Puedes tomar los OFG cuando quieras, siempre que:</p>
+                            <ul className="text-sm space-y-1 opacity-90">
+                              <li>✓ Cumplas los <strong>requisitos de cada área</strong> especificados en la malla</li>
+                              <li>✓ Completes las <strong>4 áreas obligatorias</strong>: Salud, Artes, Humanidades, Ciencias Sociales</li>
+                              <li>✓ No excedas el límite de créditos del semestre</li>
+                            </ul>
+                          </div>
+                          <p className="text-xs opacity-70">
+                            Por ejemplo: Puedes tomar un OFG de Salud en semestre 3 aunque la malla lo muestre en semestre 5, o viceversa.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 gap-3">
+                      <div className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-50'} border-l-4 border-blue-500`}>
+                        <div className="flex items-center gap-3 mb-2">
+                          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center shadow-md flex-shrink-0">
+                            <span className="text-white text-lg">4</span>
+                          </div>
+                          <h5 className="font-bold text-base">Áreas Obligatorias</h5>
+                        </div>
+                        <p className="text-xs opacity-80">
+                          Debes completar <strong>un OFG de cada área</strong>: Salud, Artes, Humanidades y Ciencias Sociales.
+                        </p>
+                      </div>
+
+                      <div className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-50'} border-l-4 border-green-500`}>
+                        <div className="flex items-center gap-3 mb-2">
+                          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center shadow-md flex-shrink-0">
+                            <FontAwesomeIcon icon={faCalendarAlt} className="text-white" />
+                          </div>
+                          <h5 className="font-bold text-base">Disponibilidad Variable</h5>
+                        </div>
+                        <p className="text-xs opacity-80">
+                          No todos los OFG se ofrecen cada semestre. Revisa la oferta académica disponible.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Sección: Estrategias */}
+                  <div className="mb-6">
+                    <h4 className="text-lg font-bold mb-4 flex items-center gap-2">
+                      <FontAwesomeIcon icon={faLightbulb} className="text-yellow-500" />
+                      Estrategias de Planificación
+                    </h4>
+                    <div className="grid md:grid-cols-2 gap-3">
+                      
+                      <div className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-50'} border-l-4 border-green-500`}>
+                        <div className="flex items-start gap-3">
+                          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center flex-shrink-0 shadow-md">
+                            <span className="text-white text-lg font-bold">1</span>
+                          </div>
+                          <div className="flex-1">
+                            <h5 className="font-bold text-base mb-2">
+                              Prioriza Prerrequisitos
+                            </h5>
+                            <p className="text-sm opacity-90 mb-2">
+                              Enfócate primero en ramos que son prerequisitos de muchos otros.
+                            </p>
+                            <p className="text-xs opacity-70">
+                              Esto evita bloqueos en tu avance futuro.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-50'} border-l-4 border-blue-500`}>
+                        <div className="flex items-start gap-3">
+                          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center flex-shrink-0 shadow-md">
+                            <span className="text-white text-lg font-bold">2</span>
+                          </div>
+                          <div className="flex-1">
+                            <h5 className="font-bold text-base mb-2">
+                              Balancea Dificultad
+                            </h5>
+                            <p className="text-sm opacity-90 mb-2">
+                              Mezcla ramos difíciles con otros más llevaderos.
+                            </p>
+                            <ul className="text-xs space-y-1 opacity-80">
+                              <li>• Evita muchos proyectos grandes juntos</li>
+                              <li>• Considera laboratorios y trabajos grupales</li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-50'} border-l-4 border-purple-500`}>
+                        <div className="flex items-start gap-3">
+                          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center flex-shrink-0 shadow-md">
+                            <span className="text-white text-lg font-bold">3</span>
+                          </div>
+                          <div className="flex-1">
+                            <h5 className="font-bold text-base mb-2">
+                              Aprovecha los OFG
+                            </h5>
+                            <p className="text-sm opacity-90 mb-2">
+                              Usa los OFG para balancear semestres pesados.
+                            </p>
+                            <p className="text-xs opacity-70">
+                              Son generalmente más livianos que los ramos de especialidad.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-50'} border-l-4 border-orange-500`}>
+                        <div className="flex items-start gap-3">
+                          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center flex-shrink-0 shadow-md">
+                            <span className="text-white text-lg font-bold">4</span>
+                          </div>
+                          <div className="flex-1">
+                            <h5 className="font-bold text-base mb-2">
+                              Consulta con tu Jefe de Carrera
+                            </h5>
+                            <p className="text-sm opacity-90 mb-2">
+                              Si tienes dudas o te atrasas, pide orientación.
+                            </p>
+                            <p className="text-xs opacity-70">
+                              Ellos pueden ayudarte a reorganizar tu plan de estudios.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  {/* Sección: Consejos Importantes */}
                   <div>
                     <h4 className="text-lg font-bold mb-4 flex items-center gap-2">
-                      <FontAwesomeIcon icon={faStar} className="text-orange-500" />
+                      <FontAwesomeIcon icon={faStar} className="text-yellow-500" />
                       Consejos Importantes
                     </h4>
                     <div className="grid md:grid-cols-2 gap-3">
                       
-                      <div className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-50'} border-l-4 border-orange-500`}>
-                        <div className="flex items-center gap-3 mb-2">
-                          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center shadow-md flex-shrink-0">
-                            <FontAwesomeIcon icon={faExclamationCircle} className="text-white" />
-                          </div>
-                          <h5 className="font-bold text-base">Disponibilidad</h5>
-                        </div>
-                        <p className="text-xs opacity-80">
-                          La disponibilidad de asignaturas puede variar cada semestre.
-                        </p>
-                      </div>
-
-
                       <div className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-50'} border-l-4 border-red-500`}>
                         <div className="flex items-center gap-3 mb-2">
                           <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-red-400 to-red-600 flex items-center justify-center shadow-md flex-shrink-0">
-                            <FontAwesomeIcon icon={faLock} className="text-white" />
+                            <FontAwesomeIcon icon={faExclamationCircle} className="text-white" />
                           </div>
-                          <h5 className="font-bold text-base">Cadenas Críticas</h5>
+                          <h5 className="font-bold text-base">Disponibilidad de Ramos</h5>
                         </div>
                         <p className="text-xs opacity-80">
-                          Algunas asignaturas bloquean el avance de múltiples otras. Identifícalas y priorízalas.
+                          La disponibilidad de asignaturas puede variar cada semestre. Planifica con anticipación.
                         </p>
+                      </div>
+
+                      <div className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-50'} border-l-4 border-blue-500`}>
+                        <div className="flex items-center gap-3 mb-2">
+                          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center shadow-md flex-shrink-0">
+                            <FontAwesomeIcon icon={faLock} className="text-white" />
+                          </div>
+                          <h5 className="font-bold text-base">Cadenas de Prerrequisitos</h5>
+                        </div>
+                        <p className="text-xs opacity-80">
+                          Identifica asignaturas que bloquean muchas otras y priorízalas para mantener tu avance.
+                        </p>
+                      </div>
+
+                      <div className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-50'} border-l-4 border-green-500`}>
+                        <div className="flex items-center gap-3 mb-2">
+                          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center shadow-md flex-shrink-0">
+                            <FontAwesomeIcon icon={faSync} className="text-white" />
+                          </div>
+                          <h5 className="font-bold text-base">Ajusta tu Plan</h5>
+                        </div>
+                        <p className="text-xs opacity-80">
+                          Si repruebas una asignatura, reorganiza tu plan considerando que deberás retomarla.
+                        </p>
+                      </div>
+
+                      <div className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-50'} border-l-4 border-purple-500`}>
+                        <div className="flex items-center gap-3 mb-2">
+                          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center shadow-md flex-shrink-0">
+                            <FontAwesomeIcon icon={faUserTie} className="text-white" />
+                          </div>
+                          <h5 className="font-bold text-base">Contacta Consejería</h5>
+                        </div>
+                        <p className="text-xs opacity-80">
+                          La Consejería Académica de FCB puede ayudarte con tu planificación y dudas académicas.
+                        </p>
+                      </div>
+
+                    </div>
+                  </div>
+
+                </div>
+              )}
+
+              {/* Contenido: Créditos */}
+              {selectedTab === 'credits' && (
+                <div className={`px-6 ${darkMode ? 'text-gray-200' : 'text-gray-800'}`}>
+                  
+                  {/* Sección: Equivalencia */}
+                  <div className="mb-6">
+                    <h4 className="text-lg font-bold mb-4 flex items-center gap-2">
+                      <FontAwesomeIcon icon={faCalculator} className="text-purple-500" />
+                      Equivalencia de Créditos
+                    </h4>
+                    
+                    <div className={`p-5 rounded-xl ${darkMode ? 'bg-purple-900/20' : 'bg-purple-50'} border-2 ${darkMode ? 'border-purple-700' : 'border-purple-300'} mb-4`}>
+                      <div className="flex items-start gap-4">
+                        <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center flex-shrink-0 shadow-lg">
+                          <FontAwesomeIcon icon={faCoins} className="text-white text-2xl" />
+                        </div>
+                        <div className="flex-1">
+                          <h5 className="font-bold text-xl mb-3">Sistema de Conversión UC ↔ SCT</h5>
+                          <div className={`grid md:grid-cols-2 gap-4 mb-4`}>
+                            <div className={`p-4 rounded-lg ${darkMode ? 'bg-gray-700/50' : 'bg-white/80'}`}>
+                              <div className="text-center mb-2">
+                                <span className="text-3xl font-bold text-purple-600 dark:text-purple-400">5</span>
+                                <span className="text-sm ml-2 opacity-70">SCT</span>
+                              </div>
+                              <div className="text-center text-2xl mb-2">=</div>
+                              <div className="text-center">
+                                <span className="text-3xl font-bold text-blue-600 dark:text-blue-400">3</span>
+                                <span className="text-sm ml-2 opacity-70">UC</span>
+                              </div>
+                            </div>
+                            <div className={`p-4 rounded-lg ${darkMode ? 'bg-gray-700/50' : 'bg-white/80'}`}>
+                              <h6 className="font-bold mb-2 text-sm">Fórmula:</h6>
+                              <code className="text-xs font-mono bg-gray-800 text-green-400 px-2 py-1 rounded block mb-1">
+                                UC = SCT × (3 / 5)
+                              </code>
+                              <code className="text-xs font-mono bg-gray-800 text-green-400 px-2 py-1 rounded block">
+                                SCT = UC × (5 / 3)
+                              </code>
+                            </div>
+                          </div>
+                          <p className="text-sm opacity-80">
+                            La malla muestra <strong>ambos sistemas</strong> para tu comodidad. El sistema oficial de la UC es <strong>créditos UC</strong>.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="grid md:grid-cols-3 gap-3">
+                      <div className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-blue-50'} border-2 ${darkMode ? 'border-blue-800' : 'border-blue-200'}`}>
+                        <div className="flex flex-col items-center text-center gap-3">
+                          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center shadow-md">
+                            <span className="text-white text-xl font-bold">UC</span>
+                          </div>
+                          <div>
+                            <h5 className="font-bold text-base mb-1">Créditos UC</h5>
+                            <p className="text-xs opacity-70">Sistema oficial de la Pontificia Universidad Católica</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-purple-50'} border-2 ${darkMode ? 'border-purple-800' : 'border-purple-200'}`}>
+                        <div className="flex flex-col items-center text-center gap-3">
+                          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center shadow-md">
+                            <span className="text-white text-xl font-bold">SCT</span>
+                          </div>
+                          <div>
+                            <h5 className="font-bold text-base mb-1">SCT Chile</h5>
+                            <p className="text-xs opacity-70">Sistema de Créditos Transferibles de Chile</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-green-50'} border-2 ${darkMode ? 'border-green-800' : 'border-green-200'}`}>
+                        <div className="flex flex-col items-center text-center gap-3">
+                          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center shadow-md">
+                            <FontAwesomeIcon icon={faSync} className="text-white text-xl" />
+                          </div>
+                          <div>
+                            <h5 className="font-bold text-base mb-1">Conversión Automática</h5>
+                            <p className="text-xs opacity-70">La malla convierte automáticamente entre ambos sistemas</p>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
+
+                  {/* Sección: Ejemplos */}
+                  <div className="mb-6">
+                    <h4 className="text-lg font-bold mb-4 flex items-center gap-2">
+                      <FontAwesomeIcon icon={faLightbulb} className="text-yellow-500" />
+                      Ejemplos de Conversión
+                    </h4>
+                    <div className="grid md:grid-cols-2 gap-3">
+                      
+                      <div className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-50'} border-l-4 border-blue-500`}>
+                        <h5 className="font-bold text-base mb-3">Ramo Típico</h5>
+                        <div className="space-y-2">
+                          <div className={`p-3 rounded-lg ${darkMode ? 'bg-gray-600/50' : 'bg-white'}`}>
+                            <div className="flex justify-between items-center">
+                              <span className="text-sm font-semibold">10 SCT</span>
+                              <span className="text-xs opacity-70">→</span>
+                              <span className="text-sm font-bold text-blue-600 dark:text-blue-400">6 UC</span>
+                            </div>
+                          </div>
+                          <p className="text-xs opacity-70">
+                            Cálculo: 10 × (3/5) = 6 UC
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-50'} border-l-4 border-purple-500`}>
+                        <h5 className="font-bold text-base mb-3">Ramo Pesado</h5>
+                        <div className="space-y-2">
+                          <div className={`p-3 rounded-lg ${darkMode ? 'bg-gray-600/50' : 'bg-white'}`}>
+                            <div className="flex justify-between items-center">
+                              <span className="text-sm font-semibold">15 SCT</span>
+                              <span className="text-xs opacity-70">→</span>
+                              <span className="text-sm font-bold text-purple-600 dark:text-purple-400">9 UC</span>
+                            </div>
+                          </div>
+                          <p className="text-xs opacity-70">
+                            Cálculo: 15 × (3/5) = 9 UC
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-50'} border-l-4 border-green-500`}>
+                        <h5 className="font-bold text-base mb-3">OFG Estándar</h5>
+                        <div className="space-y-2">
+                          <div className={`p-3 rounded-lg ${darkMode ? 'bg-gray-600/50' : 'bg-white'}`}>
+                            <div className="flex justify-between items-center">
+                              <span className="text-sm font-semibold">5 SCT</span>
+                              <span className="text-xs opacity-70">→</span>
+                              <span className="text-sm font-bold text-green-600 dark:text-green-400">3 UC</span>
+                            </div>
+                          </div>
+                          <p className="text-xs opacity-70">
+                            Cálculo: 5 × (3/5) = 3 UC
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-gray-50'} border-l-4 border-orange-500`}>
+                        <h5 className="font-bold text-base mb-3">Semestre Completo</h5>
+                        <div className="space-y-2">
+                          <div className={`p-3 rounded-lg ${darkMode ? 'bg-gray-600/50' : 'bg-white'}`}>
+                            <div className="flex justify-between items-center">
+                              <span className="text-sm font-semibold">80 SCT</span>
+                              <span className="text-xs opacity-70">→</span>
+                              <span className="text-sm font-bold text-orange-600 dark:text-orange-400">48 UC</span>
+                            </div>
+                          </div>
+                          <p className="text-xs opacity-70">
+                            Cálculo: 80 × (3/5) = 48 UC
+                          </p>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  {/* Sección: Totales de Carrera */}
+                  <div>
+                    <h4 className="text-lg font-bold mb-4 flex items-center gap-2">
+                      <FontAwesomeIcon icon={faTrophy} className="text-yellow-500" />
+                      Totales para Graduación
+                    </h4>
+                    
+                    <div className={`p-5 rounded-xl ${darkMode ? 'bg-gradient-to-br from-yellow-900/20 to-orange-900/20' : 'bg-gradient-to-br from-yellow-50 to-orange-50'} border-2 ${darkMode ? 'border-yellow-700' : 'border-yellow-300'}`}>
+                      <div className="flex items-start gap-4">
+                        <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center flex-shrink-0 shadow-lg">
+                          <FontAwesomeIcon icon={faGraduationCap} className="text-white text-2xl" />
+                        </div>
+                        <div className="flex-1">
+                          <h5 className="font-bold text-xl mb-3">Créditos Totales de la Carrera</h5>
+                          <p className="text-sm opacity-90 mb-4">
+                            Los totales varían según tu carrera en la Facultad de Ciencias Biológicas:
+                          </p>
+                          <div className="grid md:grid-cols-3 gap-3">
+                            <div className={`p-3 rounded-lg ${darkMode ? 'bg-gray-700/50' : 'bg-white/80'} text-center`}>
+                              <p className="text-xs opacity-70 mb-1">Biología</p>
+                              <p className="text-2xl font-bold text-green-600 dark:text-green-400">~300 UC</p>
+                            </div>
+                            <div className={`p-3 rounded-lg ${darkMode ? 'bg-gray-700/50' : 'bg-white/80'} text-center`}>
+                              <p className="text-xs opacity-70 mb-1">Biología Marina</p>
+                              <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">~300 UC</p>
+                            </div>
+                            <div className={`p-3 rounded-lg ${darkMode ? 'bg-gray-700/50' : 'bg-white/80'} text-center`}>
+                              <p className="text-xs opacity-70 mb-1">Bioquímica</p>
+                              <p className="text-2xl font-bold text-purple-600 dark:text-purple-400">~300 UC</p>
+                            </div>
+                          </div>
+                          <p className="text-xs opacity-70 mt-3">
+                            Los valores exactos pueden variar según la malla curricular de cada carrera y año de ingreso.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
                 </div>
               )}
+
             </div>
           </motion.div>
         </motion.div>
