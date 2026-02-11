@@ -4,7 +4,7 @@ export const bio: Carrera = {
   codigo: 'BIO',
   nombre: 'Biología',
   campus: 'all',
-  color: '#4CAF50',
+  color: '#5E8C61',
   
   categorias: [
     {

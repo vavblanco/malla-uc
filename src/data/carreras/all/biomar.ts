@@ -4,7 +4,7 @@ export const biomar: Carrera = {
   codigo: 'BIOMAR',
   nombre: 'Biología Marina',
   campus: 'all',
-  color: '#4CAF50',
+  color: '#4F7CAC',
   
   categorias: [
     {

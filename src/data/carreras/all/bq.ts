@@ -4,43 +4,43 @@ export const bq: Carrera = {
   codigo: 'BQ',
   nombre: 'Bioquímica',
   campus: 'all',
-  color: '#4CAF50',
+  color: '#8A6BBE',
   
   categorias: [
     {
         "id": "FB",
         "nombre": "Formación Básica Fundante",
-        "color": "#3F51B5"
+        "color": "#5A6FB3"
     },
     {
         "id": "LP",
         "nombre": "Cursos Propios de Licenciatura",
-        "color": "#4CAF50"
+        "color": "#7C6DB0"
     },
     {
         "id": "CM",
         "nombre": "Cursos Mínimos",
-        "color": "#FF9800"
+        "color": "#C2873C"
     },
     {
         "id": "TL",
         "nombre": "Cursos Terminales de Licenciatura",
-        "color": "#FF69B4"
+        "color": "#B35C8D"
     },
     {
         "id": "FT",
         "nombre": "Cursos de Fase de Título",
-        "color": "#607D8B"
+        "color": "#5F7688"
     },
     {
         "id": "FG",
         "nombre": "Cursos de Formación General",
-        "color": "#FFC300"
+        "color": "#C2A23A"
     },
     {
         "id": "TEST",
         "nombre": "Habilidades Comunicativas",
-        "color": "#EFF1C5"
+        "color": "#9EA772"
     }
 ],
 
@@ -157,16 +157,16 @@ export const bq: Carrera = {
         "semester": "s2"
     },
     {
-        "name": "Formación General",
-        "code": "OFG1",
+        "name": "Formación Teológica",
+        "code": "TTF",
         "sctCredits": 6,
         "type": "FG",
         "prerequisites": [],
         "semester": "s2"
     },
     {
-        "name": "Formación General",
-        "code": "OFG2",
+        "name": "Artes",
+        "code": "ARTS",
         "sctCredits": 6,
         "type": "FG",
         "prerequisites": [],
@@ -217,8 +217,8 @@ export const bq: Carrera = {
         "semester": "s3"
     },
     {
-        "name": "Formación General",
-        "code": "OFG3",
+        "name": "Humanidades",
+        "code": "HUMS",
         "sctCredits": 6,
         "type": "FG",
         "prerequisites": [],
@@ -255,16 +255,16 @@ export const bq: Carrera = {
         "semester": "s4"
     },
     {
-        "name": "Formación General",
-        "code": "OFG4",
+        "name": "Ciencias Sociales",
+        "code": "CSOC",
         "sctCredits": 6,
         "type": "FG",
         "prerequisites": [],
         "semester": "s4"
     },
     {
-        "name": "Formación General",
-        "code": "OFG5",
+        "name": "Ecología Integral y Sustentabilidad",
+        "code": "EISU",
         "sctCredits": 6,
         "type": "FG",
         "prerequisites": [],
@@ -339,8 +339,8 @@ export const bq: Carrera = {
         "semester": "s5"
     },
     {
-        "name": "Formación General",
-        "code": "OFG6",
+        "name": "Salud y Bienestar",
+        "code": "SBIE",
         "sctCredits": 6,
         "type": "FG",
         "prerequisites": [],
@@ -400,8 +400,8 @@ export const bq: Carrera = {
         "semester": "s6"
     },
     {
-        "name": "Formación General",
-        "code": "OFG7",
+        "name": "Créditos Libres",
+        "code": "OFG",
         "sctCredits": 6,
         "type": "FG",
         "prerequisites": [],

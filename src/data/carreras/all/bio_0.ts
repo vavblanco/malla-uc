@@ -4,7 +4,7 @@ export const bio_0: Carrera = {
   codigo: 'BIO-0',
   nombre: 'Biología (Malla Antigua)',
   campus: 'all',
-  color: '#4CAF50',
+  color: '#5E8C61',
   
   categorias: [
     {
