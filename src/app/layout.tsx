@@ -51,9 +51,9 @@ export const metadata: Metadata = {
     "Biología Marina",
     "Bioquímica"
   ],
-  authors: [{ name: "Marcelo Mejías", url: "https://github.com/marcelomejias" }],
-  creator: "Marcelo Mejías",
-  publisher: "UTFSM Community",
+  authors: "Consejería Académica de Ciencias Biológicas"],
+  creator: "FCB",
+  publisher: "Facultad de Ciencias Biológicas",
   
   icons: {
     icon: [
