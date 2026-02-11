@@ -66,87 +66,86 @@ export default function GuideModal({ show, onClose, darkMode }: GuideModalProps)
                     : 'bg-gradient-to-b from-white via-white/80 to-white/0'
                 }`}
               >
-                  <div className="flex items-center justify-center pointer-events-auto">
-                    <div 
-                      className={`relative flex items-center rounded-full p-1 gap-0 backdrop-blur-md ${
-                        darkMode ? 'bg-gray-700/70' : 'bg-gray-100/70'
+                <div className="flex items-center justify-center pointer-events-auto">
+                  <div 
+                    className={`relative flex items-center rounded-full p-1 gap-0 backdrop-blur-md ${
+                      darkMode ? 'bg-gray-700/70' : 'bg-gray-100/70'
+                    }`}
+                  >
+                    {/* Slide */}
+                    <motion.div
+                      layout
+                      layoutId="tab-background"
+                      className={`absolute rounded-full shadow-md ${
+                        selectedTab === 'usage'
+                          ? 'bg-green-600'
+                          : selectedTab === 'planning'
+                          ? 'bg-blue-600'
+                          : 'bg-purple-600'
+                      }`}
+                      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                      style={{
+                        top: '4px',
+                        bottom: '4px',
+                      }}
+                    />
+
+                    {/* Botón 1: Usar Malla */}
+                    <motion.div
+                      layout
+                      role="button"
+                      tabIndex={0}
+                      onClick={() => setSelectedTab('usage')}
+                      onKeyDown={(e) => e.key === 'Enter' && setSelectedTab('usage')}
+                      className={`relative z-10 px-4 py-2 text-sm font-semibold rounded-full transition-colors whitespace-nowrap cursor-pointer flex items-center gap-2 flex-1 justify-center ${
+                        selectedTab === 'usage'
+                          ? 'text-white' 
+                          : darkMode
+                            ? 'text-gray-400'
+                            : 'text-gray-600'
                       }`}
                     >
-                      {/* Slide */}
-                      <motion.div
-                        layout
-                        layoutId="tab-background"
-                        className={`absolute rounded-full shadow-md ${
-                          selectedTab === 'usage'
-                            ? 'bg-green-600'
-                            : selectedTab === 'planning'
-                            ? 'bg-blue-600'
-                            : 'bg-purple-600'
-                        }`}
-                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                        style={{
-                          top: '4px',
-                          bottom: '4px',
-                        }}
-                      />
+                      <FontAwesomeIcon icon={faBookOpen} className="text-sm" />
+                      Usar Malla
+                    </motion.div>
 
-                      {/* Botón 1: Usar Malla */}
-                      <motion.div
-                        layout
-                        role="button"
-                        tabIndex={0}
-                        onClick={() => setSelectedTab('usage')}
-                        onKeyDown={(e) => e.key === 'Enter' && setSelectedTab('usage')}
-                        className={`relative z-10 px-4 py-2 text-sm font-semibold rounded-full transition-colors whitespace-nowrap cursor-pointer flex items-center gap-2 flex-1 justify-center ${
-                          selectedTab === 'usage'
-                            ? 'text-white' 
-                            : darkMode
-                              ? 'text-gray-400'
-                              : 'text-gray-600'
-                        }`}
-                      >
-                        <FontAwesomeIcon icon={faBookOpen} className="text-sm" />
-                        Usar Malla
-                      </motion.div>
+                    {/* Botón 2: Tomar Ramos */}
+                    <motion.div
+                      layout
+                      role="button"
+                      tabIndex={0}
+                      onClick={() => setSelectedTab('planning')}
+                      onKeyDown={(e) => e.key === 'Enter' && setSelectedTab('planning')}
+                      className={`relative z-10 px-4 py-2 text-sm font-semibold rounded-full transition-colors whitespace-nowrap cursor-pointer flex items-center gap-2 flex-1 justify-center ${
+                        selectedTab === 'planning'
+                          ? 'text-white'
+                          : darkMode
+                            ? 'text-gray-400'
+                            : 'text-gray-600'
+                      }`}
+                    >
+                      <FontAwesomeIcon icon={faGraduationCap} className="text-sm" />
+                      Tomar Ramos
+                    </motion.div>
 
-                      {/* Botón 2: Tomar Ramos */}
-                      <motion.div
-                        layout
-                        role="button"
-                        tabIndex={0}
-                        onClick={() => setSelectedTab('planning')}
-                        onKeyDown={(e) => e.key === 'Enter' && setSelectedTab('planning')}
-                        className={`relative z-10 px-4 py-2 text-sm font-semibold rounded-full transition-colors whitespace-nowrap cursor-pointer flex items-center gap-2 flex-1 justify-center ${
-                          selectedTab === 'planning'
-                            ? 'text-white'
-                            : darkMode
-                              ? 'text-gray-400'
-                              : 'text-gray-600'
-                        }`}
-                      >
-                        <FontAwesomeIcon icon={faGraduationCap} className="text-sm" />
-                        Tomar Ramos
-                      </motion.div>
-
-                      {/* Botón 3: Créditos */}
-                      <motion.div
-                        layout
-                        role="button"
-                        tabIndex={0}
-                        onClick={() => setSelectedTab('credits')}
-                        onKeyDown={(e) => e.key === 'Enter' && setSelectedTab('credits')}
-                        className={`relative z-10 px-4 py-2 text-sm font-semibold rounded-full transition-colors whitespace-nowrap cursor-pointer flex items-center gap-2 flex-1 justify-center ${
-                          selectedTab === 'credits'
-                            ? 'text-white'
-                            : darkMode
-                              ? 'text-gray-400'
-                              : 'text-gray-600'
-                        }`}
-                      >
-                        <FontAwesomeIcon icon={faCoins} className="text-sm" />
-                        Créditos
-                      </motion.div>
-                    </div>
+                    {/* Botón 3: Créditos */}
+                    <motion.div
+                      layout
+                      role="button"
+                      tabIndex={0}
+                      onClick={() => setSelectedTab('credits')}
+                      onKeyDown={(e) => e.key === 'Enter' && setSelectedTab('credits')}
+                      className={`relative z-10 px-4 py-2 text-sm font-semibold rounded-full transition-colors whitespace-nowrap cursor-pointer flex items-center gap-2 flex-1 justify-center ${
+                        selectedTab === 'credits'
+                          ? 'text-white'
+                          : darkMode
+                            ? 'text-gray-400'
+                            : 'text-gray-600'
+                      }`}
+                    >
+                      <FontAwesomeIcon icon={faCoins} className="text-sm" />
+                      Créditos
+                    </motion.div>
                   </div>
                 </div>
               </div>
