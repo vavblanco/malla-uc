@@ -544,8 +544,8 @@ export const biomar: Carrera = {
     {
         "name": "Gestión, Producción y Restauración Marina",
         "code": "BIO402M",
-        "sctCredits": 30,
-        "ucCredits": 50,
+        "sctCredits": 6,
+        "ucCredits": 10,
         "type": "TL",
         "prerequisites": [],
         "semester": "s9"
@@ -553,8 +553,8 @@ export const biomar: Carrera = {
     {
         "name": "Socioecología y Conservación Marina",
         "code": "BIO412M",
-        "sctCredits": 30,
-        "ucCredits": 50,
+        "sctCredits": 6,
+        "ucCredits": 10,
         "type": "TL",
         "prerequisites": [],
         "semester": "s9"
@@ -566,7 +566,7 @@ export const biomar: Carrera = {
         "ucCredits": 50,
         "type": "TL",
         "prerequisites": [
-            "BIO416C"
+            "BIO416M"
         ],
         "electiveGroup": "10-PI",
         "semester": "s10"
@@ -578,7 +578,7 @@ export const biomar: Carrera = {
         "ucCredits": 50,
         "type": "TL",
         "prerequisites": [
-            "BIO416C"
+            "BIO416M"
         ],
         "electiveGroup": "10-PI",
         "semester": "s10"
