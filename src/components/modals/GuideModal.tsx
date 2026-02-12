@@ -346,8 +346,6 @@ return (
                           </div>
                         </div>
                       </div>
-
-                    </div>
                   </div>
 
                   {/* Sección: OFG */}
