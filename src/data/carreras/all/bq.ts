@@ -434,6 +434,9 @@ export const bq: Carrera = {
         "sctCredits": 9,
         "type": "TL",
         "prerequisites": [],
+        "alternativePrerequisites": [
+            ["BIO266D", "BIO266E", "BIO299L"]
+        ],
         "semester": "s7"
     },
     {

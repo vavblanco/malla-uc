@@ -448,8 +448,9 @@ export const biomar_0: Carrera = {
         "code": "BIO295A",
         "sctCredits": 9,
         "type": "TL",
-        "prerequisites": [
-            "BIO299L"
+        "prerequisites": [],
+        "alternativePrerequisites": [
+            ["BIO297C", "BIO298M", "BIO299L"]
         ],
         "semester": "s7"
     },

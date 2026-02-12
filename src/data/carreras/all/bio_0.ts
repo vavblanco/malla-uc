@@ -450,8 +450,9 @@ export const bio_0: Carrera = {
         "sctCredits": 9,
         "ucCredits": 15,
         "type": "TL",
-        "prerequisites": [
-            "BIO299L"
+        "prerequisites": [],
+        "alternativePrerequisites": [
+            ["BIO297C", "BIO298E", "BIO299L"]
         ],
         "semester": "s7"
     },
