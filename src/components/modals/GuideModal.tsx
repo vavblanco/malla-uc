@@ -20,10 +20,7 @@ export default function GuideModal({ show, onClose, darkMode }: GuideModalProps)
     { id: 'credits', label: 'Créditos', icon: faCoins },
   ] as const;
 
-const tabIndex = tabs.findIndex(t => t.id === selectedTab);
-
-
- return (
+return (
     <AnimatePresence>
       {show && (
         <motion.div
@@ -90,15 +87,16 @@ const tabIndex = tabs.findIndex(t => t.id === selectedTab);
                           ? 'bg-blue-600'
                           : 'bg-purple-600'
                       }`}
+                      initial={false}
+                      animate={{
+                        left: selectedTab === 'usage' ? '4px' : selectedTab === 'planning' ? 'calc(33.333% + 2px)' : 'calc(66.666% + 0px)',
+                        right: selectedTab === 'usage' ? 'calc(66.666% + 0px)' : selectedTab === 'planning' ? 'calc(33.333% + 2px)' : '4px',
+                      }}
+                      transition={{ type: "spring", stiffness: 300, damping: 30 }}
                       style={{
                         top: '4px',
                         bottom: '4px',
-                        width: 'calc(33.333% - 8px)',
                       }}
-                      animate={{
-                        x: `calc(${tabIndex * 100}% + ${tabIndex * 2}px)`
-                      }}
-                      transition={{ type: "spring", stiffness: 300, damping: 30 }}
                     />
                     
                     {/* Pestañas */}
