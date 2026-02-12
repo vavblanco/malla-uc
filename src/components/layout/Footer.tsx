@@ -41,7 +41,7 @@ export default function Footer({ darkMode }: FooterProps) {
           </span>
           
           <a
-            href="https://github.com/MarceloMejias/malla-interactiva"
+            href="https://github.com/vavblanco/malla-uc"
             target="_blank"
             rel="noopener noreferrer"
             className={`flex items-center gap-2 transition-colors duration-300 animate-fadeInFromWhite ${
@@ -52,7 +52,7 @@ export default function Footer({ darkMode }: FooterProps) {
             style={{ animationDelay: '0.1s' }}
           >
             <FontAwesomeIcon icon={faGithub} className="text-sm" />
-            <span>GitHub Proyecto Original</span>
+            <span>GitHub Proyecto</span>
             <FontAwesomeIcon icon={faExternalLinkAlt} className="text-xs" />
           </a>
         </div>
