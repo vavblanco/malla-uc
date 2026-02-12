@@ -109,7 +109,7 @@ return (
                     ))}
                   </div>
                 </div>
-              </div>
+
 
               {/* Contenido: Usar la Malla */}
               {selectedTab === 'usage' && (
