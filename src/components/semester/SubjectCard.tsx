@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLock, faCheck, faLink, faTrophy, faCodeBranch } from '@fortawesome/free-solid-svg-icons';
 import type { Subject, SubjectState, CalculatorState, SubjectColors } from '@/types/curriculum';
@@ -81,21 +82,48 @@ export default function SubjectCard({
     // Si no tiene prerrequisitos ni requisitos de créditos, siempre se puede tomar
     const hasNoRequirements = 
       subject.prerequisites.length === 0 && 
+      !subject.alternativePrerequisites &&
       !subject.creditRequirement;
     
     if (hasNoRequirements) return true;
     
-    // Verificar que todos los prerrequisitos estén aprobados
+    // Verificar que todos los prerrequisitos NORMALES estén aprobados (AND lógico)
     const prerequisitesMet = subject.prerequisites.every((prereqCode: string) => {
       const prereqState = subjectStates[prereqCode];
       return prereqState?.status === 'approved';
     });
     
+    // ⭐ NUEVO: Verificar prerrequisitos OPCIONALES (OR lógico por grupo)
+    // Para cada grupo, verificar que AL MENOS UNO esté aprobado
+    const alternativePrerequisitesMet = !subject.alternativePrerequisites || 
+      subject.alternativePrerequisites.every((group: string[]) => {
+        return group.some((prereqCode: string) => {
+          const prereqState = subjectStates[prereqCode];
+          return prereqState?.status === 'approved';
+        });
+      });
+    
     // Verificar requisito de créditos si existe
     const creditRequirementMet = !subject.creditRequirement || 
       approvedCredits >= subject.creditRequirement;
     
-    return prerequisitesMet && creditRequirementMet;
+    return prerequisitesMet && alternativePrerequisitesMet && creditRequirementMet;
+  };
+
+  // ⭐ NUEVO: Obtener grupos de prerrequisitos opcionales que faltan
+  const getMissingAlternativeGroups = () => {
+    if (!subject.alternativePrerequisites) return [];
+    
+    return subject.alternativePrerequisites
+      .map((group, index) => {
+        const hasApprovedOne = group.some((prereqCode: string) => {
+          const prereqState = subjectStates[prereqCode];
+          return prereqState?.status === 'approved';
+        });
+        
+        return hasApprovedOne ? null : { index, group };
+      })
+      .filter(Boolean) as { index: number; group: string[] }[];
   };
 
   // Verificar si hay correquisitos no cumplidos
@@ -263,6 +291,64 @@ export default function SubjectCard({
     );
   };
 
+  // ⭐ NUEVO: Chip para prerrequisitos opcionales
+  const AlternativePrerequisiteChip = ({ prereqCode }: { prereqCode: string }) => {
+    const prereqSubject = findSubjectByCode(prereqCode);
+    const prereqState = subjectStates[prereqCode];
+    
+    if (!prereqSubject) {
+      return (
+        <span className="inline-block text-xs px-2 py-1 rounded bg-yellow-500/20 text-yellow-700 dark:text-yellow-400">
+          {prereqCode}
+        </span>
+      );
+    }
+    
+    const prereqColor = colors[prereqSubject.type]?.[0] || '#6b7280';
+    
+    const prereqTooltip = (
+      <div className="space-y-1">
+        <div className="font-bold flex items-center gap-1">
+          <FontAwesomeIcon icon={faCodeBranch} />
+          Prerrequisito Opcional
+        </div>
+        <div className="text-sm">{prereqSubject.name}</div>
+        <div className="text-xs opacity-70">{prereqCode} • {getUcCredits(prereqSubject)} créditos UC</div>
+        <div className="text-xs pt-1 border-t border-gray-300 dark:border-gray-600">
+          {prereqState?.status === 'approved' ? '✓ Aprobada' : '⚠️ Pendiente'}
+        </div>
+        <div className="text-xs opacity-70 italic">
+          Solo necesitas UNO de este grupo
+        </div>
+        <div className="text-xs opacity-70">Click para ir al ramo</div>
+      </div>
+    );
+    
+    return (
+      <Tooltip content={prereqTooltip}>
+        <button
+          onClick={e => {
+            e.stopPropagation();
+            onPrerequisiteClick(prereqCode);
+          }}
+          className={`inline-flex items-center gap-1 text-xs px-1.5 py-0.5 rounded-xl font-bold text-white hover:brightness-110 transition-all border-2 border-dashed ${
+            prereqState?.status === 'approved' 
+              ? 'border-green-400' 
+              : 'border-yellow-400'
+          }`}
+          style={{ backgroundColor: prereqColor, opacity: 0.85 }}
+        >
+          <span>{prereqCode}</span>
+          <div 
+            className={`w-2 h-2 rounded-full border border-white ${
+              prereqState?.status === 'approved' ? 'bg-green-400' : 'bg-yellow-400'
+            }`}
+          />
+        </button>
+      </Tooltip>
+    );
+  };
+
   const tooltipContent = (
     <div className="space-y-1">
       <div className="font-bold">{subject.name}</div>
@@ -335,6 +421,40 @@ export default function SubjectCard({
       {subject.prerequisites.length > 0 && (
         <div className="text-xs opacity-70 pt-1 border-t border-gray-300 dark:border-gray-600">
           Prerrequisitos: {subject.prerequisites.map(code => findSubjectByCode(code)?.name || code).join(', ')}
+        </div>
+      )}
+      
+      {/* ⭐ NUEVO: Mostrar prerrequisitos opcionales */}
+      {subject.alternativePrerequisites && subject.alternativePrerequisites.length > 0 && (
+        <div className="text-xs opacity-70 pt-1 border-t border-gray-300 dark:border-gray-600">
+          <div className="font-bold flex items-center gap-1 mb-1">
+            <FontAwesomeIcon icon={faCodeBranch} />
+            Prerrequisitos opcionales:
+          </div>
+          {subject.alternativePrerequisites.map((group, groupIndex) => {
+            const hasApprovedOne = group.some(code => 
+              subjectStates[code]?.status === 'approved'
+            );
+            
+            return (
+              <div key={groupIndex} className="ml-2 mt-1">
+                <div className={`flex items-center gap-1 text-[11px] ${hasApprovedOne ? 'text-green-500' : 'text-yellow-500'}`}>
+                  {hasApprovedOne ? '✓' : '⚠'} <span className="font-semibold">Uno de:</span>
+                </div>
+                <div className="ml-4 mt-0.5 space-y-0.5">
+                  {group.map(code => {
+                    const prereq = findSubjectByCode(code);
+                    const isApproved = subjectStates[code]?.status === 'approved';
+                    return (
+                      <div key={code} className={`flex items-center gap-1 text-[11px] ${isApproved ? 'font-bold text-green-500' : ''}`}>
+                        {isApproved ? '✓' : '○'} {prereq?.name || code}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })}
         </div>
       )}
       
@@ -491,8 +611,9 @@ export default function SubjectCard({
             </div>
           )}
           
-          {(subject.prerequisites.length > 0 || (subject.corequisites && subject.corequisites.length > 0)) && (
+          {(subject.prerequisites.length > 0 || (subject.corequisites && subject.corequisites.length > 0) || (subject.alternativePrerequisites && subject.alternativePrerequisites.length > 0)) && (
             <div className="mt-auto space-y-1">
+              {/* Prerrequisitos normales */}
               {subject.prerequisites.length > 0 && (
                 <div className="flex flex-wrap gap-1">
                   {subject.prerequisites.map((prereq: string) => (
@@ -501,6 +622,38 @@ export default function SubjectCard({
                 </div>
               )}
               
+              {/* ⭐ NUEVO: Prerrequisitos opcionales */}
+              {subject.alternativePrerequisites && subject.alternativePrerequisites.length > 0 && (
+                <div className="space-y-1">
+                  {subject.alternativePrerequisites.map((group, groupIndex) => {
+                    const hasApprovedOne = group.some(code => 
+                      subjectStates[code]?.status === 'approved'
+                    );
+                    
+                    return (
+                      <div key={groupIndex} className="flex flex-wrap gap-1 items-center">
+                        <span className={`text-[10px] px-1 py-0.5 rounded font-semibold ${
+                          hasApprovedOne 
+                            ? 'bg-green-500/20 text-green-700 dark:text-green-400' 
+                            : 'bg-yellow-500/20 text-yellow-700 dark:text-yellow-400'
+                        }`}>
+                          {hasApprovedOne ? '✓' : '⚠'} Uno de:
+                        </span>
+                        {group.map((prereqCode, index) => (
+                          <React.Fragment key={prereqCode}>
+                            <AlternativePrerequisiteChip prereqCode={prereqCode} />
+                            {index < group.length - 1 && (
+                              <span className="text-[10px] text-white/60">o</span>
+                            )}
+                          </React.Fragment>
+                        ))}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+              
+              {/* Correquisitos */}
               {subject.corequisites && subject.corequisites.length > 0 && (
                 <div className="flex flex-wrap gap-1">
                   {subject.corequisites.map((coreq: string) => (

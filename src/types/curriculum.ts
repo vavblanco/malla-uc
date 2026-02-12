@@ -9,6 +9,7 @@ export interface Subject {
   ucCredits?: number;
   type: string;
   prerequisites: string[];
+  alternativePrerequisites?: string[][];
   corequisites?: string[];
   creditRequirement?: number;
   semester?: string;
