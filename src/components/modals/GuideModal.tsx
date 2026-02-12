@@ -330,23 +330,6 @@ return (
                       Límites de Créditos por Semestre
                     </h4>
                     <div className="grid md:grid-cols-2 gap-3">
-                      
-                      <div className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-orange-50'} border-2 ${darkMode ? 'border-orange-800' : 'border-orange-300'}`}>
-                        <div className="flex items-start gap-3">
-                          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center flex-shrink-0 shadow-md">
-                            <span className="text-white text-xl font-bold">50</span>
-                          </div>
-                          <div className="flex-1">
-                            <h5 className="font-bold text-base mb-2">Límite Normal</h5>
-                            <p className="text-sm opacity-90 mb-2">
-                              Puedes tomar hasta <strong>50 créditos UC</strong> por semestre.
-                            </p>
-                            <p className="text-xs opacity-70">
-                              Esto equivale a aproximadamente 5-6 ramos dependiendo de sus créditos.
-                            </p>
-                          </div>
-                        </div>
-                      </div>
 
                       <div className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-red-50'} border-2 ${darkMode ? 'border-red-800' : 'border-red-300'}`}>
                         <div className="flex items-start gap-3">
