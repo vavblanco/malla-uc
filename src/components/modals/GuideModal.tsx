@@ -20,6 +20,8 @@ export default function GuideModal({ show, onClose, darkMode }: GuideModalProps)
     { id: 'credits', label: 'Créditos', icon: faCoins },
   ] as const;
 
+    const selectedIndex = tabs.findIndex(tab => tab.id === selectedTab);
+
 return (
     <AnimatePresence>
       {show && (
