@@ -64,7 +64,7 @@ return (
             {/* Content con scroll */}
             <div className={`overflow-y-auto flex-1 pb-6 ${darkMode ? 'bg-gray-800' : 'bg-white'}`}>
               
-             {/* Toggle de pestañas - Sticky con gradiente - VERSIÓN MEJORADA */}
+             {/* Toggle de pestañas - Sticky con gradiente */}
               <div 
                 className={`sticky top-0 z-10 px-6 pt-6 pb-8 pointer-events-none ${
                   darkMode 
@@ -74,7 +74,7 @@ return (
               >
                 <div className="flex items-center justify-center pointer-events-auto">
                   <div 
-                    className={`relative grid grid-cols-3 rounded-full p-1 backdrop-blur-md ${
+                    className={`relative inline-flex rounded-full p-1 backdrop-blur-md ${
                       darkMode ? 'bg-gray-700/70' : 'bg-gray-100/70'
                     }`}
                   >
@@ -87,15 +87,16 @@ return (
                           ? 'bg-blue-600'
                           : 'bg-purple-600'
                       }`}
-                      initial={false}
-                      animate={{
-                        left: selectedTab === 'usage' ? '4px' : selectedTab === 'planning' ? 'calc(33.333% + 2px)' : 'calc(66.666% + 0px)',
-                        right: selectedTab === 'usage' ? 'calc(66.666% + 0px)' : selectedTab === 'planning' ? 'calc(33.333% + 2px)' : '4px',
+                      layout
+                      layoutId="activeTab"
+                      transition={{ 
+                        type: "spring", 
+                        stiffness: 380, 
+                        damping: 30
                       }}
-                      transition={{ type: "spring", stiffness: 300, damping: 30 }}
                       style={{
+                        height: 'calc(100% - 8px)',
                         top: '4px',
-                        bottom: '4px',
                       }}
                     />
                     
@@ -107,7 +108,7 @@ return (
                         tabIndex={0}
                         onClick={() => setSelectedTab(tab.id)}
                         onKeyDown={(e) => e.key === 'Enter' && setSelectedTab(tab.id)}
-                        className={`relative z-10 px-3 md:px-5 py-2 text-sm font-semibold rounded-full transition-colors whitespace-nowrap cursor-pointer flex items-center justify-center gap-2 ${
+                        className={`relative z-10 px-4 md:px-6 py-2 text-sm font-semibold transition-colors whitespace-nowrap cursor-pointer flex items-center justify-center gap-2 ${
                           selectedTab === tab.id
                             ? 'text-white' 
                             : darkMode
@@ -224,7 +225,7 @@ return (
                               Borde punteado naranja indica que debe cursarse <strong>junto con</strong> otro ramo.
                             </p>
                             <p className="text-xs opacity-70">
-                              Ej: Química General y Laboratorio de Química General.
+                              Ej: Química General I y Laboratorio de Química General.
                             </p>
                           </div>
                         </div>
@@ -387,7 +388,7 @@ return (
                             </ul>
                           </div>
                           <p className="text-xs opacity-70">
-                            Por ejemplo: Puedes tomar un OFG de Salud en semestre 3 aunque la malla lo muestre en semestre 5, o viceversa.
+                            Por ejemplo: Puedes tomar un OFG de Salud y Bienestar en el semestre 3 aunque la malla lo muestre en el semestre 5, o viceversa.
                           </p>
                         </div>
                       </div>
@@ -402,7 +403,7 @@ return (
                           <h5 className="font-bold text-base">Áreas Obligatorias</h5>
                         </div>
                         <p className="text-xs opacity-80">
-                          Debes completar <strong>un OFG de cada área</strong>: Salud, Artes, Humanidades y Ciencias Sociales.
+                          Debes completar <strong>un OFG de cada área</strong>: Teología, Salud y Bienestar, Artes, Humanidades, Ciencias Sociales, Ecología y Créditos Libres.
                         </p>
                       </div>
 
