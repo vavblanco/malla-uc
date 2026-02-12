@@ -66,43 +66,24 @@ return (
            {/* Content con scroll */}
             <div className={`overflow-y-auto flex-1 pb-6 ${darkMode ? 'bg-gray-800' : 'bg-white'}`}>
               
-             {/* Toggle de pestañas - Sticky con gradiente */}
-              <div 
-                className={`sticky top-0 z-10 px-6 pt-6 pb-8 pointer-events-none ${
-                  darkMode 
-                    ? 'bg-gradient-to-b from-gray-800 via-gray-800/70 to-gray-800/0' 
-                    : 'bg-gradient-to-b from-white via-white/80 to-white/0'
-                }`}
-              >
-                <div className="flex items-center justify-center pointer-events-auto">
-                  <div 
-                    className={`relative grid grid-cols-3 gap-0 rounded-full p-1 backdrop-blur-md ${
-                      darkMode ? 'bg-gray-700/70' : 'bg-gray-100/70'
-                    }`}
-                  >
-                    {/* Indicador deslizante */}
-                    <motion.div
-                      className={`absolute rounded-full shadow-md ${
+                   {/* Indicador deslizante - Sin animación, solo transición CSS */}
+                    <div
+                      className={`absolute rounded-full shadow-md transition-all duration-300 ease-in-out ${
                         selectedTab === 'usage'
                           ? 'bg-green-600'
                           : selectedTab === 'planning'
                           ? 'bg-blue-600'
                           : 'bg-purple-600'
                       }`}
-                      initial={false}
-                      animate={{
-                        left: `calc(${selectedIndex * 33.333}% + 4px)`,
-                      }}
-                      transition={{ 
-                        type: "spring", 
-                        stiffness: 300, 
-                        damping: 28,
-                        mass: 0.8
-                      }}
                       style={{
                         width: 'calc(33.333% - 2.67px)',
                         height: 'calc(100% - 8px)',
                         top: '4px',
+                        left: selectedTab === 'usage' 
+                          ? '4px' 
+                          : selectedTab === 'planning' 
+                          ? 'calc(33.333% + 2.67px)' 
+                          : 'calc(66.666% + 1.33px)',
                       }}
                     />
                     
