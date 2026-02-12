@@ -2,29 +2,6 @@
 
 Una aplicación web interactiva para visualizar y planificar el avance curricular de las carreras de la **Facultad de Ciencias Biológicas** de la **Pontificia Universidad Católica de Chile**.
 
-<div align="center">
-  
-  ![Version](https://img.shields.io/badge/version-1.0.0-green.svg)
-  ![Next.js](https://img.shields.io/badge/Next.js-15-black)
-  ![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)
-  ![Tailwind](https://img.shields.io/badge/Tailwind-3.4-38bdf8)
-
-  [🌐 Demo en Vivo](#) • [📖 Documentación](#características) • [🐛 Reportar Bug](#contribuir)
-
-</div>
-
----
-
-## 📋 Tabla de Contenidos
-
-- [Descripción](#descripción)
-- [Características](#características)
-- [Carreras Disponibles](#carreras-disponibles)
-- [Uso](#uso)
-- [Estructura del Proyecto](#estructura-del-proyecto)
-- [Tecnologías](#tecnologías)
-- [Contribuir](#contribuir)
-- [Créditos](#créditos)
 ---
 
 ## 📖 Descripción
@@ -232,7 +209,7 @@ Ayuda a mejorar la documentación:
 
 ### Proyecto Original
 
-Este proyecto está **basado y adaptado** del excelente trabajo de:
+Este proyecto está **basado y adaptado** del trabajo de:
 
 **[Malla Interactiva USM](https://github.com/MarceloMejias/malla-interactiva)** por [@MarceloMejias](https://github.com/MarceloMejias)
 
@@ -263,6 +240,7 @@ El proyecto original fue creado para la Universidad Técnica Federico Santa Mar�
 
 - **Nombre**: Vicente Villalobos Blanco
 - **GitHub**: [@vavblanco](https://github.com/vavblanco)
+- **Organización**: Consejería Académica de Ciencias Biológicas
 
 ## Proyecto Original
 
