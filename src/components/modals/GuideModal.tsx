@@ -14,6 +14,12 @@ interface GuideModalProps {
 export default function GuideModal({ show, onClose, darkMode }: GuideModalProps) {
   const [selectedTab, setSelectedTab] = useState<'usage' | 'planning' | 'credits'>('usage');
 
+  const tabs = [
+    { id: 'usage', label: 'Usar Malla', icon: faBookOpen },
+    { id: 'planning', label: 'Tomar Ramos', icon: faGraduationCap },
+    { id: 'credits', label: 'Créditos', icon: faCoins },
+  ] as const;
+
   return (
     <AnimatePresence>
       {show && (
@@ -58,7 +64,7 @@ export default function GuideModal({ show, onClose, darkMode }: GuideModalProps)
             {/* Content con scroll */}
             <div className={`overflow-y-auto flex-1 pb-6 ${darkMode ? 'bg-gray-800' : 'bg-white'}`}>
               
-              {/* Toggle de pestañas - Sticky con gradiente */}
+              {/* Toggle de pestañas - Sticky con gradiente - VERSIÓN MEJORADA */}
               <div 
                 className={`sticky top-0 z-10 px-6 pt-6 pb-8 pointer-events-none ${
                   darkMode 
@@ -68,14 +74,12 @@ export default function GuideModal({ show, onClose, darkMode }: GuideModalProps)
               >
                 <div className="flex items-center justify-center pointer-events-auto">
                   <div 
-                    className={`relative flex items-center rounded-full p-1 gap-0 backdrop-blur-md ${
+                    className={`relative inline-flex items-center rounded-full p-1 backdrop-blur-md ${
                       darkMode ? 'bg-gray-700/70' : 'bg-gray-100/70'
                     }`}
                   >
-                    {/* Slide */}
+                    {/* Indicador deslizante */}
                     <motion.div
-                      layout
-                      layoutId="tab-background"
                       className={`absolute rounded-full shadow-md ${
                         selectedTab === 'usage'
                           ? 'bg-green-600'
@@ -83,69 +87,38 @@ export default function GuideModal({ show, onClose, darkMode }: GuideModalProps)
                           ? 'bg-blue-600'
                           : 'bg-purple-600'
                       }`}
+                      animate={{
+                        x: selectedTab === 'usage' ? '0%' : selectedTab === 'planning' ? '100%' : '200%',
+                      }}
                       transition={{ type: "spring", stiffness: 300, damping: 30 }}
                       style={{
+                        width: 'calc(33.33% - 8px)',
+                        height: 'calc(100% - 8px)',
                         top: '4px',
-                        bottom: '4px',
+                        left: '4px',
                       }}
                     />
-
-                    {/* Botón 1: Usar Malla */}
-                    <motion.div
-                      layout
-                      role="button"
-                      tabIndex={0}
-                      onClick={() => setSelectedTab('usage')}
-                      onKeyDown={(e) => e.key === 'Enter' && setSelectedTab('usage')}
-                      className={`relative z-10 px-4 py-2 text-sm font-semibold rounded-full transition-colors whitespace-nowrap cursor-pointer flex items-center gap-2 flex-1 justify-center ${
-                        selectedTab === 'usage'
-                          ? 'text-white' 
-                          : darkMode
-                            ? 'text-gray-400'
-                            : 'text-gray-600'
-                      }`}
-                    >
-                      <FontAwesomeIcon icon={faBookOpen} className="text-sm" />
-                      Usar Malla
-                    </motion.div>
-
-                    {/* Botón 2: Tomar Ramos */}
-                    <motion.div
-                      layout
-                      role="button"
-                      tabIndex={0}
-                      onClick={() => setSelectedTab('planning')}
-                      onKeyDown={(e) => e.key === 'Enter' && setSelectedTab('planning')}
-                      className={`relative z-10 px-4 py-2 text-sm font-semibold rounded-full transition-colors whitespace-nowrap cursor-pointer flex items-center gap-2 flex-1 justify-center ${
-                        selectedTab === 'planning'
-                          ? 'text-white'
-                          : darkMode
-                            ? 'text-gray-400'
-                            : 'text-gray-600'
-                      }`}
-                    >
-                      <FontAwesomeIcon icon={faGraduationCap} className="text-sm" />
-                      Tomar Ramos
-                    </motion.div>
-
-                    {/* Botón 3: Créditos */}
-                    <motion.div
-                      layout
-                      role="button"
-                      tabIndex={0}
-                      onClick={() => setSelectedTab('credits')}
-                      onKeyDown={(e) => e.key === 'Enter' && setSelectedTab('credits')}
-                      className={`relative z-10 px-4 py-2 text-sm font-semibold rounded-full transition-colors whitespace-nowrap cursor-pointer flex items-center gap-2 flex-1 justify-center ${
-                        selectedTab === 'credits'
-                          ? 'text-white'
-                          : darkMode
-                            ? 'text-gray-400'
-                            : 'text-gray-600'
-                      }`}
-                    >
-                      <FontAwesomeIcon icon={faCoins} className="text-sm" />
-                      Créditos
-                    </motion.div>
+                    
+                    {/* Pestañas */}
+                    {tabs.map((tab) => (
+                      <div
+                        key={tab.id}
+                        role="button"
+                        tabIndex={0}
+                        onClick={() => setSelectedTab(tab.id)}
+                        onKeyDown={(e) => e.key === 'Enter' && setSelectedTab(tab.id)}
+                        className={`relative z-10 flex-1 px-3 md:px-4 py-2 text-sm font-semibold rounded-full transition-colors whitespace-nowrap cursor-pointer flex items-center justify-center gap-2 ${
+                          selectedTab === tab.id
+                            ? 'text-white' 
+                            : darkMode
+                              ? 'text-gray-400'
+                              : 'text-gray-600'
+                        }`}
+                      >
+                        <FontAwesomeIcon icon={tab.icon} className="text-sm" />
+                        <span className="hidden sm:inline">{tab.label}</span>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -251,7 +224,7 @@ export default function GuideModal({ show, onClose, darkMode }: GuideModalProps)
                               Borde punteado naranja indica que debe cursarse <strong>junto con</strong> otro ramo.
                             </p>
                             <p className="text-xs opacity-70">
-                              Ej: Química General I y Laboratorio de Química General.
+                              Ej: Química General y Laboratorio de Química General.
                             </p>
                           </div>
                         </div>
@@ -520,7 +493,7 @@ export default function GuideModal({ show, onClose, darkMode }: GuideModalProps)
                           </div>
                           <div className="flex-1">
                             <h5 className="font-bold text-base mb-2">
-                              Consulta con tu Jefe de Carrera
+                              Consulta con Dirección de Pregrado
                             </h5>
                             <p className="text-sm opacity-90 mb-2">
                               Si tienes dudas o te atrasas, pide orientación.
@@ -638,7 +611,7 @@ export default function GuideModal({ show, onClose, darkMode }: GuideModalProps)
                             </div>
                           </div>
                           <p className="text-sm opacity-80">
-                            La malla muestra <strong>ambos sistemas</strong> para tu comodidad. El sistema oficial de la UC es <strong>créditos UC</strong>.
+                            El sistema oficial de la UC es <strong>créditos UC</strong>.
                           </p>
                         </div>
                       </div>
