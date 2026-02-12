@@ -66,7 +66,21 @@ return (
            {/* Content con scroll */}
             <div className={`overflow-y-auto flex-1 pb-6 ${darkMode ? 'bg-gray-800' : 'bg-white'}`}>
               
-                   {/* Indicador deslizante - Sin animación, solo transición CSS */}
+             {/* Toggle de pestañas - Sticky con gradiente */}
+              <div 
+                className={`sticky top-0 z-10 px-6 pt-6 pb-8 pointer-events-none ${
+                  darkMode 
+                    ? 'bg-gradient-to-b from-gray-800 via-gray-800/70 to-gray-800/0' 
+                    : 'bg-gradient-to-b from-white via-white/80 to-white/0'
+                }`}
+              >
+                <div className="flex items-center justify-center pointer-events-auto">
+                  <div 
+                    className={`relative grid grid-cols-3 gap-0 rounded-full p-1 backdrop-blur-md ${
+                      darkMode ? 'bg-gray-700/70' : 'bg-gray-100/70'
+                    }`}
+                  >
+                    {/* Indicador deslizante - Sin animación, solo transición CSS */}
                     <div
                       className={`absolute rounded-full shadow-md transition-all duration-300 ease-in-out ${
                         selectedTab === 'usage'
@@ -109,6 +123,7 @@ return (
                     ))}
                   </div>
                 </div>
+              </div>
 
 
               {/* Contenido: Usar la Malla */}
