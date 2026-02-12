@@ -331,14 +331,14 @@ return (
                     </h4>
                     <div className="grid md:grid-cols-2 gap-3">
 
-                      <div className={`p-5 rounded-xl ${darkMode ? 'bg-gray-900/20' : 'bg-red-50'} border-2 ${darkMode ? 'border-blue-700' : 'border-blue-300'} mb-4`}>
+                      <div className={`p-5 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-red-50'} border-2 ${darkMode ? 'border-red-800' : 'border-red-300'} mb-4`}>
                         <div className="flex items-start gap-3">
                           <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-red-400 to-red-600 flex items-center justify-center flex-shrink-0 shadow-md">
                             <span className="text-white text-xl font-bold">60</span>
                           </div>
                           <div className="flex-1">
-                            <h5 className="font-bold text-base mb-2">Límite Máximo</h5>
-                            <p className="text-sm opacity-90 mb-2">
+                            <h5 className="font-bold text-base mb-3">Límite Máximo</h5>
+                            <p className="text-sm opacity-90 mb-3">
                               El máximo absoluto es <strong>60 créditos UC</strong> por semestre.
                             </p>
                             <p className="text-xs opacity-70">
