@@ -64,7 +64,7 @@ export default function GuideModal({ show, onClose, darkMode }: GuideModalProps)
             {/* Content con scroll */}
             <div className={`overflow-y-auto flex-1 pb-6 ${darkMode ? 'bg-gray-800' : 'bg-white'}`}>
               
-              {/* Toggle de pestañas - Sticky con gradiente - VERSIÓN MEJORADA */}
+             {/* Toggle de pestañas - Sticky con gradiente - VERSIÓN MEJORADA */}
               <div 
                 className={`sticky top-0 z-10 px-6 pt-6 pb-8 pointer-events-none ${
                   darkMode 
@@ -74,7 +74,7 @@ export default function GuideModal({ show, onClose, darkMode }: GuideModalProps)
               >
                 <div className="flex items-center justify-center pointer-events-auto">
                   <div 
-                    className={`relative inline-flex items-center rounded-full p-1 backdrop-blur-md ${
+                    className={`relative grid grid-cols-3 rounded-full p-1 backdrop-blur-md ${
                       darkMode ? 'bg-gray-700/70' : 'bg-gray-100/70'
                     }`}
                   >
@@ -87,15 +87,15 @@ export default function GuideModal({ show, onClose, darkMode }: GuideModalProps)
                           ? 'bg-blue-600'
                           : 'bg-purple-600'
                       }`}
+                      initial={false}
                       animate={{
-                        x: selectedTab === 'usage' ? '0%' : selectedTab === 'planning' ? '100%' : '200%',
+                        left: selectedTab === 'usage' ? '4px' : selectedTab === 'planning' ? 'calc(33.333% + 2px)' : 'calc(66.666% + 0px)',
+                        right: selectedTab === 'usage' ? 'calc(66.666% + 0px)' : selectedTab === 'planning' ? 'calc(33.333% + 2px)' : '4px',
                       }}
                       transition={{ type: "spring", stiffness: 300, damping: 30 }}
                       style={{
-                        width: 'calc(33.33% - 8px)',
-                        height: 'calc(100% - 8px)',
                         top: '4px',
-                        left: '4px',
+                        bottom: '4px',
                       }}
                     />
                     
@@ -107,7 +107,7 @@ export default function GuideModal({ show, onClose, darkMode }: GuideModalProps)
                         tabIndex={0}
                         onClick={() => setSelectedTab(tab.id)}
                         onKeyDown={(e) => e.key === 'Enter' && setSelectedTab(tab.id)}
-                        className={`relative z-10 flex-1 px-3 md:px-4 py-2 text-sm font-semibold rounded-full transition-colors whitespace-nowrap cursor-pointer flex items-center justify-center gap-2 ${
+                        className={`relative z-10 px-3 md:px-5 py-2 text-sm font-semibold rounded-full transition-colors whitespace-nowrap cursor-pointer flex items-center justify-center gap-2 ${
                           selectedTab === tab.id
                             ? 'text-white' 
                             : darkMode
