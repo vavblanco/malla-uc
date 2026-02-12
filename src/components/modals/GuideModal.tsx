@@ -78,6 +78,32 @@ return (
                       darkMode ? 'bg-gray-700/70' : 'bg-gray-100/70'
                     }`}
                   >
+                    {/* Indicador deslizante - Posición absoluta con translateX */}
+                    <motion.div
+                      className={`absolute rounded-full shadow-md ${
+                        selectedTab === 'usage'
+                          ? 'bg-green-600'
+                          : selectedTab === 'planning'
+                          ? 'bg-blue-600'
+                          : 'bg-purple-600'
+                      }`}
+                      animate={{
+                        x: selectedTab === 'usage' ? '0%' : selectedTab === 'planning' ? '100%' : '200%',
+                      }}
+                      transition={{ 
+                        type: "spring", 
+                        stiffness: 300, 
+                        damping: 28,
+                        mass: 0.8
+                      }}
+                      style={{
+                        width: '33.333%',
+                        height: 'calc(100% - 8px)',
+                        top: '4px',
+                        left: '4px',
+                      }}
+                    />
+                    
                     {/* Pestañas */}
                     {tabs.map((tab) => (
                       <div
@@ -86,35 +112,15 @@ return (
                         tabIndex={0}
                         onClick={() => setSelectedTab(tab.id)}
                         onKeyDown={(e) => e.key === 'Enter' && setSelectedTab(tab.id)}
-                        className={`relative z-10 px-4 md:px-6 py-2 text-sm font-semibold transition-colors whitespace-nowrap cursor-pointer flex items-center justify-center gap-2 ${
+                        className={`relative z-10 px-4 md:px-6 py-2 text-sm font-semibold transition-colors duration-200 whitespace-nowrap cursor-pointer flex items-center justify-center gap-2 ${
                           selectedTab === tab.id
                             ? 'text-white' 
                             : darkMode
                               ? 'text-gray-400'
                               : 'text-gray-600'
                         }`}
+                        style={{ width: '33.333%' }}
                       >
-                        {/* Indicador deslizante - Se renderiza solo en la pestaña activa */}
-                        {selectedTab === tab.id && (
-                          <motion.div
-                            layoutId="activeTab"
-                            className={`absolute inset-0 rounded-full shadow-md ${
-                              tab.id === 'usage'
-                                ? 'bg-green-600'
-                                : tab.id === 'planning'
-                                ? 'bg-blue-600'
-                                : 'bg-purple-600'
-                            }`}
-                            transition={{ 
-                              type: "spring", 
-                              stiffness: 380, 
-                              damping: 30
-                            }}
-                            style={{
-                              zIndex: -1,
-                            }}
-                          />
-                        )}
                         <FontAwesomeIcon icon={tab.icon} className="text-sm" />
                         <span className="hidden sm:inline">{tab.label}</span>
                       </div>
@@ -387,7 +393,7 @@ return (
                             </ul>
                           </div>
                           <p className="text-xs opacity-70">
-                            Por ejemplo: Puedes tomar un OFG de Salud y Bienestar en el semestre 3 aunque la malla lo muestre en el semestre 5, o viceversa.
+                            Por ejemplo: Puedes tomar un OFG de Salud y Bienestar en semestre 3 aunque la malla lo muestre en semestre 5, o viceversa.
                           </p>
                         </div>
                       </div>
