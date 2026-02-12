@@ -331,7 +331,7 @@ return (
                     </h4>
                     <div className="grid md:grid-cols-2 gap-3">
 
-                      <div className={`p-4 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-red-50'} border-2 ${darkMode ? 'border-red-800' : 'border-red-300'}`}>
+                      <div className={`p-5 rounded-xl ${darkMode ? 'bg-gray-900/20' : 'bg-red-50'} border-2 ${darkMode ? 'border-blue-700' : 'border-blue-300'} mb-4`}>
                         <div className="flex items-start gap-3">
                           <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-red-400 to-red-600 flex items-center justify-center flex-shrink-0 shadow-md">
                             <span className="text-white text-xl font-bold">60</span>
