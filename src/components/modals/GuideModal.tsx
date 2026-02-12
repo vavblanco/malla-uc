@@ -61,7 +61,7 @@ return (
               </div>
             </div>
 
-            {/* Content con scroll */}
+           {/* Content con scroll */}
             <div className={`overflow-y-auto flex-1 pb-6 ${darkMode ? 'bg-gray-800' : 'bg-white'}`}>
               
              {/* Toggle de pestañas - Sticky con gradiente */}
@@ -74,11 +74,11 @@ return (
               >
                 <div className="flex items-center justify-center pointer-events-auto">
                   <div 
-                    className={`relative inline-flex rounded-full p-1 backdrop-blur-md ${
+                    className={`relative grid grid-cols-3 gap-0 rounded-full p-1 backdrop-blur-md ${
                       darkMode ? 'bg-gray-700/70' : 'bg-gray-100/70'
                     }`}
                   >
-                    {/* Indicador deslizante - Posición absoluta con translateX */}
+                    {/* Indicador deslizante */}
                     <motion.div
                       className={`absolute rounded-full shadow-md ${
                         selectedTab === 'usage'
@@ -87,8 +87,9 @@ return (
                           ? 'bg-blue-600'
                           : 'bg-purple-600'
                       }`}
+                      initial={false}
                       animate={{
-                        x: selectedTab === 'usage' ? '0%' : selectedTab === 'planning' ? '100%' : '200%',
+                        left: `calc(${selectedIndex * 33.333}% + 4px)`,
                       }}
                       transition={{ 
                         type: "spring", 
@@ -97,10 +98,9 @@ return (
                         mass: 0.8
                       }}
                       style={{
-                        width: '33.333%',
+                        width: 'calc(33.333% - 2.67px)',
                         height: 'calc(100% - 8px)',
                         top: '4px',
-                        left: '4px',
                       }}
                     />
                     
@@ -112,14 +112,13 @@ return (
                         tabIndex={0}
                         onClick={() => setSelectedTab(tab.id)}
                         onKeyDown={(e) => e.key === 'Enter' && setSelectedTab(tab.id)}
-                        className={`relative z-10 px-4 md:px-6 py-2 text-sm font-semibold transition-colors duration-200 whitespace-nowrap cursor-pointer flex items-center justify-center gap-2 ${
+                        className={`relative z-10 px-3 md:px-5 py-2 text-sm font-semibold transition-colors duration-200 whitespace-nowrap cursor-pointer flex items-center justify-center gap-2 ${
                           selectedTab === tab.id
                             ? 'text-white' 
                             : darkMode
                               ? 'text-gray-400'
                               : 'text-gray-600'
                         }`}
-                        style={{ width: '33.333%' }}
                       >
                         <FontAwesomeIcon icon={tab.icon} className="text-sm" />
                         <span className="hidden sm:inline">{tab.label}</span>
