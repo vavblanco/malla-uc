@@ -329,7 +329,6 @@ return (
                       <FontAwesomeIcon icon={faExclamationTriangle} className="text-orange-500" />
                       Límites de Créditos por Semestre
                     </h4>
-                    <div className="grid md:grid-cols-2 gap-3">
 
                       <div className={`p-5 rounded-xl ${darkMode ? 'bg-gray-700/50' : 'bg-red-50'} border-2 ${darkMode ? 'border-red-800' : 'border-red-300'} mb-4`}>
                         <div className="flex items-start gap-3">
