@@ -78,28 +78,6 @@ return (
                       darkMode ? 'bg-gray-700/70' : 'bg-gray-100/70'
                     }`}
                   >
-                    {/* Indicador deslizante */}
-                    <motion.div
-                      className={`absolute rounded-full shadow-md ${
-                        selectedTab === 'usage'
-                          ? 'bg-green-600'
-                          : selectedTab === 'planning'
-                          ? 'bg-blue-600'
-                          : 'bg-purple-600'
-                      }`}
-                      layout
-                      layoutId="activeTab"
-                      transition={{ 
-                        type: "spring", 
-                        stiffness: 380, 
-                        damping: 30
-                      }}
-                      style={{
-                        height: 'calc(100% - 8px)',
-                        top: '4px',
-                      }}
-                    />
-                    
                     {/* Pestañas */}
                     {tabs.map((tab) => (
                       <div
@@ -116,6 +94,27 @@ return (
                               : 'text-gray-600'
                         }`}
                       >
+                        {/* Indicador deslizante - Se renderiza solo en la pestaña activa */}
+                        {selectedTab === tab.id && (
+                          <motion.div
+                            layoutId="activeTab"
+                            className={`absolute inset-0 rounded-full shadow-md ${
+                              tab.id === 'usage'
+                                ? 'bg-green-600'
+                                : tab.id === 'planning'
+                                ? 'bg-blue-600'
+                                : 'bg-purple-600'
+                            }`}
+                            transition={{ 
+                              type: "spring", 
+                              stiffness: 380, 
+                              damping: 30
+                            }}
+                            style={{
+                              zIndex: -1,
+                            }}
+                          />
+                        )}
                         <FontAwesomeIcon icon={tab.icon} className="text-sm" />
                         <span className="hidden sm:inline">{tab.label}</span>
                       </div>
