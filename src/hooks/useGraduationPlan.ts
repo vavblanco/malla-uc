@@ -20,8 +20,12 @@ export const useGraduationPlan = (
   const [graduationPlan, setGraduationPlan] = useState<SemesterPlan[]>([]);
   const [isAnimating, setIsAnimating] = useState(false);
 
-  // ⭐ ACTUALIZADO: Validar prerrequisitos normales Y opcionales
-  const isSubjectAvailable = (subject: Subject, completedSubjects: Set<string>): boolean => {
+  // ⭐ ACTUALIZADO: Validar prerrequisitos normales, opcionales Y requisitos de créditos
+  const isSubjectAvailable = (
+    subject: Subject, 
+    completedSubjects: Set<string>,
+    accumulatedCredits: number = 0
+  ): boolean => {
     // Validar prerrequisitos normales (TODOS deben estar completos - AND lógico)
     const normalPrereqsMet = subject.prerequisites.every(prereq => 
       completedSubjects.has(prereq)
@@ -33,7 +37,18 @@ export const useGraduationPlan = (
         return group.some(prereq => completedSubjects.has(prereq));
       });
     
-    return normalPrereqsMet && alternativePrereqsMet;
+    // ⭐ NUEVO: Validar requisito de créditos
+    const creditRequirementMet = !subject.creditRequirement || 
+      accumulatedCredits >= subject.creditRequirement;
+    
+    return normalPrereqsMet && alternativePrereqsMet && creditRequirementMet;
+  };
+
+  // ⭐ NUEVO: Calcular créditos UC acumulados (aprobados + en el plan)
+  const calculateAccumulatedCredits = (completedSubjects: Set<string>): number => {
+    return subjects
+      .filter(s => completedSubjects.has(s.code))
+      .reduce((sum, s) => sum + getUcCredits(s), 0);
   };
 
   const getCurrentAcademicLevel = (completedSubjects: Set<string>): string => {
@@ -235,8 +250,9 @@ export const useGraduationPlan = (
 
       if (vaAlDia) {
         const currentSemesterCode = `s${realSemester}`;
+        const accumulatedCredits = calculateAccumulatedCredits(completedSubjects); // ⭐ NUEVO
         const available = remainingSubjects.filter(subject => {
-          return subject.semester === currentSemesterCode && isSubjectAvailable(subject, completedSubjects);
+          return subject.semester === currentSemesterCode && isSubjectAvailable(subject, completedSubjects, accumulatedCredits);
         });
         
         for (const subject of available) {
@@ -277,8 +293,9 @@ export const useGraduationPlan = (
           });
         });
       } else if (realSemester === 1) {
+        const accumulatedCredits = calculateAccumulatedCredits(completedSubjects); // ⭐ NUEVO
         const availableFirst = remainingSubjects.filter(subject => {
-          return subject.semester === 's1' && isSubjectAvailable(subject, completedSubjects);
+          return subject.semester === 's1' && isSubjectAvailable(subject, completedSubjects, accumulatedCredits);
         });
         for (const subject of availableFirst) {
           semesterCredits = processSubject(subject, semesterCredits, semesterSubjects, electiveGroupsInSemester, electiveTracksInSemester);
@@ -312,8 +329,9 @@ export const useGraduationPlan = (
           });
         });
       } else if (realSemester === 2) {
+        const accumulatedCredits = calculateAccumulatedCredits(completedSubjects); // ⭐ NUEVO
         const availableFirstSecond = remainingSubjects.filter(subject => {
-          return (subject.semester === 's1' || subject.semester === 's2') && isSubjectAvailable(subject, completedSubjects);
+          return (subject.semester === 's1' || subject.semester === 's2') && isSubjectAvailable(subject, completedSubjects, accumulatedCredits);
         });
         availableFirstSecond.sort((a, b) => {
           const aN = parseInt((a.semester || '').replace('s', ''));
@@ -352,8 +370,9 @@ export const useGraduationPlan = (
           });
         });
       } else {
+        const accumulatedCredits = calculateAccumulatedCredits(completedSubjects); // ⭐ NUEVO
         const adelantables = remainingSubjects.filter(subject => {
-          return isSubjectAvailable(subject, completedSubjects);
+          return isSubjectAvailable(subject, completedSubjects, accumulatedCredits);
         });
         adelantables.sort((a, b) => {
           const aIdx = semesterLevels.indexOf(a.semester);

@@ -377,7 +377,7 @@ export default function GraduationPlanModal({
       localPlan[i].subjects.forEach(s => completedSubjects.add(s.code));
     }
 
-    return arePrerequisitesMet(subject, completedSubjects);
+    return arePrerequisitesMet(subject, completedSubjects, true); // ⭐ Validar créditos también
   };
 
   const recalculatePlan = (newPlan: SemesterPlan[]): SemesterPlan[] => {
@@ -404,8 +404,8 @@ export default function GraduationPlanModal({
         }
 
         semester.subjects.forEach(subject => {
-          // ⭐ ACTUALIZADO: Usar la nueva función de validación
-          if (!arePrerequisitesMet(subject, completedSubjects)) {
+          // ⭐ ACTUALIZADO: Validar créditos también
+          if (!arePrerequisitesMet(subject, completedSubjects, true)) {
             subjectsToMove.push(subject);
           }
         });
@@ -431,8 +431,8 @@ export default function GraduationPlanModal({
                 updatedPlan[i].subjects.forEach(s => futureCompletedSubjects.add(s.code));
               }
 
-              // ⭐ ACTUALIZADO: Usar la nueva función de validación
-              const canPlace = arePrerequisitesMet(subject, futureCompletedSubjects);
+              // ⭐ ACTUALIZADO: Validar créditos también
+              const canPlace = arePrerequisitesMet(subject, futureCompletedSubjects, true);
 
               if (canPlace) {
                 updatedPlan[futureIndex].subjects.push(subject);
