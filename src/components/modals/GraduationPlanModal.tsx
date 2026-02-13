@@ -48,6 +48,54 @@ export default function GraduationPlanModal({
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const planContentRef = useRef<HTMLDivElement>(null);
 
+  // ⭐ NUEVO: Función helper para validar prerrequisitos (normales + opcionales)
+  const arePrerequisitesMet = (
+    subject: Subject, 
+    completedSubjects: Set<string>,
+    checkCreditRequirement: boolean = false
+  ): boolean => {
+    // Validar prerrequisitos normales (TODOS deben estar completos - AND lógico)
+    const normalPrereqsMet = subject.prerequisites.every(prereq => 
+      completedSubjects.has(prereq)
+    );
+    
+    // ⭐ Validar prerrequisitos opcionales (AL MENOS UNO por grupo - OR lógico)
+    const alternativePrereqsMet = !subject.alternativePrerequisites || 
+      subject.alternativePrerequisites.every((group: string[]) => {
+        return group.some(prereq => completedSubjects.has(prereq));
+      });
+    
+    // Validar requisito de créditos si se solicita
+    let creditRequirementMet = true;
+    if (checkCreditRequirement && subject.creditRequirement) {
+      const approvedCredits = allSubjects
+        .filter(s => completedSubjects.has(s.code))
+        .reduce((sum, s) => sum + getUcCredits(s), 0);
+      creditRequirementMet = approvedCredits >= subject.creditRequirement;
+    }
+    
+    return normalPrereqsMet && alternativePrereqsMet && creditRequirementMet;
+  };
+
+  // ⭐ NUEVO: Obtener prerrequisitos faltantes (para mensajes de error)
+  const getMissingPrerequisites = (subject: Subject, completedSubjects: Set<string>) => {
+    const missingNormal = subject.prerequisites.filter(prereq => 
+      !completedSubjects.has(prereq)
+    );
+    
+    const missingAlternativeGroups: string[][] = [];
+    if (subject.alternativePrerequisites) {
+      subject.alternativePrerequisites.forEach(group => {
+        const hasOne = group.some(prereq => completedSubjects.has(prereq));
+        if (!hasOne) {
+          missingAlternativeGroups.push(group);
+        }
+      });
+    }
+    
+    return { missingNormal, missingAlternativeGroups };
+  };
+
   const [miniAlert, setMiniAlert] = useState<{ message: string, visible: boolean }>({ message: '', visible: false });
   const showMiniAlert = (message: string) => {
     setMiniAlert({ message, visible: true });
@@ -329,7 +377,7 @@ export default function GraduationPlanModal({
       localPlan[i].subjects.forEach(s => completedSubjects.add(s.code));
     }
 
-    return subject.prerequisites.every(prereq => completedSubjects.has(prereq));
+    return arePrerequisitesMet(subject, completedSubjects);
   };
 
   const recalculatePlan = (newPlan: SemesterPlan[]): SemesterPlan[] => {
@@ -356,11 +404,8 @@ export default function GraduationPlanModal({
         }
 
         semester.subjects.forEach(subject => {
-          const missingPrereqs = subject.prerequisites.filter(prereq => 
-            !completedSubjects.has(prereq)
-          );
-          
-          if (missingPrereqs.length > 0) {
+          // ⭐ ACTUALIZADO: Usar la nueva función de validación
+          if (!arePrerequisitesMet(subject, completedSubjects)) {
             subjectsToMove.push(subject);
           }
         });
@@ -386,9 +431,8 @@ export default function GraduationPlanModal({
                 updatedPlan[i].subjects.forEach(s => futureCompletedSubjects.add(s.code));
               }
 
-              const canPlace = subject.prerequisites.every(prereq => 
-                futureCompletedSubjects.has(prereq)
-              );
+              // ⭐ ACTUALIZADO: Usar la nueva función de validación
+              const canPlace = arePrerequisitesMet(subject, futureCompletedSubjects);
 
               if (canPlace) {
                 updatedPlan[futureIndex].subjects.push(subject);

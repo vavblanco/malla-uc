@@ -20,8 +20,20 @@ export const useGraduationPlan = (
   const [graduationPlan, setGraduationPlan] = useState<SemesterPlan[]>([]);
   const [isAnimating, setIsAnimating] = useState(false);
 
+  // ⭐ ACTUALIZADO: Validar prerrequisitos normales Y opcionales
   const isSubjectAvailable = (subject: Subject, completedSubjects: Set<string>): boolean => {
-    return subject.prerequisites.every(prereq => completedSubjects.has(prereq));
+    // Validar prerrequisitos normales (TODOS deben estar completos - AND lógico)
+    const normalPrereqsMet = subject.prerequisites.every(prereq => 
+      completedSubjects.has(prereq)
+    );
+    
+    // ⭐ Validar prerrequisitos opcionales (AL MENOS UNO por grupo - OR lógico)
+    const alternativePrereqsMet = !subject.alternativePrerequisites || 
+      subject.alternativePrerequisites.every((group: string[]) => {
+        return group.some(prereq => completedSubjects.has(prereq));
+      });
+    
+    return normalPrereqsMet && alternativePrereqsMet;
   };
 
   const getCurrentAcademicLevel = (completedSubjects: Set<string>): string => {
