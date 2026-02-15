@@ -235,8 +235,6 @@ El proyecto original fue creado para la Universidad Técnica Federico Santa Mar�
 ### Documentación
 
 - [STRUCTURE.md](./STRUCTURE.md) - Arquitectura del proyecto
-- [scripts/README.md](./scripts/README.md) - Scripts de conversión de mallas
-- [Guía de Contribución](./.github/CONTRIBUTING.md)
 
 ### Enlaces Útiles
 
@@ -247,12 +245,6 @@ El proyecto original fue creado para la Universidad Técnica Federico Santa Mar�
 
 ---
 
-## 📊 Estado del Proyecto
-
-- ✅ **Versión 1.0.0** - Release inicial con 3 carreras FCB
-- 🚧 **En desarrollo**: Más features y mejoras
-
----
 
 <div align="center">
   
