@@ -74,7 +74,7 @@ Una aplicación web interactiva para visualizar y planificar el avance curricula
 - 🌊 **Biología Marina** (Licenciatura en Biología Marina)
 - ⚗️ **Bioquímica** (Licenciatura en Bioquímica)
 
-> **Nota**: Si estudias otra carrera de la UC o de otra universidad, puedes adaptar el proyecto. Ver sección [Contribuir](#contribuir).
+> **Nota**: Si estudias otra carrera de la UC o de otra universidad, puedes adaptar el proyecto.
 
 ---
 
