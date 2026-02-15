@@ -157,30 +157,6 @@ Ver [STRUCTURE.md](./STRUCTURE.md) para documentación detallada de la arquitect
 
 ---
 
-## 🛠️ Tecnologías
-
-### Frontend
-
-- **[Next.js 15](https://nextjs.org/)** - Framework React con App Router
-- **[React 19](https://react.dev/)** - Librería UI
-- **[TypeScript](https://www.typescriptlang.org/)** - Type safety
-- **[Tailwind CSS](https://tailwindcss.com/)** - Estilos utility-first
-- **[Framer Motion](https://www.framer.com/motion/)** - Animaciones
-
-### Librerías Adicionales
-
-- **[@fortawesome/react-fontawesome](https://fontawesome.com/v6/docs/web/use-with/react/)** - Iconos
-- **[react-beautiful-dnd](https://github.com/atlassian/react-beautiful-dnd)** - Drag & drop
-- **[canvas-confetti](https://github.com/catdad/canvas-confetti)** - Efectos de celebración
-
-### Herramientas de Desarrollo
-
-- **[ESLint](https://eslint.org/)** - Linter
-- **[Prettier](https://prettier.io/)** - Formatter (recomendado)
-- **[Turbopack](https://turbo.build/pack)** - Bundler rápido para dev
-
----
-
 ## 🤝 Contribuir
 
 ¡Las contribuciones son bienvenidas! Hay varias formas de contribuir:
