@@ -526,7 +526,7 @@ export const bq: Carrera = {
             "VRA100C",
             "VRA4000"
         ],
-        "creditRequirement": 415,
+        "creditRequirement": 420,
         "semester": "s8"
     },
     {
