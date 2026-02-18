@@ -46,14 +46,14 @@ Una aplicación web interactiva para visualizar y planificar el avance curricula
 
 - **Distribución Inteligente**: Organiza automáticamente tus ramos pendientes
 - **Validación de Prerrequisitos**: Asegura que puedas tomar cada ramo
-- **Límites de Créditos**: Respeta los límites de 50 UC (normal) o 60 UC (máximo) por semestre
+- **Límites de Créditos**: Respeta los límites de 60 créditos UC (máximo) por semestre
 - **Drag & Drop**: Reorganiza ramos entre semestres fácilmente
 - **Grupos Electivos**: Maneja correctamente ramos electivos y sus opciones
 
 ### 🎓 Características Académicas UC
 
 - **OFG Flexibles**: Indica que el orden de los OFG es referencial
-- **4 Áreas OFG**: Salud, Artes, Humanidades, Ciencias Sociales
+- **8 Áreas OFG**: Filosofía, Teología, Artes, Ciencias Sociales, Humanidades, Salud y Bienestar, Ecología y Sustentabilidad, y Créditos Libres.
 - **Tracks Electivos**: Certificados, Prácticas, Optativos
 - **Correquisitos**: Ramos que deben cursarse juntos
 - **Requisitos de Créditos**: Para Práctica Profesional, Seminarios, etc
