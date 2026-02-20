@@ -1,12 +1,13 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLock, faCheck, faLink, faTrophy, faCodeBranch } from '@fortawesome/free-solid-svg-icons';
 import type { Subject, SubjectState, CalculatorState, SubjectColors } from '@/types/curriculum';
 import { motion, AnimatePresence } from 'framer-motion';
 import Tooltip from '../ui/Tooltip';
 import { getUcCredits } from '@/hooks/credits';
+import GradeInputModal from '../modals/GradeInputModal';
 
 interface SubjectCardProps {
   subject: Subject;
@@ -37,6 +38,11 @@ export default function SubjectCard({
   approvedCredits = 0,
   allSubjects = []
 }: SubjectCardProps) {
+
+  // ⭐ NUEVO: Estados para el modal de nota y long press
+  const [showGradeModal, setShowGradeModal] = useState(false);
+  const [pressTimer, setPressTimer] = useState<NodeJS.Timeout | null>(null);
+  const [isLongPress, setIsLongPress] = useState(false);
 
   // Verificar si otro ramo del mismo grupo electivo está aprobado
   const getElectiveGroupConflict = () => {
@@ -191,14 +197,73 @@ export default function SubjectCard({
 
   const getBackgroundColor = () => {
     if (isBlocked) return darkMode ? '#4b5563' : '#6b7280';
-    if (state?.status === 'approved') return '#10b981';
+    // ⭐ NUEVO: Color rojo para reprobados
+    if (state?.status === 'failed') return '#ef4444'; // red-500
+    if (state?.status === 'approved') return '#10b981'; // green-500
     return color || (darkMode ? '#374151' : '#fff');
   };
 
-  const handleClick = () => {
+  // ⭐ NUEVO: Handlers para click vs long press
+  const handleMouseDown = () => {
     if (isBlocked) return;
-    const newStatus = state?.status === 'approved' ? 'pending' : 'approved';
-    onStateChange({ status: newStatus });
+    
+    setIsLongPress(false);
+    
+    // Timer de 500ms para detectar long press
+    const timer = setTimeout(() => {
+      setIsLongPress(true);
+      setShowGradeModal(true); // Abrir modal
+      
+      // Vibración en móviles (feedback táctil)
+      if (navigator.vibrate) {
+        navigator.vibrate(50);
+      }
+    }, 500);
+    
+    setPressTimer(timer);
+  };
+
+  const handleMouseUp = () => {
+    if (isBlocked) return;
+    
+    // Cancelar el timer si se suelta antes de 500ms
+    if (pressTimer) {
+      clearTimeout(pressTimer);
+      setPressTimer(null);
+    }
+    
+    // Si NO fue long press, hacer el cambio rápido
+    if (!isLongPress) {
+      handleQuickClick();
+    }
+    
+    setIsLongPress(false);
+  };
+
+  const handleQuickClick = () => {
+    if (!state || state.status === 'pending') {
+      // Pendiente → Aprobado (sin nota todavía)
+      onStateChange({ status: 'approved' });
+    } else if (state.status === 'approved') {
+      // Aprobado → Reprobado (mantener nota si existe)
+      onStateChange({ status: 'failed', grade: state.grade });
+    } else {
+      // Reprobado → Pendiente (limpiar nota)
+      onStateChange({ status: 'pending', grade: undefined });
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (pressTimer) {
+      clearTimeout(pressTimer);
+      setPressTimer(null);
+    }
+    setIsLongPress(false);
+  };
+
+  const handleGradeSave = (newState: SubjectState) => {
+    onStateChange(newState);
+    setShowGradeModal(false);
   };
 
   const PrerequisiteChip = ({ prereqCode }: { prereqCode: string }) => {
@@ -354,6 +419,16 @@ export default function SubjectCard({
       <div className="font-bold">{subject.name}</div>
       <div className="text-xs opacity-70">{subject.code} • {getUcCredits(subject)} créditos UC</div>
       
+      {/* ⭐ NUEVO: Mostrar nota si existe */}
+      {state?.grade && (
+        <div className={`text-sm font-bold pt-1 border-t border-gray-300 dark:border-gray-600 ${
+          state.status === 'approved' ? 'text-green-500' : 'text-red-500'
+        }`}>
+          Nota: {state.grade.toFixed(1)}
+          {state.status === 'failed' && ' (Reprobado)'}
+        </div>
+      )}
+      
       {/* NUEVO: Mostrar información del track */}
       {subject.electiveTrack && Object.keys(electiveTrackMembers).length > 0 && (
         <div className="text-xs opacity-70 pt-1 border-t border-gray-300 dark:border-gray-600">
@@ -496,6 +571,7 @@ export default function SubjectCard({
   );
 
   return (
+    <>
     <Tooltip content={tooltipContent}>
       <div className="relative group">
         <motion.div
@@ -511,11 +587,18 @@ export default function SubjectCard({
               ? hasCorequisiteWarning
                 ? 'shadow-lg shadow-orange-500/30 ring-2 ring-orange-400/50'
                 : 'shadow-lg shadow-green-500/30 ring-2 ring-green-400/50'
-              : subject.electiveGroup || subject.electiveTrack
-                ? 'shadow-md hover:shadow-lg ring-1 ring-purple-400/30'
-                : 'shadow-md hover:shadow-lg'
+              : state?.status === 'failed'
+                ? 'shadow-lg shadow-red-500/30 ring-2 ring-red-400/50'
+                : subject.electiveGroup || subject.electiveTrack
+                  ? 'shadow-md hover:shadow-lg ring-1 ring-purple-400/30'
+                  : 'shadow-md hover:shadow-lg'
           }`}
-          onClick={handleClick}
+          onMouseDown={handleMouseDown}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseLeave}
+          onTouchStart={handleMouseDown}
+          onTouchEnd={handleMouseUp}
+          onTouchCancel={handleMouseLeave}
         >
         {state?.status === 'approved' && (
           <motion.div
@@ -667,5 +750,16 @@ export default function SubjectCard({
       </motion.div>
       </div>
     </Tooltip>
+    
+    {/* ⭐ NUEVO: Modal para ingresar nota con long press */}
+    <GradeInputModal
+      show={showGradeModal}
+      subject={subject}
+      currentState={state}
+      onSave={handleGradeSave}
+      onClose={() => setShowGradeModal(false)}
+      darkMode={darkMode}
+    />
+  </>
   );
 }

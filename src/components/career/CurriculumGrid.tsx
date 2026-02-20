@@ -203,6 +203,8 @@ export default function CurriculumGrid({ initialCareer }: CurriculumGridProps = 
           onReset={resetCalculator}
           onPlayGraduationPlan={playGraduationAnimation}
           darkMode={darkMode}
+          subjects={subjects}              // ⭐ NUEVO
+          subjectStates={subjectStates}    // ⭐ NUEVO
         />
       )}
 

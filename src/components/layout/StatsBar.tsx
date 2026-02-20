@@ -1,7 +1,10 @@
 'use client';
 
+import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faInfoCircle, faRotateLeft, faPlay, faCoins, faBookOpen, faChartPie } from '@fortawesome/free-solid-svg-icons';
+import { faInfoCircle, faRotateLeft, faPlay, faCoins, faBookOpen, faChartPie, faCalculator } from '@fortawesome/free-solid-svg-icons';
+import PPACalculatorIntegrated from '../modals/PPACalculatorIntegrated';
+import type { Subject, SubjectState } from '@/types/curriculum';
 
 interface Stats {
   approvedCredits: number;
@@ -17,9 +20,21 @@ interface StatsBarProps {
   onReset: () => void;
   onPlayGraduationPlan: () => void;
   darkMode?: boolean;
+  subjects: Subject[];
+  subjectStates: Record<string, SubjectState>;
 }
 
-export default function StatsBar({ stats, onShowCategories, onReset, onPlayGraduationPlan, darkMode = false }: Readonly<StatsBarProps>) {
+export default function StatsBar({ 
+  stats, 
+  onShowCategories, 
+  onReset, 
+  onPlayGraduationPlan, 
+  darkMode = false,
+  subjects,
+  subjectStates
+}: Readonly<StatsBarProps>) {
+  const [showPPACalculator, setShowPPACalculator] = useState(false);
+  
   const handleReset = () => {
     onReset();
   };
@@ -68,6 +83,15 @@ export default function StatsBar({ stats, onShowCategories, onReset, onPlayGradu
           </div>
           {/* Acciones */}
           <div className="flex items-center justify-center gap-2 md:gap-2 md:justify-end mt-2 md:mt-0">
+            {/* ⭐ NUEVO: Botón PPA */}
+            <button
+              onClick={() => setShowPPACalculator(true)}
+              className="flex-1 md:flex-none h-11 md:h-10 md:w-auto md:px-4 bg-purple-500 hover:bg-purple-600 text-white rounded-full transition-all duration-300 flex items-center justify-center gap-2 hover:shadow-lg hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-300"
+              title="Ver PPA"
+            >
+              <FontAwesomeIcon icon={faCalculator} className="text-lg md:text-base" />
+              <span className="font-extralight tracking-tight text-sm">PPA</span>
+            </button>
             <button
               onClick={onPlayGraduationPlan}
               className="flex-1 md:flex-none h-11 md:h-10 md:w-auto md:px-4 bg-green-500 hover:bg-green-600 text-white rounded-full transition-all duration-300 flex items-center justify-center gap-2 hover:shadow-lg hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-300"
@@ -95,6 +119,15 @@ export default function StatsBar({ stats, onShowCategories, onReset, onPlayGradu
           </div>
         </div>
       </div>
+      
+      {/* ⭐ NUEVO: Modal PPA */}
+      <PPACalculatorIntegrated
+        show={showPPACalculator}
+        onClose={() => setShowPPACalculator(false)}
+        subjects={subjects}
+        subjectStates={subjectStates}
+        darkMode={darkMode}
+      />
     </div>
   );
 }

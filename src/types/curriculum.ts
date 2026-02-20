@@ -21,7 +21,8 @@ export interface Subject {
 }
 
 export interface SubjectState {
-  status: 'pending' | 'approved';
+  status: 'pending' | 'approved' | 'failed';  
+  grade?: number;  
 }
 
 export type CalculatorState = Record<string, SubjectState>;

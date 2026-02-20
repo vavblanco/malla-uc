@@ -88,10 +88,13 @@ export const useGraduationPlan = (
 
   const calculateGraduationPlan = useCallback(() => {
     // Obtener materias no aprobadas
-    const allPendingSubjects = subjects.filter(subject => 
-      !subjectStates[subject.code]?.status || 
-      subjectStates[subject.code].status !== 'approved'
-    );
+    const allPendingSubjects = subjects.filter(subject => {
+      const state = subjectStates[subject.code];
+      // ⭐ Incluir: pending Y failed (reprobados)
+      return !state || 
+            state.status === 'pending' || 
+            state.status === 'failed';
+    });
 
     // ACTUALIZADO: Filtrar grupos donde ya aprobaste uno Y tracks donde ya elegiste una opción
     const pendingSubjects = allPendingSubjects.filter(subject => {
