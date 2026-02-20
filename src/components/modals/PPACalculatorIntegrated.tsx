@@ -260,7 +260,7 @@ export default function PPACalculatorIntegrated({
                     ))}
                   </ul>
                   <p className="text-xs mt-2 text-yellow-700 dark:text-yellow-400 italic">
-                    Recuerda consultar con tu tutor académico para planificar estrategias de mejora.
+                    Recuerda que tienes la Consejería Académica y la Dirección de Pregrado en caso de consultas.
                   </p>
                 </div>
               </div>
