@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle, faRotateLeft, faPlay, faCoins, faBookOpen, faChartPie, faCalculator } from '@fortawesome/free-solid-svg-icons';
 import PPACalculatorIntegrated from '../modals/PPACalculatorIntegrated';
 import type { Subject, SubjectState } from '@/types/curriculum';
-import { formatDecimal } from '@/utils/formatDecimal';
+import { formatDecimal } from '@/hooks/formatDecimal';
 
 
 interface Stats {

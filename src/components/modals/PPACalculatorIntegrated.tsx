@@ -6,7 +6,7 @@ import { faCalculator, faTimes, faInfoCircle } from '@fortawesome/free-solid-svg
 import { motion, AnimatePresence } from 'framer-motion';
 import { Subject, SubjectState } from '@/types/curriculum';
 import { getUcCredits } from '@/hooks/credits';
-import { formatDecimal, formatDecimal2 } from '@/utils/formatDecimal';
+import { formatDecimal, formatDecimal2 } from '@/hooks/formatDecimal';
 
 
 interface PPACalculatorIntegratedProps {

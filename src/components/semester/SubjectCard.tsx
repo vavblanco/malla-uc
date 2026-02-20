@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Tooltip from '../ui/Tooltip';
 import { getUcCredits } from '@/hooks/credits';
 import GradeInputModal from '../modals/GradeInputModal';
-import { formatDecimal } from '@/utils/formatDecimal';
+import { formatDecimal } from '@/hooks/formatDecimal';
 
 
 interface SubjectCardProps {
