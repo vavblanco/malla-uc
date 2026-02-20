@@ -176,7 +176,7 @@ export default function GradeInputModal({
                   step="0.1"
                   value={grade}
                   onChange={(e) => setGrade(e.target.value)}
-                  placeholder="Ej: 5.5"
+                  placeholder="Ej: 5,5"
                   className={`w-full px-4 py-3 rounded-lg border text-center text-2xl font-bold focus:outline-none focus:ring-2 focus:ring-blue-500 ${
                     darkMode
                       ? 'bg-gray-700 border-gray-600 text-white'

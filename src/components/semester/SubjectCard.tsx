@@ -8,6 +8,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Tooltip from '../ui/Tooltip';
 import { getUcCredits } from '@/hooks/credits';
 import GradeInputModal from '../modals/GradeInputModal';
+import { formatDecimal } from '@/utils/formatDecimal';
+
 
 interface SubjectCardProps {
   subject: Subject;
@@ -424,7 +426,7 @@ export default function SubjectCard({
         <div className={`text-sm font-bold pt-1 border-t border-gray-300 dark:border-gray-600 ${
           state.status === 'approved' ? 'text-green-500' : 'text-red-500'
         }`}>
-          Nota: {state.grade.toFixed(1)}
+          Nota: {formatDecimal(state.grade)}
           {state.status === 'failed' && ' (Reprobado)'}
         </div>
       )}

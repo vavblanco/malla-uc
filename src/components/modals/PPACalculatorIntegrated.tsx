@@ -6,6 +6,8 @@ import { faCalculator, faTimes, faInfoCircle } from '@fortawesome/free-solid-svg
 import { motion, AnimatePresence } from 'framer-motion';
 import { Subject, SubjectState } from '@/types/curriculum';
 import { getUcCredits } from '@/hooks/credits';
+import { formatDecimal, formatDecimal2 } from '@/utils/formatDecimal';
+
 
 interface PPACalculatorIntegratedProps {
   show: boolean;
@@ -228,13 +230,13 @@ export default function PPACalculatorIntegrated({
             <div className={`text-7xl font-bold mb-2 ${
               ppaResult.ppa >= 4.0 ? 'text-green-600 dark:text-green-400' : 'text-yellow-600 dark:text-yellow-400'
             }`}>
-              {ppaResult.ppa > 0 ? ppaResult.ppa.toFixed(2) : '—'}
+              {ppaResult.ppa > 0 ? formatDecimal2(ppaResult.ppa) : '—'}
             </div>
             {ppaResult.ppa > 0 && (
               <div className={`text-sm font-medium ${
                 ppaResult.ppa >= 4.0 ? 'text-green-600' : 'text-yellow-600'
               }`}>
-                {ppaResult.ppa >= 4.0 ? '✓ Buen rendimiento' : '⚠️ ¡Ten cuidado! Riesgo de alerta académica'}
+                {ppaResult.ppa >= 4.0 ? '✓ ¡Sigue así!' : '⚠️ ¡Ten cuidado! Riesgo de alerta académica'}
               </div>
             )}
           </div>
@@ -323,7 +325,7 @@ export default function PPACalculatorIntegrated({
                   <div className="text-sm flex-1">
                     <strong>Fórmula:</strong> PPA = Σ(Nota × Créditos UC) / Σ(Créditos UC)
                     <div className={`mt-1 text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                      Tu PPA: ({ppaResult.totalPoints.toFixed(2)} puntos) ÷ ({ppaResult.totalCredits} créditos UC) = {ppaResult.ppa.toFixed(2)}
+                      Tu PPA: ({formatDecimal2(ppaResult.totalPoints)} puntos) ÷ ({ppaResult.totalCredits} créditos UC) = {formatDecimal2(ppaResult.ppa)}
                     </div>
                   </div>
                 </div>
@@ -367,7 +369,7 @@ export default function PPACalculatorIntegrated({
                                 grade >= 4.0 ? 'text-blue-600' :
                                 'text-red-600'
                               }`}>
-                                {grade.toFixed(1)}
+                                {formatDecimal(grade)}
                               </div>
                               <div className="text-xs opacity-70">
                                 {(grade * credits).toFixed(1)} pts

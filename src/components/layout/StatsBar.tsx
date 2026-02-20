@@ -5,6 +5,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle, faRotateLeft, faPlay, faCoins, faBookOpen, faChartPie, faCalculator } from '@fortawesome/free-solid-svg-icons';
 import PPACalculatorIntegrated from '../modals/PPACalculatorIntegrated';
 import type { Subject, SubjectState } from '@/types/curriculum';
+import { formatDecimal } from '@/utils/formatDecimal';
+
 
 interface Stats {
   approvedCredits: number;
@@ -68,7 +70,8 @@ export default function StatsBar({
             <div className="flex flex-col items-center flex-1 min-w-0">
               <div className="flex items-center gap-1">
                 <FontAwesomeIcon icon={faChartPie} className="text-purple-500 text-base md:text-lg" />
-                <span className="font-semibold tabular-nums text-base md:text-lg text-purple-700">{stats.percentage.toFixed(1)}%</span>
+                <span className="font-semibold tabular-nums text-base md:text-lg text-purple-700">{formatDecimal(stats.percentage)}%
+</span>
               </div>
               <div className={`w-full md:max-w-xs mt-1`}>
                 <div className={`w-full ${darkMode ? 'bg-gray-700' : 'bg-gray-200'} rounded-full h-2 overflow-hidden`}>
@@ -106,7 +109,7 @@ export default function StatsBar({
               title="Ver categorías de asignaturas"
             >
               <FontAwesomeIcon icon={faInfoCircle} className="text-lg md:text-base" />
-              <span className="font-extralight tracking-tight text-sm">Categorías</span>
+              <span className="font-extralight tracking-tight text-sm">Cursos</span>
             </button>
             <button
               onClick={handleReset}
