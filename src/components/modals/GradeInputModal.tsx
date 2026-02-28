@@ -46,7 +46,7 @@ export default function GradeInputModal({
       onSave({ status, grade: gradeNum });
     } else {
       // Si no hay nota válida, mostrar error
-      alert('Ingresa una nota válida entre 1,0 y 7,0');
+      alert('Ingresa una nota válida entre 1.0 y 7.0');
       return;
     }
     
@@ -170,7 +170,7 @@ export default function GradeInputModal({
             {status !== 'pending' && (
               <div>
                 <label className="block text-sm font-semibold mb-2">
-                  Nota final (1,0 - 7,0)
+                  Nota final (1.0 - 7.0)
                 </label>
                 <input
                   type="number"
@@ -179,7 +179,7 @@ export default function GradeInputModal({
                   step="0.1"
                   value={grade}
                   onChange={(e) => setGrade(e.target.value)}
-                  placeholder="Ej: 5,5"
+                  placeholder="Ej: 5.5"
                   className={`w-full px-4 py-3 rounded-lg border text-center text-2xl font-bold focus:outline-none focus:ring-2 focus:ring-blue-500 ${
                     darkMode
                       ? 'bg-gray-700 border-gray-600 text-white'
