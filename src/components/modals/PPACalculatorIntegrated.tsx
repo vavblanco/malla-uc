@@ -529,18 +529,53 @@ export default function PPACalculatorIntegrated({
                           )}
                         </div>
 
-                        {/* Fórmulas */}
-                        <div className={`p-3 rounded-lg text-xs ${
-                          darkMode ? 'bg-gray-800/50' : 'bg-gray-50'
-                        }`}>
-                          <div className="font-semibold mb-2">📐 Fórmulas:</div>
-                          <div className="space-y-1 opacity-80">
-                            <div>• <strong>Nota Licenciatura</strong> = (0,75 × PPA) + (0,25 × Examen de Grado)</div>
-                            <div>• <strong>Nota Título</strong> = (0,8 × Nota Licenciatura) + (0,2 × PPA Título)</div>
-                          </div>
+                        {/* Fórmulas - Recuadros individuales */}
+                        <div className="space-y-3">
+                          {/* Fórmula Licenciatura */}
+                          {graduationCalculations.notaLicenciatura && (
+                            <div className={`p-3 rounded-lg text-xs ${
+                              darkMode ? 'bg-indigo-900/30 border border-indigo-700' : 'bg-indigo-50 border border-indigo-200'
+                            }`}>
+                              <div className="flex items-start gap-2">
+                                <FontAwesomeIcon icon={faInfoCircle} className="mt-0.5 text-indigo-600 dark:text-indigo-400" />
+                                <div className="flex-1">
+                                  <div className="font-semibold mb-1">📐 Nota de Licenciatura:</div>
+                                  <div className="opacity-80">
+                                    (0,75 × {formatDecimal2(graduationCalculations.ppaLicenciatura)}) + (0,25 × {formatDecimal(graduationCalculations.notaExamenGrado!)}) = <strong>{formatDecimal2(graduationCalculations.notaLicenciatura)}</strong>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Fórmula Título */}
+                          {graduationCalculations.notaTitulo && (
+                            <div className={`p-3 rounded-lg text-xs ${
+                              darkMode ? 'bg-purple-900/30 border border-purple-700' : 'bg-purple-50 border border-purple-200'
+                            }`}>
+                              <div className="flex items-start gap-2">
+                                <FontAwesomeIcon icon={faInfoCircle} className="mt-0.5 text-purple-600 dark:text-purple-400" />
+                                <div className="flex-1">
+                                  <div className="font-semibold mb-1">📐 Nota de Título:</div>
+                                  <div className="opacity-80">
+                                    (0,8 × {formatDecimal2(graduationCalculations.notaLicenciatura!)}) + (0,2 × {formatDecimal2(graduationCalculations.ppaTitulo!)}) = <strong>{formatDecimal2(graduationCalculations.notaTitulo)}</strong>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Info ramos FT */}
                           {graduationCalculations.ramosTituloCount > 0 && (
-                            <div className="mt-2 text-xs opacity-60">
-                              Se detectaron {graduationCalculations.ramosTituloCount} ramo(s) de fase título (categoría FT).
+                            <div className={`p-3 rounded-lg text-xs ${
+                              darkMode ? 'bg-gray-800/50 border border-gray-700' : 'bg-gray-50 border border-gray-200'
+                            }`}>
+                              <div className="flex items-start gap-2">
+                                <span className="text-sm">ℹ️</span>
+                                <div className="flex-1 opacity-70">
+                                  Se detectaron {graduationCalculations.ramosTituloCount} ramo(s) de fase título (categoría FT).
+                                </div>
+                              </div>
                             </div>
                           )}
                         </div>
