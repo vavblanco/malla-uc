@@ -241,6 +241,9 @@ export default function PPACalculatorIntegrated({
     return Array.from(grouped.entries()).sort((a, b) => {
       const numA = parseInt(a[0].replace('s', '')) || 999;
       const numB = parseInt(b[0].replace('s', '')) || 999;
+      return numA - numB;
+    });
+  }, [gradedCourses]);
 
   if (!show) return null;
 
