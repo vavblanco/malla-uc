@@ -25,6 +25,9 @@ export default function PPACalculatorIntegrated({
   darkMode = false
 }: PPACalculatorIntegratedProps) {
 
+  // ⭐ NUEVO: Estado para pestañas
+  const [activeTab, setActiveTab] = React.useState<'resumen' | 'graduacion' | 'detalle'>('resumen');
+
   // Obtener todos los ramos con nota (aprobados y reprobados)
   const gradedCourses = useMemo(() => {
     return subjects
@@ -238,9 +241,6 @@ export default function PPACalculatorIntegrated({
     return Array.from(grouped.entries()).sort((a, b) => {
       const numA = parseInt(a[0].replace('s', '')) || 999;
       const numB = parseInt(b[0].replace('s', '')) || 999;
-      return numA - numB;
-    });
-  }, [gradedCourses]);
 
   if (!show) return null;
 
@@ -258,20 +258,20 @@ export default function PPACalculatorIntegrated({
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.9, opacity: 0 }}
           transition={{ type: "spring", damping: 20, stiffness: 300 }}
-          className={`w-full max-w-5xl max-h-[90vh] rounded-2xl shadow-2xl overflow-hidden ${
+          className={`w-full max-w-4xl max-h-[90vh] rounded-2xl shadow-2xl overflow-hidden flex flex-col ${
             darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'
           }`}
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
-          <div className={`px-6 py-4 border-b ${
+          <div className={`px-6 py-4 border-b flex-shrink-0 ${
             darkMode ? 'bg-gray-700 border-gray-600' : 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white'
           }`}>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <FontAwesomeIcon icon={faCalculator} className="text-2xl" />
                 <div>
-                  <h2 className="text-xl font-bold">Tu PPA Actual</h2>
+                  <h2 className="text-xl font-bold">Calculadora PPA</h2>
                   <p className="text-sm opacity-90">Promedio Ponderado Acumulado</p>
                 </div>
               </div>
@@ -286,243 +286,339 @@ export default function PPACalculatorIntegrated({
             </div>
           </div>
 
-          {/* PPA Result - Grande y destacado */}
-          <div className={`p-8 text-center border-b ${
-            darkMode ? 'bg-gray-900 border-gray-700' : 'bg-gradient-to-br from-blue-50 to-indigo-50 border-blue-200'
+          {/* Tabs */}
+          <div className={`flex border-b flex-shrink-0 ${
+            darkMode ? 'border-gray-700 bg-gray-800' : 'border-gray-200 bg-gray-50'
           }`}>
-            <div className="text-sm font-semibold opacity-70 mb-2">TU PPA ACTUAL</div>
-            <div className={`text-7xl font-bold mb-2 ${
-              ppaResult.ppa >= 4.0 ? 'text-green-600 dark:text-green-400' : 'text-yellow-600 dark:text-yellow-400'
-            }`}>
-              {ppaResult.ppa > 0 ? formatDecimal2(ppaResult.ppa) : '—'}
-            </div>
-            {ppaResult.ppa > 0 && (
-              <div className={`text-sm font-medium ${
-                ppaResult.ppa >= 4.0 ? 'text-green-600' : 'text-yellow-600'
-              }`}>
-                {ppaResult.ppa >= 4.0 ? '✓ ¡Sigue así!' : '⚠️ ¡Ten cuidado! Riesgo de alerta académica'}
-              </div>
-            )}
+            <button
+              onClick={() => setActiveTab('resumen')}
+              className={`flex-1 py-3 px-4 text-sm md:text-base font-semibold transition-colors relative ${
+                activeTab === 'resumen'
+                  ? darkMode
+                    ? 'text-blue-400 bg-gray-700'
+                    : 'text-blue-600 bg-white'
+                  : darkMode
+                    ? 'text-gray-400 hover:text-gray-200 hover:bg-gray-700/50'
+                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+              }`}
+            >
+              <span className="hidden sm:inline">📊 </span>Resumen
+              {activeTab === 'resumen' && (
+                <motion.div 
+                  layoutId="activeTab"
+                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600" 
+                />
+              )}
+            </button>
+            <button
+              onClick={() => setActiveTab('graduacion')}
+              className={`flex-1 py-3 px-4 text-sm md:text-base font-semibold transition-colors relative ${
+                activeTab === 'graduacion'
+                  ? darkMode
+                    ? 'text-blue-400 bg-gray-700'
+                    : 'text-blue-600 bg-white'
+                  : darkMode
+                    ? 'text-gray-400 hover:text-gray-200 hover:bg-gray-700/50'
+                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+              }`}
+            >
+              <span className="hidden sm:inline">🎓 </span>Graduación
+              {activeTab === 'graduacion' && (
+                <motion.div 
+                  layoutId="activeTab"
+                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600" 
+                />
+              )}
+            </button>
+            <button
+              onClick={() => setActiveTab('detalle')}
+              className={`flex-1 py-3 px-4 text-sm md:text-base font-semibold transition-colors relative ${
+                activeTab === 'detalle'
+                  ? darkMode
+                    ? 'text-blue-400 bg-gray-700'
+                    : 'text-blue-600 bg-white'
+                  : darkMode
+                    ? 'text-gray-400 hover:text-gray-200 hover:bg-gray-700/50'
+                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+              }`}
+            >
+              <span className="hidden sm:inline">📝 </span>Detalle
+              {activeTab === 'detalle' && (
+                <motion.div 
+                  layoutId="activeTab"
+                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600" 
+                />
+              )}
+            </button>
           </div>
 
-          {/* ⭐ NUEVO: Alertas Académicas */}
-          {academicAlerts.length > 0 && (
-            <div className={`p-4 border-b ${
-              darkMode ? 'bg-yellow-900/20 border-yellow-700' : 'bg-yellow-50 border-yellow-200'
-            }`}>
-              <div className="flex items-start gap-3">
-                <div className="text-2xl">⚠️</div>
-                <div className="flex-1">
-                  <h3 className="font-bold text-yellow-700 dark:text-yellow-400 mb-2">
-                    Alertas Académicas Detectadas
-                  </h3>
-                  <ul className="space-y-1">
-                    {academicAlerts.map((alert, index) => (
-                      <li key={index} className="text-sm text-yellow-800 dark:text-yellow-300">
-                        • {alert}
-                      </li>
-                    ))}
-                  </ul>
-                  <p className="text-xs mt-2 text-yellow-700 dark:text-yellow-400 italic">
-                    Recuerda que tienes la Consejería Académica y la Dirección de Pregrado en caso de consultas.
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
+          {/* Content */}
+          <div className="overflow-y-auto flex-1">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeTab}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.2 }}
+              >
+                {/* TAB: RESUMEN */}
+                {activeTab === 'resumen' && (
+                  <div>
+                    {gradedCourses.length === 0 ? (
+                      <div className="p-8 text-center">
+                        <div className="text-4xl mb-4">📚</div>
+                        <h3 className="text-xl font-bold mb-2">No hay ramos con nota aún</h3>
+                        <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                          Haz long press en los ramos de tu malla para ingresar notas y calcular tu PPA.
+                        </p>
+                      </div>
+                    ) : (
+                      <>
+                        {/* PPA Grande */}
+                        <div className={`p-6 text-center ${
+                          darkMode ? 'bg-gray-900' : 'bg-gradient-to-br from-blue-50 to-indigo-50'
+                        }`}>
+                          <div className="text-xs font-semibold opacity-70 mb-2">TU PPA ACTUAL</div>
+                          <div className={`text-6xl md:text-7xl font-bold mb-2 ${
+                            ppaResult.ppa >= 4.0 ? 'text-green-600 dark:text-green-400' : 'text-yellow-600 dark:text-yellow-400'
+                          }`}>
+                            {formatDecimal2(ppaResult.ppa)}
+                          </div>
+                          <div className={`text-sm font-medium ${
+                            ppaResult.ppa >= 4.0 ? 'text-green-600 dark:text-green-400' : 'text-yellow-600 dark:text-yellow-400'
+                          }`}>
+                            {ppaResult.ppa >= 4.0 ? '✓ ¡Sigue así!' : '⚠️ ¡Ten cuidado! Riesgo de alerta académica'}
+                          </div>
+                        </div>
 
-          {/* Stats Grid */}
-          <div className={`grid grid-cols-2 md:grid-cols-4 gap-4 p-6 border-b ${
-            darkMode ? 'bg-gray-700 border-gray-600' : 'bg-gray-50 border-gray-200'
-          }`}>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-green-600 dark:text-green-400">
-                {ppaResult.approvedCount}
-              </div>
-              <div className="text-xs font-semibold opacity-70 mt-1">
-                Ramos Aprobados
-              </div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-red-600 dark:text-red-400">
-                {ppaResult.failedCount}
-              </div>
-              <div className="text-xs font-semibold opacity-70 mt-1">
-                Ramos Reprobados
-              </div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold">
-                {ppaResult.totalCredits}
-              </div>
-              <div className="text-xs font-semibold opacity-70 mt-1">
-                Créditos UC Cursados
-              </div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold">
-                {ppaResult.totalPoints.toFixed(1)}
-              </div>
-              <div className="text-xs font-semibold opacity-70 mt-1">
-                Puntos Totales
-              </div>
-            </div>
-          </div>
-
-          {/* ⭐ NUEVO: Notas de Licenciatura y Título */}
-          {gradedCourses.length > 0 && (graduationCalculations.notaLicenciatura || graduationCalculations.notaTitulo) && (
-            <div className={`p-6 border-b ${
-              darkMode ? 'bg-gradient-to-br from-indigo-900/20 to-purple-900/20 border-gray-600' : 'bg-gradient-to-br from-indigo-50 to-purple-50 border-indigo-200'
-            }`}>
-              <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
-                🎓 Notas de Graduación
-              </h3>
-              
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {/* Nota Examen de Grado */}
-                {graduationCalculations.notaExamenGrado && (
-                  <div className={`p-4 rounded-lg ${
-                    darkMode ? 'bg-gray-700' : 'bg-white shadow-md'
-                  }`}>
-                    <div className="text-xs font-semibold opacity-70 mb-2">Examen de Grado</div>
-                    <div className="text-4xl font-bold text-blue-600 dark:text-blue-400">
-                      {formatDecimal(graduationCalculations.notaExamenGrado)}
-                    </div>
-                    <div className="text-xs opacity-60 mt-2">25% de Nota Licenciatura</div>
-                  </div>
-                )}
-
-                {/* Nota de Licenciatura */}
-                {graduationCalculations.notaLicenciatura && (
-                  <div className={`p-4 rounded-lg ${
-                    darkMode ? 'bg-indigo-900/40' : 'bg-indigo-100 shadow-md'
-                  }`}>
-                    <div className="text-xs font-semibold opacity-70 mb-2">Nota de Licenciatura</div>
-                    <div className="text-4xl font-bold text-indigo-600 dark:text-indigo-400">
-                      {formatDecimal2(graduationCalculations.notaLicenciatura)}
-                    </div>
-                    <div className="text-xs opacity-60 mt-2">
-                      75% PPA ({formatDecimal2(graduationCalculations.ppaLicenciatura)}) + 25% Examen
-                    </div>
-                  </div>
-                )}
-
-                {/* Nota de Título */}
-                {graduationCalculations.notaTitulo && (
-                  <div className={`p-4 rounded-lg ${
-                    darkMode ? 'bg-purple-900/40' : 'bg-purple-100 shadow-md'
-                  }`}>
-                    <div className="text-xs font-semibold opacity-70 mb-2">Nota de Título</div>
-                    <div className="text-4xl font-bold text-purple-600 dark:text-purple-400">
-                      {formatDecimal2(graduationCalculations.notaTitulo)}
-                    </div>
-                    <div className="text-xs opacity-60 mt-2">
-                      80% Licenciatura + 20% PPA Título ({graduationCalculations.ppaTitulo ? formatDecimal2(graduationCalculations.ppaTitulo) : '—'})
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Fórmulas explicativas */}
-              <div className={`mt-4 p-3 rounded-lg text-xs ${
-                darkMode ? 'bg-gray-800/50' : 'bg-white/50'
-              }`}>
-                <div className="font-semibold mb-2">📐 Fórmulas:</div>
-                <div className="space-y-1 opacity-80">
-                  <div>• <strong>Nota Licenciatura</strong> = (0,75 × PPA) + (0,25 × Examen de Grado)</div>
-                  <div>• <strong>Nota Título</strong> = (0,8 × Nota Licenciatura) + (0,2 × PPA Título)</div>
-                </div>
-                {graduationCalculations.ramosTituloCount > 0 && (
-                  <div className="mt-2 text-xs opacity-60">
-                    Se detectaron {graduationCalculations.ramosTituloCount} ramo(s) de fase título (categoría FT).
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
-
-          {/* Info Box */}
-          {gradedCourses.length === 0 ? (
-            <div className="p-8 text-center">
-              <div className="text-4xl mb-4">📚</div>
-              <h3 className="text-xl font-bold mb-2">No hay ramos con nota aún</h3>
-              <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                Haz click en los ramos de tu malla e ingresa las notas para calcular tu PPA.
-              </p>
-            </div>
-          ) : (
-            <>
-              {/* Fórmula y explicación */}
-              <div className={`mx-6 mt-4 p-3 rounded-lg ${
-                darkMode ? 'bg-blue-900/30 border border-blue-700' : 'bg-blue-50 border border-blue-200'
-              }`}>
-                <div className="flex items-start gap-2">
-                  <FontAwesomeIcon icon={faInfoCircle} className="text-blue-500 mt-0.5" />
-                  <div className="text-sm flex-1">
-                    <strong>Fórmula:</strong> PPA = Σ(Nota × Créditos UC) / Σ(Créditos UC)
-                    <div className={`mt-1 text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                      Tu PPA: ({formatDecimal2(ppaResult.totalPoints)} puntos) ÷ ({ppaResult.totalCredits} créditos UC) = {formatDecimal2(ppaResult.ppa)}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Detalle por semestre */}
-              <div className="p-6 overflow-y-auto max-h-[calc(90vh-520px)]">
-                <h3 className="text-lg font-bold mb-4">Detalle de Ramos Cursados</h3>
-                <div className="space-y-4">
-                  {coursesBySemester.map(([semester, courses]) => (
-                    <div key={semester}>
-                      <h4 className="text-sm font-bold opacity-70 mb-2">
-                        {semester.startsWith('s') ? `Semestre ${semester.replace('s', '')}` : semester}
-                      </h4>
-                      <div className="space-y-1">
-                        {courses.map(({ subject, grade, credits, status }) => (
-                          <div
-                            key={subject.code}
-                            className={`flex items-center justify-between p-3 rounded-lg ${
-                              darkMode ? 'bg-gray-700' : 'bg-gray-50'
-                            }`}
-                          >
-                            <div className="flex-1">
-                              <div className="font-semibold text-sm">
-                                {subject.name}
-                                <span className={`ml-2 text-xs px-2 py-0.5 rounded ${
-                                  status === 'approved'
-                                    ? 'bg-green-500/20 text-green-700 dark:text-green-400'
-                                    : 'bg-red-500/20 text-red-700 dark:text-red-400'
-                                }`}>
-                                  {status === 'approved' ? 'Aprobado' : 'Reprobado'}
-                                </span>
-                              </div>
-                              <div className="text-xs opacity-70">
-                                {subject.code} • {credits} créditos UC
-                              </div>
-                            </div>
-                            <div className="text-right">
-                              <div className={`text-2xl font-bold ${
-                                grade >= 5.0 ? 'text-green-600' :
-                                grade >= 4.0 ? 'text-blue-600' :
-                                'text-red-600'
-                              }`}>
-                                {formatDecimal(grade)}
-                              </div>
-                              <div className="text-xs opacity-70">
-                                {(grade * credits).toFixed(1)} pts
+                        {/* Alertas */}
+                        {academicAlerts.length > 0 && (
+                          <div className={`mx-4 mt-4 p-3 rounded-lg ${
+                            darkMode ? 'bg-yellow-900/20 border border-yellow-700' : 'bg-yellow-50 border border-yellow-200'
+                          }`}>
+                            <div className="flex items-start gap-2">
+                              <div className="text-lg">⚠️</div>
+                              <div className="flex-1">
+                                <h3 className="font-bold text-yellow-700 dark:text-yellow-400 text-sm mb-1">
+                                  Alertas Académicas
+                                </h3>
+                                <ul className="space-y-0.5">
+                                  {academicAlerts.map((alert, index) => (
+                                    <li key={index} className="text-xs text-yellow-800 dark:text-yellow-300">
+                                      • {alert}
+                                    </li>
+                                  ))}
+                                </ul>
                               </div>
                             </div>
                           </div>
-                        ))}
+                        )}
+
+                        {/* Stats Grid 2x2 */}
+                        <div className={`grid grid-cols-2 gap-3 p-4 ${
+                          darkMode ? 'bg-gray-700' : 'bg-gray-50'
+                        }`}>
+                          <div className={`p-4 rounded-lg text-center ${darkMode ? 'bg-gray-800' : 'bg-white shadow-sm'}`}>
+                            <div className="text-3xl font-bold text-green-600 dark:text-green-400">
+                              {ppaResult.approvedCount}
+                            </div>
+                            <div className="text-xs font-semibold opacity-70 mt-1">
+                              Aprobados
+                            </div>
+                          </div>
+                          <div className={`p-4 rounded-lg text-center ${darkMode ? 'bg-gray-800' : 'bg-white shadow-sm'}`}>
+                            <div className="text-3xl font-bold text-red-600 dark:text-red-400">
+                              {ppaResult.failedCount}
+                            </div>
+                            <div className="text-xs font-semibold opacity-70 mt-1">
+                              Reprobados
+                            </div>
+                          </div>
+                          <div className={`p-4 rounded-lg text-center ${darkMode ? 'bg-gray-800' : 'bg-white shadow-sm'}`}>
+                            <div className="text-3xl font-bold text-blue-600 dark:text-blue-400">
+                              {ppaResult.totalCredits}
+                            </div>
+                            <div className="text-xs font-semibold opacity-70 mt-1">
+                              Créditos UC
+                            </div>
+                          </div>
+                          <div className={`p-4 rounded-lg text-center ${darkMode ? 'bg-gray-800' : 'bg-white shadow-sm'}`}>
+                            <div className="text-3xl font-bold text-purple-600 dark:text-purple-400">
+                              {formatDecimal(ppaResult.totalPoints)}
+                            </div>
+                            <div className="text-xs font-semibold opacity-70 mt-1">
+                              Puntos
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Fórmula */}
+                        <div className={`mx-4 mb-4 p-3 rounded-lg text-xs ${
+                          darkMode ? 'bg-blue-900/30 border border-blue-700' : 'bg-blue-50 border border-blue-200'
+                        }`}>
+                          <div className="flex items-start gap-2">
+                            <FontAwesomeIcon icon={faInfoCircle} className="mt-0.5 text-blue-600 dark:text-blue-400" />
+                            <div className="flex-1">
+                              <div className="font-semibold mb-1">📐 Fórmula PPA:</div>
+                              <div className="opacity-80">
+                                ({formatDecimal2(ppaResult.totalPoints)} puntos) ÷ ({ppaResult.totalCredits} UC) = <strong>{formatDecimal2(ppaResult.ppa)}</strong>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                )}
+
+                {/* TAB: GRADUACIÓN */}
+                {activeTab === 'graduacion' && (
+                  <div className="p-4">
+                    {graduationCalculations.notaLicenciatura || graduationCalculations.notaTitulo ? (
+                      <>
+                        <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
+                          🎓 Notas de Graduación
+                        </h3>
+                        
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                          {/* Examen */}
+                          {graduationCalculations.notaExamenGrado && (
+                            <div className={`p-4 rounded-lg ${
+                              darkMode ? 'bg-gray-700' : 'bg-blue-50 shadow-sm'
+                            }`}>
+                              <div className="text-xs font-semibold opacity-70 mb-2">Examen de Grado</div>
+                              <div className="text-4xl font-bold text-blue-600 dark:text-blue-400">
+                                {formatDecimal(graduationCalculations.notaExamenGrado)}
+                              </div>
+                              <div className="text-xs opacity-60 mt-2">25% de Nota Licenciatura</div>
+                            </div>
+                          )}
+
+                          {/* Licenciatura */}
+                          {graduationCalculations.notaLicenciatura && (
+                            <div className={`p-4 rounded-lg ${
+                              darkMode ? 'bg-indigo-900/40' : 'bg-indigo-50 shadow-sm'
+                            }`}>
+                              <div className="text-xs font-semibold opacity-70 mb-2">Nota de Licenciatura</div>
+                              <div className="text-4xl font-bold text-indigo-600 dark:text-indigo-400">
+                                {formatDecimal2(graduationCalculations.notaLicenciatura)}
+                              </div>
+                              <div className="text-xs opacity-60 mt-2">
+                                75% PPA + 25% Examen
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Título */}
+                          {graduationCalculations.notaTitulo && (
+                            <div className={`p-4 rounded-lg ${
+                              darkMode ? 'bg-purple-900/40' : 'bg-purple-50 shadow-sm'
+                            }`}>
+                              <div className="text-xs font-semibold opacity-70 mb-2">Nota de Título</div>
+                              <div className="text-4xl font-bold text-purple-600 dark:text-purple-400">
+                                {formatDecimal2(graduationCalculations.notaTitulo)}
+                              </div>
+                              <div className="text-xs opacity-60 mt-2">
+                                80% Lic. + 20% PPA Título
+                              </div>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Fórmulas */}
+                        <div className={`p-3 rounded-lg text-xs ${
+                          darkMode ? 'bg-gray-800/50' : 'bg-gray-50'
+                        }`}>
+                          <div className="font-semibold mb-2">📐 Fórmulas:</div>
+                          <div className="space-y-1 opacity-80">
+                            <div>• <strong>Nota Licenciatura</strong> = (0,75 × PPA) + (0,25 × Examen de Grado)</div>
+                            <div>• <strong>Nota Título</strong> = (0,8 × Nota Licenciatura) + (0,2 × PPA Título)</div>
+                          </div>
+                          {graduationCalculations.ramosTituloCount > 0 && (
+                            <div className="mt-2 text-xs opacity-60">
+                              Se detectaron {graduationCalculations.ramosTituloCount} ramo(s) de fase título (categoría FT).
+                            </div>
+                          )}
+                        </div>
+                      </>
+                    ) : (
+                      <div className="p-8 text-center">
+                        <div className="text-4xl mb-4">🎓</div>
+                        <h3 className="text-xl font-bold mb-2">Sin datos de graduación</h3>
+                        <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                          Ingresa tu nota del Examen de Grado para calcular tu Nota de Licenciatura y Título.
+                        </p>
                       </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </>
-          )}
+                    )}
+                  </div>
+                )}
+
+                {/* TAB: DETALLE */}
+                {activeTab === 'detalle' && (
+                  <div className="p-4">
+                    {gradedCourses.length === 0 ? (
+                      <div className="p-8 text-center">
+                        <div className="text-4xl mb-4">📝</div>
+                        <h3 className="text-xl font-bold mb-2">Sin ramos calificados</h3>
+                        <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                          Ingresa notas en tu malla para ver el detalle aquí.
+                        </p>
+                      </div>
+                    ) : (
+                      <>
+                        <h3 className="text-lg font-bold mb-4">📝 Detalle por Semestre</h3>
+                        <div className="space-y-4">
+                          {coursesBySemester.map(([semester, courses]) => (
+                            <div key={semester}>
+                              <div className={`px-3 py-2 rounded-t-lg font-semibold text-sm ${
+                                darkMode ? 'bg-gray-700' : 'bg-gray-100'
+                              }`}>
+                                {semester.replace('s', 'Semestre ')} ({courses.reduce((sum, c) => sum + c.credits, 0)} UC cursados)
+                              </div>
+                              <div className={`rounded-b-lg overflow-hidden ${
+                                darkMode ? 'bg-gray-800' : 'bg-white border border-gray-200'
+                              }`}>
+                                {courses.map((course, idx) => (
+                                  <div
+                                    key={course.subject.code}
+                                    className={`p-3 ${
+                                      idx !== courses.length - 1 ? 'border-b ' + (darkMode ? 'border-gray-700' : 'border-gray-100') : ''
+                                    }`}
+                                  >
+                                    <div className="flex justify-between items-start gap-2">
+                                      <div className="flex-1 min-w-0">
+                                        <div className="font-semibold text-sm truncate">
+                                          {course.subject.code} - {course.subject.name}
+                                        </div>
+                                        <div className="text-xs opacity-70 mt-1">
+                                          {course.credits} UC × {formatDecimal(course.grade)} = {formatDecimal(course.grade * course.credits)} pts
+                                        </div>
+                                      </div>
+                                      <div className={`text-xl font-bold flex-shrink-0 ${
+                                        course.status === 'approved' 
+                                          ? 'text-green-600 dark:text-green-400' 
+                                          : 'text-red-600 dark:text-red-400'
+                                      }`}>
+                                        {formatDecimal(course.grade)}
+                                      </div>
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </>
+                    )}
+                  </div>
+                )}
+              </motion.div>
+            </AnimatePresence>
+          </div>
 
           {/* Footer */}
-          <div className={`px-6 py-4 border-t ${
+          <div className={`px-6 py-4 border-t flex-shrink-0 ${
             darkMode ? 'bg-gray-700 border-gray-600' : 'bg-gray-50 border-gray-200'
           }`}>
             <button
