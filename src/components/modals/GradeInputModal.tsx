@@ -46,7 +46,7 @@ export default function GradeInputModal({
       onSave({ status, grade: gradeNum });
     } else {
       // Si no hay nota válida, mostrar error
-      alert('Ingresa una nota válida entre 1.0 y 7.0');
+      alert('Ingresa una nota válida entre 1,0 y 7,0');
       return;
     }
     
@@ -126,7 +126,7 @@ export default function GradeInputModal({
               <div className="grid grid-cols-3 gap-2">
                 <button
                   onClick={() => setStatus('approved')}
-                  className={`py-3 px-4 rounded-lg font-semibold transition-all ${
+                  className={`py-3 px-2 rounded-lg font-semibold transition-all flex flex-col items-center justify-center min-h-[60px] ${
                     status === 'approved'
                       ? 'bg-green-500 text-white ring-2 ring-green-400'
                       : darkMode
@@ -134,11 +134,12 @@ export default function GradeInputModal({
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                   }`}
                 >
-                  ✓ Aprobado
+                  <span className="text-xl mb-1">✓</span>
+                  <span className="text-xs">Aprobado</span>
                 </button>
                 <button
                   onClick={() => setStatus('failed')}
-                  className={`py-3 px-4 rounded-lg font-semibold transition-all ${
+                  className={`py-3 px-2 rounded-lg font-semibold transition-all flex flex-col items-center justify-center min-h-[60px] ${
                     status === 'failed'
                       ? 'bg-red-500 text-white ring-2 ring-red-400'
                       : darkMode
@@ -146,11 +147,12 @@ export default function GradeInputModal({
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                   }`}
                 >
-                  ✗ Reprobado
+                  <span className="text-xl mb-1">✗</span>
+                  <span className="text-xs">Reprobado</span>
                 </button>
                 <button
                   onClick={() => setStatus('pending')}
-                  className={`py-3 px-4 rounded-lg font-semibold transition-all ${
+                  className={`py-3 px-2 rounded-lg font-semibold transition-all flex flex-col items-center justify-center min-h-[60px] ${
                     status === 'pending'
                       ? 'bg-gray-500 text-white ring-2 ring-gray-400'
                       : darkMode
@@ -158,7 +160,8 @@ export default function GradeInputModal({
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                   }`}
                 >
-                  ○ Pendiente
+                  <span className="text-xl mb-1">○</span>
+                  <span className="text-xs">Pendiente</span>
                 </button>
               </div>
             </div>
@@ -167,7 +170,7 @@ export default function GradeInputModal({
             {status !== 'pending' && (
               <div>
                 <label className="block text-sm font-semibold mb-2">
-                  Nota final (1.0 - 7.0)
+                  Nota final (1,0 - 7,0)
                 </label>
                 <input
                   type="number"
