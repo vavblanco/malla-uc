@@ -158,6 +158,70 @@ export default function PPACalculatorIntegrated({
     };
   }, [gradedCourses]);
 
+  // ⭐ NUEVO: Calcular Notas de Licenciatura y Título según reglamento FCB
+  const graduationCalculations = useMemo(() => {
+    // Buscar el Examen de Grado con múltiples criterios
+    const examenGrado = subjects.find(s => {
+      const nameLower = s.name.toLowerCase();
+      const codeLower = s.code.toLowerCase();
+      
+      return (
+        // Por código común
+        s.code === 'BIO500' ||
+        codeLower.includes('examen') ||
+        // Por nombre
+        nameLower.includes('examen de grado') ||
+        nameLower.includes('examen grado') ||
+        (nameLower.includes('examen') && nameLower.includes('grado')) ||
+        // Por tipo de asignatura
+        s.type === 'Examen' ||
+        s.type === 'EG'
+      );
+    });
+    
+    const examenGradoState = examenGrado ? subjectStates[examenGrado.code] : undefined;
+    const notaExamenGrado = examenGradoState?.grade;
+
+    // PPA de Licenciatura (todos los ramos hasta el examen inclusive)
+    const ppaLicenciatura = ppaResult.ppa;
+
+    // Nota de Licenciatura = (0.75 × PPA) + (0.25 × Nota Examen)
+    let notaLicenciatura: number | null = null;
+    if (notaExamenGrado && notaExamenGrado >= 4.0) {
+      notaLicenciatura = (0.75 * ppaLicenciatura) + (0.25 * notaExamenGrado);
+      notaLicenciatura = Math.round(notaLicenciatura * 100) / 100;
+    }
+
+    // ⭐ PPA de Título (ramos con categoría 'FT' - Fase Título)
+    const ramosTitulo = gradedCourses.filter(c => {
+      return c.subject.type === 'FT';
+    });
+
+    let ppaTitulo: number | null = null;
+    if (ramosTitulo.length > 0) {
+      const creditosTitulo = ramosTitulo.reduce((sum, c) => sum + c.credits, 0);
+      const puntosTitulo = ramosTitulo.reduce((sum, c) => sum + (c.grade * c.credits), 0);
+      ppaTitulo = creditosTitulo > 0 ? puntosTitulo / creditosTitulo : 0;
+      ppaTitulo = Math.round(ppaTitulo * 100) / 100;
+    }
+
+    // Nota de Título = (0.8 × Nota Licenciatura) + (0.2 × PPA Título)
+    let notaTitulo: number | null = null;
+    if (notaLicenciatura && ppaTitulo !== null) {
+      notaTitulo = (0.8 * notaLicenciatura) + (0.2 * ppaTitulo);
+      notaTitulo = Math.round(notaTitulo * 100) / 100;
+    }
+
+    return {
+      notaExamenGrado,
+      ppaLicenciatura,
+      notaLicenciatura,
+      ppaTitulo,
+      notaTitulo,
+      ramosTituloCount: ramosTitulo.length
+    };
+  }, [ppaResult.ppa, gradedCourses, subjects, subjectStates]);
+
   // Agrupar por semestre para mostrar
   const coursesBySemester = useMemo(() => {
     const grouped = new Map<string, typeof gradedCourses>();
@@ -304,6 +368,78 @@ export default function PPACalculatorIntegrated({
               </div>
             </div>
           </div>
+
+          {/* ⭐ NUEVO: Notas de Licenciatura y Título */}
+          {gradedCourses.length > 0 && (graduationCalculations.notaLicenciatura || graduationCalculations.notaTitulo) && (
+            <div className={`p-6 border-b ${
+              darkMode ? 'bg-gradient-to-br from-indigo-900/20 to-purple-900/20 border-gray-600' : 'bg-gradient-to-br from-indigo-50 to-purple-50 border-indigo-200'
+            }`}>
+              <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
+                🎓 Notas de Graduación
+              </h3>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {/* Nota Examen de Grado */}
+                {graduationCalculations.notaExamenGrado && (
+                  <div className={`p-4 rounded-lg ${
+                    darkMode ? 'bg-gray-700' : 'bg-white shadow-md'
+                  }`}>
+                    <div className="text-xs font-semibold opacity-70 mb-2">Examen de Grado</div>
+                    <div className="text-4xl font-bold text-blue-600 dark:text-blue-400">
+                      {formatDecimal(graduationCalculations.notaExamenGrado)}
+                    </div>
+                    <div className="text-xs opacity-60 mt-2">25% de Nota Licenciatura</div>
+                  </div>
+                )}
+
+                {/* Nota de Licenciatura */}
+                {graduationCalculations.notaLicenciatura && (
+                  <div className={`p-4 rounded-lg ${
+                    darkMode ? 'bg-indigo-900/40' : 'bg-indigo-100 shadow-md'
+                  }`}>
+                    <div className="text-xs font-semibold opacity-70 mb-2">Nota de Licenciatura</div>
+                    <div className="text-4xl font-bold text-indigo-600 dark:text-indigo-400">
+                      {formatDecimal2(graduationCalculations.notaLicenciatura)}
+                    </div>
+                    <div className="text-xs opacity-60 mt-2">
+                      75% PPA ({formatDecimal2(graduationCalculations.ppaLicenciatura)}) + 25% Examen
+                    </div>
+                  </div>
+                )}
+
+                {/* Nota de Título */}
+                {graduationCalculations.notaTitulo && (
+                  <div className={`p-4 rounded-lg ${
+                    darkMode ? 'bg-purple-900/40' : 'bg-purple-100 shadow-md'
+                  }`}>
+                    <div className="text-xs font-semibold opacity-70 mb-2">Nota de Título</div>
+                    <div className="text-4xl font-bold text-purple-600 dark:text-purple-400">
+                      {formatDecimal2(graduationCalculations.notaTitulo)}
+                    </div>
+                    <div className="text-xs opacity-60 mt-2">
+                      80% Licenciatura + 20% PPA Título ({graduationCalculations.ppaTitulo ? formatDecimal2(graduationCalculations.ppaTitulo) : '—'})
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Fórmulas explicativas */}
+              <div className={`mt-4 p-3 rounded-lg text-xs ${
+                darkMode ? 'bg-gray-800/50' : 'bg-white/50'
+              }`}>
+                <div className="font-semibold mb-2">📐 Fórmulas:</div>
+                <div className="space-y-1 opacity-80">
+                  <div>• <strong>Nota Licenciatura</strong> = (0,75 × PPA) + (0,25 × Examen de Grado)</div>
+                  <div>• <strong>Nota Título</strong> = (0,8 × Nota Licenciatura) + (0,2 × PPA Título)</div>
+                </div>
+                {graduationCalculations.ramosTituloCount > 0 && (
+                  <div className="mt-2 text-xs opacity-60">
+                    Se detectaron {graduationCalculations.ramosTituloCount} ramo(s) de fase título (categoría FT).
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
 
           {/* Info Box */}
           {gradedCourses.length === 0 ? (
