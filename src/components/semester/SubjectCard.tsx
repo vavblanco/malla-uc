@@ -41,10 +41,16 @@ export default function SubjectCard({
   allSubjects = []
 }: SubjectCardProps) {
 
-  // ⭐ NUEVO: Estados para el modal de nota y long press
+  // ⭐ MEJORADO: Estados para el modal de nota y long press (con detección de scroll)
   const [showGradeModal, setShowGradeModal] = useState(false);
   const [pressTimer, setPressTimer] = useState<NodeJS.Timeout | null>(null);
   const [isLongPress, setIsLongPress] = useState(false);
+  const [startPosition, setStartPosition] = useState<{ x: number; y: number } | null>(null);
+  const [hasMoved, setHasMoved] = useState(false);
+
+  // Constantes para detección
+  const LONG_PRESS_DURATION = 500; // ms
+  const MOVEMENT_THRESHOLD = 10;   // px - Si se mueve más de esto, cancelar
 
   // Verificar si otro ramo del mismo grupo electivo está aprobado
   const getElectiveGroupConflict = () => {
@@ -206,40 +212,75 @@ export default function SubjectCard({
   };
 
   // ⭐ NUEVO: Handlers para click vs long press
-  const handleMouseDown = () => {
+  // ⭐ MEJORADO: Handlers para click vs long press (con detección de scroll)
+  const handleMouseDown = (e: React.MouseEvent | React.TouchEvent) => {
     if (isBlocked) return;
     
+    // Guardar posición inicial para detectar movimiento
+    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+    
+    setStartPosition({ x: clientX, y: clientY });
+    setHasMoved(false);
     setIsLongPress(false);
     
-    // Timer de 500ms para detectar long press
+    // Timer para long press
     const timer = setTimeout(() => {
-      setIsLongPress(true);
-      setShowGradeModal(true); // Abrir modal
-      
-      // Vibración en móviles (feedback táctil)
-      if (navigator.vibrate) {
-        navigator.vibrate(50);
+      // Solo abrir modal si NO se ha movido
+      if (!hasMoved) {
+        setIsLongPress(true);
+        setShowGradeModal(true);
+        
+        // Vibración
+        if (navigator.vibrate) {
+          navigator.vibrate(50);
+        }
       }
-    }, 500);
+    }, LONG_PRESS_DURATION);
     
     setPressTimer(timer);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent | React.TouchEvent) => {
+    if (!startPosition || isBlocked) return;
+    
+    // Calcular distancia desde el punto inicial
+    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+    
+    const deltaX = Math.abs(clientX - startPosition.x);
+    const deltaY = Math.abs(clientY - startPosition.y);
+    const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+    
+    // Si se movió más del threshold, cancelar long press
+    if (distance > MOVEMENT_THRESHOLD) {
+      setHasMoved(true);
+      
+      if (pressTimer) {
+        clearTimeout(pressTimer);
+        setPressTimer(null);
+      }
+    }
   };
 
   const handleMouseUp = () => {
     if (isBlocked) return;
     
-    // Cancelar el timer si se suelta antes de 500ms
+    // Cancelar timer
     if (pressTimer) {
       clearTimeout(pressTimer);
       setPressTimer(null);
     }
     
-    // Si NO fue long press, hacer el cambio rápido
-    if (!isLongPress) {
+    // Solo hacer quick click si NO se movió Y NO fue long press
+    if (!hasMoved && !isLongPress) {
       handleQuickClick();
     }
     
+    // Reset
     setIsLongPress(false);
+    setStartPosition(null);
+    setHasMoved(false);
   };
 
   const handleQuickClick = () => {
@@ -261,6 +302,8 @@ export default function SubjectCard({
       setPressTimer(null);
     }
     setIsLongPress(false);
+    setStartPosition(null);
+    setHasMoved(false);
   };
 
   const handleGradeSave = (newState: SubjectState) => {
@@ -596,9 +639,11 @@ export default function SubjectCard({
                   : 'shadow-md hover:shadow-lg'
           }`}
           onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
           onMouseLeave={handleMouseLeave}
           onTouchStart={handleMouseDown}
+          onTouchMove={handleMouseMove}
           onTouchEnd={handleMouseUp}
           onTouchCancel={handleMouseLeave}
         >
