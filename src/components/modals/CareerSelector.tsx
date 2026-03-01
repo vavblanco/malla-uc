@@ -119,8 +119,6 @@ export default function CareerSelector({
                   {/* ⭐ NUEVO: Botón Portal */}
                   <a
                     href="https://cacbiouc.github.io/CACBIOUC/"
-                    target="_blank"
-                    rel="noopener noreferrer"
                     className="flex items-center gap-2 px-4 py-2 rounded-lg font-semibold transition-all bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 hover:border-white/30 text-sm"
                     title="Volver al Portal Estudiantil"
                   >
