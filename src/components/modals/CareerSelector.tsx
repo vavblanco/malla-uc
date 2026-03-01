@@ -109,22 +109,38 @@ export default function CareerSelector({
           >
             {/* Header con gradiente y botón cerrar */}
             <div className="bg-gradient-to-r from-blue-600/80 to-indigo-600/80 text-white p-6 backdrop-blur-lg">
-              <div className="flex items-center justify-between">
-                <div>
+              <div className="flex items-center justify-between gap-4">
+                <div className="flex-1">
                   <h2 className="text-xl font-bold text-2xl">Selecciona tu Carrera</h2>
                   <p className="text-sm text-white/80 mt-1">Elige la carrera para ver su malla curricular interactiva</p>
                 </div>
-                <button
-                  onClick={() => canClose && onClose()}
-                  className={`text-white/80 hover:text-white transition-colors p-2 rounded-full hover:bg-white/10 aspect-square min-w-[40px] min-h-[40px] flex items-center justify-center group/close ${
-                    canClose ? '' : 'opacity-40 cursor-not-allowed'
-                  }`}
-                  aria-label="Cerrar"
-                  tabIndex={canClose ? 0 : -1}
-                  disabled={!canClose}
-                >
-                  <FontAwesomeIcon icon={faTimes} className="transition-transform duration-150 group-hover/close:scale-125" />
-                </button>
+                
+                <div className="flex items-center gap-2">
+                  {/* ⭐ NUEVO: Botón Portal */}
+                  <a
+                    href="https://cacbiouc.github.io/CACBIOUC/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 px-4 py-2 rounded-lg font-semibold transition-all bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 hover:border-white/30 text-sm"
+                    title="Volver al Portal Estudiantil"
+                  >
+                    <span>🏠</span>
+                    <span className="hidden sm:inline">Portal</span>
+                  </a>
+
+                  {/* Botón Cerrar */}
+                  <button
+                    onClick={() => canClose && onClose()}
+                    className={`text-white/80 hover:text-white transition-colors p-2 rounded-full hover:bg-white/10 aspect-square min-w-[40px] min-h-[40px] flex items-center justify-center group/close ${
+                      canClose ? '' : 'opacity-40 cursor-not-allowed'
+                    }`}
+                    aria-label="Cerrar"
+                    tabIndex={canClose ? 0 : -1}
+                    disabled={!canClose}
+                  >
+                    <FontAwesomeIcon icon={faTimes} className="transition-transform duration-150 group-hover/close:scale-125" />
+                  </button>
+                </div>
               </div>
             </div>
 
