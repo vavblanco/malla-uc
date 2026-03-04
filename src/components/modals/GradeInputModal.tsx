@@ -149,13 +149,13 @@ export default function GradeInputModal({
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.9, opacity: 0 }}
           transition={{ type: "spring", damping: 20, stiffness: 300 }}
-          className={`w-full max-w-md rounded-2xl shadow-2xl overflow-hidden ${
+          className={`w-full max-w-md max-h-[90vh] rounded-2xl shadow-2xl overflow-hidden flex flex-col ${
             darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'
           }`}
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
-          <div className={`px-6 py-4 border-b ${
+          <div className={`px-6 py-4 border-b flex-shrink-0 ${
             darkMode 
               ? 'bg-gray-700 border-gray-600' 
               : 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white'
@@ -179,8 +179,8 @@ export default function GradeInputModal({
             </div>
           </div>
 
-          {/* Content */}
-          <div className="p-6 space-y-4">
+          {/* Content - Scrolleable */}
+          <div className="overflow-y-auto flex-1 p-6 space-y-4">
             {/* Info del ramo */}
             <div className={`p-3 rounded-lg ${
               darkMode ? 'bg-gray-700' : 'bg-gray-50'
@@ -431,7 +431,7 @@ export default function GradeInputModal({
           </div>
 
           {/* Footer */}
-          <div className={`px-6 py-4 border-t flex gap-2 ${
+          <div className={`px-6 py-4 border-t flex gap-2 flex-shrink-0 ${
             darkMode ? 'bg-gray-700 border-gray-600' : 'bg-gray-50 border-gray-200'
           }`}>
             <button
