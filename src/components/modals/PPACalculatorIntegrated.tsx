@@ -29,23 +29,49 @@ export default function PPACalculatorIntegrated({
   const [activeTab, setActiveTab] = React.useState<'resumen' | 'graduacion' | 'detalle'>('resumen');
 
   // Obtener todos los ramos con nota (aprobados y reprobados)
+  // ⭐ ACTUALIZADO: Soporte para múltiples intentos
   const gradedCourses = useMemo(() => {
-    return subjects
-      .filter(subject => {
-        const state = subjectStates[subject.code];
-        return state && 
-               (state.status === 'approved' || state.status === 'failed') && 
-               state.grade !== undefined;
-      })
-      .map(subject => {
-        const state = subjectStates[subject.code]!;
-        return {
+    const courses: Array<{
+      subject: Subject;
+      grade: number;
+      credits: number;
+      status: 'approved' | 'failed';
+      attemptNumber?: number;
+      totalAttempts?: number;
+    }> = [];
+
+    subjects.forEach(subject => {
+      const state = subjectStates[subject.code];
+      
+      if (!state) return;
+      
+      const credits = getUcCredits(subject);
+
+      // ⭐ NUEVO: Si tiene múltiples intentos, agregar TODOS
+      if (state.attempts && state.attempts.length > 0) {
+        state.attempts.forEach((attempt, index) => {
+          courses.push({
+            subject,
+            grade: attempt.grade,
+            credits,
+            status: attempt.status,
+            attemptNumber: index + 1,
+            totalAttempts: state.attempts!.length
+          });
+        });
+      } 
+      // Lógica normal (un solo intento)
+      else if ((state.status === 'approved' || state.status === 'failed') && state.grade) {
+        courses.push({
           subject,
-          grade: state.grade!,
-          credits: getUcCredits(subject),
+          grade: state.grade,
+          credits,
           status: state.status
-        };
-      });
+        });
+      }
+    });
+
+    return courses;
   }, [subjects, subjectStates]);
 
   // ⭐ NUEVO: Detectar alertas académicas según reglamento UC
@@ -619,15 +645,30 @@ export default function PPACalculatorIntegrated({
                               }`}>
                                 {courses.map((course, idx) => (
                                   <div
-                                    key={course.subject.code}
+                                    key={`${course.subject.code}-${course.attemptNumber || idx}`}
                                     className={`p-3 ${
                                       idx !== courses.length - 1 ? 'border-b ' + (darkMode ? 'border-gray-700' : 'border-gray-100') : ''
                                     }`}
                                   >
                                     <div className="flex justify-between items-start gap-2">
                                       <div className="flex-1 min-w-0">
-                                        <div className="font-semibold text-sm truncate">
-                                          {course.subject.code} - {course.subject.name}
+                                        <div className="font-semibold text-sm truncate flex items-center gap-2 flex-wrap">
+                                          <span>{course.subject.code} - {course.subject.name}</span>
+                                          {/* ⭐ NUEVO: Badge de intento */}
+                                          {course.attemptNumber && (
+                                            <span className={`text-xs px-2 py-0.5 rounded-full flex-shrink-0 ${
+                                              course.attemptNumber === course.totalAttempts
+                                                ? course.status === 'approved'
+                                                  ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
+                                                  : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
+                                                : 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400'
+                                            }`}>
+                                              {course.attemptNumber === 1 && course.totalAttempts! > 1 
+                                                ? '1er intento' 
+                                                : `${course.attemptNumber}° intento`
+                                              }
+                                            </span>
+                                          )}
                                         </div>
                                         <div className="text-xs opacity-70 mt-1">
                                           {course.credits} UC × {formatDecimal(course.grade)} = {formatDecimal(course.grade * course.credits)} pts

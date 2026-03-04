@@ -22,7 +22,17 @@ export interface Subject {
 
 export interface SubjectState {
   status: 'pending' | 'approved' | 'failed';  
-  grade?: number;  
+  grade?: number;
+  
+  // ⭐ NUEVO: Sistema de múltiples intentos (hasta 3 veces)
+  attempts?: Array<{
+    grade: number;
+    status: 'approved' | 'failed';
+  }>;
+  // Mantener compatibilidad hacia atrás
+  isRetake?: boolean;
+  firstAttemptGrade?: number;
+  retakeGrade?: number;
 }
 
 export type CalculatorState = Record<string, SubjectState>;
