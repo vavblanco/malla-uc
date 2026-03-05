@@ -25,6 +25,7 @@ interface GraduationPlanModalProps {
   colors: Record<string, string[]>;
   allSubjects?: Subject[];
   subjectStates?: Record<string, any>;
+  darkMode?: boolean;  // ⭐ NUEVO
 }
 
 import { useRef } from 'react';
@@ -36,7 +37,8 @@ export default function GraduationPlanModal({
   onClose, 
   colors,
   allSubjects = [],
-  subjectStates = {}
+  subjectStates = {},
+  darkMode = false  // ⭐ NUEVO
 }: GraduationPlanModalProps) {
   const [visibleSemesters, setVisibleSemesters] = useState(0);
   const [localPlan, setLocalPlan] = useState<SemesterPlan[]>([]);
@@ -525,11 +527,13 @@ export default function GraduationPlanModal({
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 20 }}
-              className="fixed z-70 left-1/2 bottom-8 md:bottom-12 -translate-x-1/2 bg-white/95 border border-red-200 shadow-xl rounded-2xl px-6 py-4 flex items-center gap-3"
+              className={`fixed z-70 left-1/2 bottom-8 md:bottom-12 -translate-x-1/2 border shadow-xl rounded-2xl px-6 py-4 flex items-center gap-3 ${
+                darkMode ? 'bg-gray-800/95 border-red-700' : 'bg-white/95 border-red-200'
+              }`}
               style={{ minWidth: 260, maxWidth: 340 }}
             >
-              <FontAwesomeIcon icon={faExclamationTriangle} className="text-red-400 text-lg" />
-              <span className="text-sm text-red-800 font-semibold">{miniAlert.message}</span>
+              <FontAwesomeIcon icon={faExclamationTriangle} className={darkMode ? 'text-red-400 text-lg' : 'text-red-400 text-lg'} />
+              <span className={`text-sm font-semibold ${darkMode ? 'text-red-300' : 'text-red-800'}`}>{miniAlert.message}</span>
             </motion.div>
           )}
           <motion.div
@@ -537,7 +541,11 @@ export default function GraduationPlanModal({
             animate={{ scale: 1, y: 0 }}
             exit={{ scale: 0.9, y: 20 }}
             transition={{ duration: 0.3, type: "spring", damping: 25, stiffness: 300 }}
-            className="bg-white/95 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/30 max-w-6xl w-full max-h-[98vh] md:max-h-[80vh] overflow-hidden flex flex-col"
+            className={`backdrop-blur-lg rounded-3xl shadow-2xl border max-w-6xl w-full max-h-[98vh] md:max-h-[80vh] overflow-hidden flex flex-col ${
+              darkMode 
+                ? 'bg-gray-800/95 border-gray-700' 
+                : 'bg-white/95 border-white/30'
+            }`}
           >
         <div className="bg-gradient-to-r from-green-600/80 to-blue-600/80 backdrop-blur-lg text-white p-6 flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -561,7 +569,7 @@ export default function GraduationPlanModal({
           </button>
         </div>
         
-        <div className="p-3 md:p-6 overflow-y-auto max-h-[70vh] md:max-h-[60vh]" ref={scrollContainerRef}>
+        <div className="p-3 md:p-6 overflow-y-auto max-h-[70vh] md:max-h-[60vh] custom-scrollbar" ref={scrollContainerRef}>
         {(draggedSubject || (isDraggingTouch && draggedSubject)) && (
           <div className="fixed left-0 right-0 bottom-2 z-50 flex justify-center pointer-events-none md:hidden">
             <div className="bg-blue-600 text-white text-xs px-4 py-2 rounded-xl shadow-lg flex flex-col items-center gap-1 pointer-events-auto animate-fade-in-up max-w-xs w-full">
@@ -594,21 +602,31 @@ export default function GraduationPlanModal({
           {localPlan.length === 0 ? (
             <div className="text-center py-12">
               <FontAwesomeIcon icon={faGraduationCap} className="text-6xl text-green-500 mb-4" />
-              <h4 className="text-2xl font-bold text-gray-800 mb-2">¡Felicitaciones!</h4>
-              <p className="text-gray-600">Ya has completado todas las asignaturas de la carrera.</p>
+              <h4 className={`text-2xl font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-800'}`}>¡Felicitaciones!</h4>
+              <p className={darkMode ? 'text-gray-400' : 'text-gray-600'}>Ya has completado todas las asignaturas de la carrera.</p>
             </div>
           ) : (
             <>
-              <div className="mb-4 p-0.5 md:p-1 rounded-2xl shadow border border-blue-100 bg-gradient-to-br from-blue-50/70 via-white/90 to-green-50/70">
+              <div className={`mb-4 p-0.5 md:p-1 rounded-2xl shadow border ${
+                darkMode 
+                  ? 'border-blue-700 bg-gradient-to-br from-blue-900/30 via-gray-800/90 to-green-900/30'
+                  : 'border-blue-100 bg-gradient-to-br from-blue-50/70 via-white/90 to-green-50/70'
+              }`}>
                 <div className="p-3 md:p-4 flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center shadow">
-                    <FontAwesomeIcon icon={faGripVertical} className="text-blue-500 text-base" />
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center shadow ${
+                    darkMode ? 'bg-blue-900' : 'bg-blue-100'
+                  }`}>
+                    <FontAwesomeIcon icon={faGripVertical} className={`text-base ${darkMode ? 'text-blue-400' : 'text-blue-500'}`} />
                   </div>
                   <div className="flex-1">
-                    <h5 className="font-bold text-base md:text-lg text-blue-700 mb-0.5 flex items-center gap-2">
+                    <h5 className={`font-bold text-base md:text-lg mb-0.5 flex items-center gap-2 ${
+                      darkMode ? 'text-blue-400' : 'text-blue-700'
+                    }`}>
                       Reorganiza tu plan
                     </h5>
-                    <div className="text-xs text-blue-900/80 font-medium space-y-0.5">
+                    <div className={`text-xs font-medium space-y-0.5 ${
+                      darkMode ? 'text-blue-300/80' : 'text-blue-900/80'
+                    }`}>
                       <p className="hidden md:block">
                         Arrastra las asignaturas entre semestres para reorganizar tu plan de graduación.
                       </p>
@@ -646,16 +664,18 @@ export default function GraduationPlanModal({
                     <div 
                       key={semesterPlan.semester}
                       data-semester={semesterPlan.semester}
-                      className={`bg-white/50 backdrop-blur-sm rounded-2xl p-4 border transition-all duration-300 transform ${
+                      className={`backdrop-blur-sm rounded-2xl p-4 border transition-all duration-300 transform ${
+                        darkMode ? 'bg-gray-700/50' : 'bg-white/50'
+                      } ${
                         isAnimating && index === visibleSemesters - 1 
                           ? 'scale-105 ring-2 ring-blue-400 shadow-lg border-blue-200' 
                           : wouldExceedWithDrag
-                          ? 'scale-105 ring-2 ring-red-400 shadow-lg border-red-200 bg-red-50/50'
+                          ? `scale-105 ring-2 ring-red-400 shadow-lg border-red-200 ${darkMode ? 'bg-red-900/20' : 'bg-red-50/50'}`
                           : dragOverSemester === semesterPlan.semester
-                          ? 'scale-105 ring-2 ring-green-400 shadow-lg border-green-200 bg-green-50/50'
+                          ? `scale-105 ring-2 ring-green-400 shadow-lg border-green-200 ${darkMode ? 'bg-green-900/20' : 'bg-green-50/50'}`
                           : isOverloaded
-                          ? 'border-orange-300 bg-orange-50/30'
-                          : 'scale-100 border-gray-200'
+                          ? `${darkMode ? 'border-orange-500 bg-orange-900/20' : 'border-orange-300 bg-orange-50/30'}`
+                          : `scale-100 ${darkMode ? 'border-gray-600' : 'border-gray-200'}`
                       }`}
                       onDragOver={(e) => handleDragOver(e, semesterPlan.semester)}
                       onDragLeave={handleDragLeave}
@@ -664,11 +684,13 @@ export default function GraduationPlanModal({
                       <div className="flex items-center gap-2 mb-4">
                         <FontAwesomeIcon icon={faCalendarAlt} className="text-blue-600" />
                         <div className="flex-1">
-                          <h4 className="font-bold text-gray-800">
+                          <h4 className={`font-bold ${darkMode ? 'text-white' : 'text-gray-800'}`}>
                             {semesterPlan.semester}
                           </h4>
                           <p className={`text-xs ${
-                            isOverloaded ? 'text-orange-600 font-medium' : 'text-gray-600'
+                            isOverloaded 
+                              ? `font-medium ${darkMode ? 'text-orange-400' : 'text-orange-600'}` 
+                              : darkMode ? 'text-gray-400' : 'text-gray-600'
                           }`}>
                             {semesterPlan.subjects.length} asignaturas • {semesterPlan.credits} créditos UC
                             {isOverloaded && (
@@ -680,7 +702,11 @@ export default function GraduationPlanModal({
                         </div>
                         {semesterPlan.subjects.length === 0 && (
                           <button
-                            className="no-print ml-2 p-1 rounded-full bg-red-100 hover:bg-red-200 text-red-600 border border-red-200 transition-colors"
+                            className={`no-print ml-2 p-1 rounded-full border transition-colors ${
+                              darkMode 
+                                ? 'bg-red-900/30 hover:bg-red-900/50 text-red-400 border-red-700'
+                                : 'bg-red-100 hover:bg-red-200 text-red-600 border-red-200'
+                            }`}
                             title="Eliminar semestre en blanco"
                             onClick={() => {
                               setLocalPlan(prev => prev.filter((s, i) => i !== index));
@@ -698,8 +724,12 @@ export default function GraduationPlanModal({
                       </div>
 
                       {isOverloaded && (
-                        <div className="mb-3 p-2 bg-orange-100 border border-orange-300 rounded-lg">
-                          <div className="flex items-center gap-2 text-orange-700">
+                        <div className={`mb-3 p-2 border rounded-lg ${
+                          darkMode 
+                            ? 'bg-orange-900/20 border-orange-700'
+                            : 'bg-orange-100 border-orange-300'
+                        }`}>
+                          <div className={`flex items-center gap-2 ${darkMode ? 'text-orange-400' : 'text-orange-700'}`}>
                             <FontAwesomeIcon icon={faExclamationTriangle} className="text-sm" />
                             <span className="text-sm font-medium">Sobrecargado por {semesterPlan.credits - 60} créditos UC</span>
                           </div>
@@ -707,7 +737,11 @@ export default function GraduationPlanModal({
                       )}
 
                       {wouldExceedWithDrag && (
-                        <div className="border-2 border-dashed border-red-400 rounded-lg p-2 text-center text-red-600 text-xs mb-2 bg-red-50/30">
+                        <div className={`border-2 border-dashed rounded-lg p-2 text-center text-xs mb-2 ${
+                          darkMode 
+                            ? 'border-red-500 text-red-400 bg-red-900/20'
+                            : 'border-red-400 text-red-600 bg-red-50/30'
+                        }`}>
                           <FontAwesomeIcon icon={faBan} className="text-lg mb-1" />
                           <div className="font-medium text-xs">Límite excedido</div>
                           <div className="text-xs">Máximo {UC_CREDITS_MAX} créditos UC</div>
@@ -716,7 +750,11 @@ export default function GraduationPlanModal({
 
                       {!wouldExceedWithDrag && ((semesterPlan.subjects.length === 0 && dragOverSemester === semesterPlan.semester) || 
                         (isDraggingTouch && dragOverSemester === semesterPlan.semester)) && (
-                        <div className="border-2 border-dashed border-green-400 rounded-lg p-2 text-center text-green-600 text-xs mb-2 bg-green-50/30">
+                        <div className={`border-2 border-dashed rounded-lg p-2 text-center text-xs mb-2 ${
+                          darkMode 
+                            ? 'border-green-500 text-green-400 bg-green-900/20'
+                            : 'border-green-400 text-green-600 bg-green-50/30'
+                        }`}>
                           <FontAwesomeIcon icon={faGripVertical} className="mb-1" />
                           <div className="font-medium text-xs">Soltar aquí</div>
                         </div>
@@ -827,7 +865,11 @@ export default function GraduationPlanModal({
                   );
                 })}
                 <button
-                  className="no-print h-full min-h-[180px] flex flex-col items-center justify-center border-2 border-dashed border-blue-300 bg-white/60 rounded-2xl shadow-sm hover:bg-blue-50 hover:border-blue-400 transition-all focus:outline-none focus:ring-2 focus:ring-blue-300"
+                  className={`no-print h-full min-h-[180px] flex flex-col items-center justify-center border-2 border-dashed rounded-2xl shadow-sm transition-all focus:outline-none focus:ring-2 ${
+                    darkMode
+                      ? 'border-blue-600 bg-gray-700/60 hover:bg-blue-900/30 hover:border-blue-500 focus:ring-blue-600'
+                      : 'border-blue-300 bg-white/60 hover:bg-blue-50 hover:border-blue-400 focus:ring-blue-300'
+                  }`}
                   onClick={() => {
                     const lastSemester = localPlan[localPlan.length - 1]?.semester;
                     let newSemesterName = 'Nuevo';
@@ -867,32 +909,40 @@ export default function GraduationPlanModal({
                 </button>
               </div>
 
-              <div className="mt-6 p-1 md:p-2 rounded-3xl shadow-xl border border-blue-100 bg-white">
+              <div className={`mt-6 p-1 md:p-2 rounded-3xl shadow-xl border ${
+                darkMode ? 'border-gray-700 bg-gray-800' : 'border-blue-100 bg-white'
+              }`}>
                 <div className="p-5 md:p-8">
-                  <h5 className="font-extrabold text-lg md:text-2xl text-blue-700 mb-4 flex items-center gap-2">
-                    <FontAwesomeIcon icon={faGraduationCap} className="text-blue-500 text-xl md:text-2xl" />
+                  <h5 className={`font-extrabold text-lg md:text-2xl mb-4 flex items-center gap-2 ${
+                    darkMode ? 'text-blue-400' : 'text-blue-700'
+                  }`}>
+                    <FontAwesomeIcon icon={faGraduationCap} className={`text-xl md:text-2xl ${darkMode ? 'text-blue-500' : 'text-blue-500'}`} />
                     Resumen del Plan
                   </h5>
                   {localPlan.some(s => s.credits > 60) && (
-                    <div className="mb-4 flex rounded-xl shadow border border-orange-300 bg-orange-50 relative overflow-hidden">
+                    <div className={`mb-4 flex rounded-xl shadow border relative overflow-hidden ${
+                      darkMode ? 'border-orange-700 bg-orange-900/20' : 'border-orange-300 bg-orange-50'
+                    }`}>
                       <div className="w-2 bg-orange-500 rounded-l-xl" />
                       <div className="flex-1 p-4">
                         <div className="flex items-center gap-2 mb-2">
                           <FontAwesomeIcon icon={faExclamationTriangle} className="text-orange-500 text-lg" />
-                          <span className="text-base font-extrabold text-orange-800">Sobrecarga Académica</span>
+                          <span className={`text-base font-extrabold ${darkMode ? 'text-orange-400' : 'text-orange-800'}`}>Sobrecarga Académica</span>
                         </div>
-                        <div className="text-xs text-orange-700 space-y-1 font-medium mb-2">
-                          {localPlan.filter(s => s.credits > 50).map(semester => {
+                        <div className={`text-xs space-y-1 font-medium mb-2 ${darkMode ? 'text-orange-300' : 'text-orange-700'}`}>
+                          {localPlan.filter(s => s.credits > 55).map(semester => {
                             const overloadCredits = semester.credits - 60;
                             return (
                               <div key={semester.semester}>
-                                <span className="inline-block font-bold text-orange-900">{semester.semester}</span>: {semester.credits} créditos UC (sobrecarga de {overloadCredits} créditos UC)
+                                <span className={`inline-block font-bold ${darkMode ? 'text-orange-200' : 'text-orange-900'}`}>{semester.semester}</span>: {semester.credits} créditos UC (sobrecarga de {overloadCredits} créditos UC)
                               </div>
                             );
                           })}
                         </div>
-                        <div className="text-xs text-orange-600 mt-2 pt-2 border-t border-orange-200">
-                          La carga académica normal es de 50 créditos UC por semestre (máximo 60). Considera equilibrar tu carga para mantener un mejor rendimiento académico.
+                        <div className={`text-xs mt-2 pt-2 border-t ${
+                          darkMode ? 'text-orange-400 border-orange-700' : 'text-orange-600 border-orange-200'
+                        }`}>
+                          La carga académica normal es de 55 créditos UC por semestre (máximo 60). Considera equilibrar tu carga para mantener un mejor rendimiento académico.
                         </div>
                       </div>
                     </div>
@@ -900,45 +950,55 @@ export default function GraduationPlanModal({
 
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm mb-4">
                     <div className="text-center flex flex-col items-center">
-                      <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mb-1">
+                      <div className={`w-12 h-12 rounded-full flex items-center justify-center mb-1 ${
+                        darkMode ? 'bg-blue-900/50' : 'bg-blue-100'
+                      }`}>
                         <FontAwesomeIcon icon={faCalendarAlt} className="text-blue-500 text-xl" />
                       </div>
-                      <div className="text-2xl font-extrabold text-blue-700">{totalSemesters}</div>
-                      <div className="text-blue-900/80 font-medium">Semestres</div>
+                      <div className={`text-2xl font-extrabold ${darkMode ? 'text-blue-400' : 'text-blue-700'}`}>{totalSemesters}</div>
+                      <div className={`font-medium ${darkMode ? 'text-blue-300/80' : 'text-blue-900/80'}`}>Semestres</div>
                     </div>
 
                     <div className="text-center flex flex-col items-center">
-                      <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mb-1">
+                      <div className={`w-12 h-12 rounded-full flex items-center justify-center mb-1 ${
+                        darkMode ? 'bg-green-900/50' : 'bg-green-100'
+                      }`}>
                         <FontAwesomeIcon icon={faCoins} className="text-green-500 text-xl" />
                       </div>
-                      <div className="text-2xl font-extrabold text-green-700">{approvedCredits}/{approvedCredits + totalCredits}</div>
-                      <div className="text-green-900/80 font-medium">Créditos UC</div>
+                      <div className={`text-2xl font-extrabold ${darkMode ? 'text-green-400' : 'text-green-700'}`}>{approvedCredits}/{approvedCredits + totalCredits}</div>
+                      <div className={`font-medium ${darkMode ? 'text-green-300/80' : 'text-green-900/80'}`}>Créditos UC</div>
                     </div>
 
                     <div className="text-center flex flex-col items-center">
-                      <div className="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center mb-1">
+                      <div className={`w-12 h-12 rounded-full flex items-center justify-center mb-1 ${
+                        darkMode ? 'bg-purple-900/50' : 'bg-purple-100'
+                      }`}>
                         <FontAwesomeIcon icon={faGraduationCap} className="text-purple-500 text-xl" />
                       </div>
-                      <div className="text-2xl font-extrabold text-purple-700">{yearsRemaining % 1 === 0 ? yearsRemaining : yearsRemaining.toFixed(1)}</div>
-                      <div className="text-purple-900/80 font-medium">Años Restantes</div>
+                      <div className={`text-2xl font-extrabold ${darkMode ? 'text-purple-400' : 'text-purple-700'}`}>{yearsRemaining % 1 === 0 ? yearsRemaining : yearsRemaining.toFixed(1)}</div>
+                      <div className={`font-medium ${darkMode ? 'text-purple-300/80' : 'text-purple-900/80'}`}>Años Restantes</div>
                     </div>
                     <div className="text-center flex flex-col items-center">
-                      <div className="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center mb-1">
+                      <div className={`w-12 h-12 rounded-full flex items-center justify-center mb-1 ${
+                        darkMode ? 'bg-orange-900/50' : 'bg-orange-100'
+                      }`}>
                         <FontAwesomeIcon icon={faBook} className="text-orange-500 text-xl" />
                       </div>
-                      <div className="text-2xl font-extrabold text-orange-700">{totalSubjects}</div>
-                      <div className="text-orange-900/80 font-medium">Asignaturas</div>
+                      <div className={`text-2xl font-extrabold ${darkMode ? 'text-orange-400' : 'text-orange-700'}`}>{totalSubjects}</div>
+                      <div className={`font-medium ${darkMode ? 'text-orange-300/80' : 'text-orange-900/80'}`}>Asignaturas</div>
                     </div>
                   </div>
 
-                  <div className="mt-2 text-sm text-blue-900/80 text-center font-medium">
-                    <p className="mt-1 text-xs text-blue-700/80">
+                  <div className={`mt-2 text-sm text-center font-medium ${darkMode ? 'text-blue-300/80' : 'text-blue-900/80'}`}>
+                    <p className={`mt-1 text-xs ${darkMode ? 'text-blue-400/80' : 'text-blue-700/80'}`}>
                       Promedio de {totalSemesters > 0 ? Math.round(totalCredits / totalSemesters) : 0} créditos UC por semestre
                     </p>
                   </div>
 
                   <div className="flex justify-center w-full mt-6">
-                    <div className="bg-yellow-50 border border-yellow-200 rounded-2xl shadow-sm p-4 text-xs text-yellow-900 text-center max-w-xl w-full flex items-center gap-2">
+                    <div className={`border rounded-2xl shadow-sm p-4 text-xs text-center max-w-xl w-full flex items-center gap-2 ${
+                      darkMode ? 'bg-yellow-900/20 border-yellow-700 text-yellow-300' : 'bg-yellow-50 border-yellow-200 text-yellow-900'
+                    }`}>
                       <FontAwesomeIcon icon={faExclamationTriangle} className="text-yellow-500 text-base" />
                       <span><strong>Nota:</strong> El generador de planes es solo una referencia. La disponibilidad real de ramos puede variar cada semestre y depende de la oferta académica de la universidad.</span>
                     </div>
@@ -950,7 +1010,9 @@ export default function GraduationPlanModal({
 
           {isAnimating && localPlan.length > 0 && (
             <div className="mt-6 text-center">
-              <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-800 px-4 py-2 rounded-full">
+              <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full ${
+                darkMode ? 'bg-blue-900/50 text-blue-300' : 'bg-blue-100 text-blue-800'
+              }`}>
                 <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
                 <span className="text-sm font-medium">
                   Mostrando {visibleSemesters} de {totalSemesters} semestres
