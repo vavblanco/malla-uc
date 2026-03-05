@@ -233,6 +233,7 @@ export default function CurriculumGrid({ initialCareer }: CurriculumGridProps = 
         colors={colors}
         allSubjects={subjects}
         subjectStates={subjectStates}
+        darkMode={darkMode}
       />
 
       {/* Modal de guía */}
