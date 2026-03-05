@@ -17,9 +17,6 @@ const GraduationPlanModal = dynamic(() => import('../modals/GraduationPlanModal'
 const GuideModal = dynamic(() => import('../modals/GuideModal'), {
   ssr: false,
 });
-const ContributeModal = dynamic(() => import('../modals/ContributeModal'), {
-  ssr: false,
-});
 
 import { useCalculator } from '@/hooks/useCalculator';
 import { useConfetti } from '@/hooks/useConfetti';
