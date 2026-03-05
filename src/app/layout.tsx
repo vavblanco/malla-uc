@@ -4,6 +4,7 @@ import "./globals.css";
 import BodyWrapper from "@/components/utils/BodyWrapper";
 import ServiceWorkerRegister from "@/components/utils/ServiceWorkerRegister";
 import AppleSplashScreens from "@/components/utils/AppleSplashScreens";
+import "./scrollbar.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

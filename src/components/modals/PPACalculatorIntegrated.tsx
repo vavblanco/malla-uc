@@ -382,7 +382,7 @@ export default function PPACalculatorIntegrated({
           </div>
 
           {/* Content */}
-          <div className="overflow-y-auto flex-1">
+          <div className="overflow-y-auto flex-1 custom-scrollbar">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeTab}

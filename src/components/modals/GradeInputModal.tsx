@@ -180,7 +180,7 @@ export default function GradeInputModal({
           </div>
 
           {/* Content - Scrolleable */}
-          <div className="overflow-y-auto flex-1 p-6 space-y-4">
+          <div className="overflow-y-auto flex-1 p-6 space-y-4 custom-scrollbar">
             {/* Info del ramo */}
             <div className={`p-3 rounded-lg ${
               darkMode ? 'bg-gray-700' : 'bg-gray-50'
