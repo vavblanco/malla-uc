@@ -25,7 +25,7 @@ interface GraduationPlanModalProps {
   colors: Record<string, string[]>;
   allSubjects?: Subject[];
   subjectStates?: Record<string, any>;
-  darkMode?: boolean;  // ⭐ NUEVO
+  darkMode: boolean;  // ⭐ NUEVO
 }
 
 import { useRef } from 'react';
@@ -38,7 +38,7 @@ export default function GraduationPlanModal({
   colors,
   allSubjects = [],
   subjectStates = {},
-  darkMode = true  // ⭐ NUEVO
+  darkMode  // ⭐ NUEVO
 }: GraduationPlanModalProps) {
   const [visibleSemesters, setVisibleSemesters] = useState(0);
   const [localPlan, setLocalPlan] = useState<SemesterPlan[]>([]);
