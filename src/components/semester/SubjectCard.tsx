@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLock, faCheck, faLink, faTrophy, faCodeBranch } from '@fortawesome/free-solid-svg-icons';
 import type { Subject, SubjectState, CalculatorState, SubjectColors } from '@/types/curriculum';
@@ -47,10 +47,13 @@ export default function SubjectCard({
   const [isLongPress, setIsLongPress] = useState(false);
   const [startPosition, setStartPosition] = useState<{ x: number; y: number } | null>(null);
   const [hasMoved, setHasMoved] = useState(false);
+  
+  // ⭐ NUEVO: Ref para tracking sincrónico de movimiento (evita race conditions)
+  const hasMovedRef = useRef(false);
 
   // Constantes para detección
-  const LONG_PRESS_DURATION = 500; // ms
-  const MOVEMENT_THRESHOLD = 15;   // px - Si se mueve más de esto, cancelar (aumentado de 10px para mejor detección de scroll)
+  const LONG_PRESS_DURATION = 800; // ms - Aumentado para evitar activación accidental en scroll
+  const MOVEMENT_THRESHOLD = 25;   // px - Si se mueve más de esto, cancelar (aumentado para móvil)
 
   // Verificar si otro ramo del mismo grupo electivo está aprobado
   const getElectiveGroupConflict = () => {
@@ -223,11 +226,12 @@ export default function SubjectCard({
     setStartPosition({ x: clientX, y: clientY });
     setHasMoved(false);
     setIsLongPress(false);
+    hasMovedRef.current = false;  // ⭐ NUEVO: Reset ref sincrónico
     
     // Timer para long press
     const timer = setTimeout(() => {
-      // Solo abrir modal si NO se ha movido
-      if (!hasMoved) {
+      // ⭐ NUEVO: Verificar ref (sincrónico) en vez de state
+      if (!hasMovedRef.current) {
         setIsLongPress(true);
         setShowGradeModal(true);
         
@@ -252,9 +256,11 @@ export default function SubjectCard({
     const deltaY = Math.abs(clientY - startPosition.y);
     const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
     
-    // Si se movió más del threshold, cancelar long press
+    // Si se movió más del threshold, cancelar long press INMEDIATAMENTE
     if (distance > MOVEMENT_THRESHOLD) {
       setHasMoved(true);
+      hasMovedRef.current = true;  // ⭐ NUEVO: Set ref sincrónico
+      setIsLongPress(false);
       
       if (pressTimer) {
         clearTimeout(pressTimer);
@@ -281,6 +287,7 @@ export default function SubjectCard({
     setIsLongPress(false);
     setStartPosition(null);
     setHasMoved(false);
+    hasMovedRef.current = false;  // ⭐ NUEVO: Reset ref
   };
 
   const handleQuickClick = () => {
@@ -304,6 +311,7 @@ export default function SubjectCard({
     setIsLongPress(false);
     setStartPosition(null);
     setHasMoved(false);
+    hasMovedRef.current = false;  // ⭐ NUEVO: Reset ref
   };
 
   const handleGradeSave = (newState: SubjectState) => {
