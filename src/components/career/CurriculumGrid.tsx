@@ -33,7 +33,6 @@ export default function CurriculumGrid({ initialCareer }: CurriculumGridProps = 
   const router = useRouter();
   const [showCategoriesPopup, setShowCategoriesPopup] = useState(false);
   const [showGuideModal, setShowGuideModal] = useState(false);
-  const [showContributeModal, setShowContributeModal] = useState(false);
   const [campus, setCampus] = useState<string | undefined>(undefined);
   const [careerCode, setCareerCode] = useState<string | undefined>(undefined);
   const [showCareerSelector, setShowCareerSelector] = useState(false);
@@ -243,12 +242,6 @@ export default function CurriculumGrid({ initialCareer }: CurriculumGridProps = 
         darkMode={darkMode}
       />
 
-      {/* Modal de contribución */}
-      <ContributeModal
-        show={showContributeModal}
-        onClose={() => setShowContributeModal(false)}
-        darkMode={darkMode}
-      />
     </div>
   );
 
