@@ -38,7 +38,7 @@ export default function GraduationPlanModal({
   colors,
   allSubjects = [],
   subjectStates = {},
-  darkMode  // ⭐ NUEVO
+  darkMode = true  // ⭐ NUEVO
 }: GraduationPlanModalProps) {
   const [visibleSemesters, setVisibleSemesters] = useState(0);
   const [localPlan, setLocalPlan] = useState<SemesterPlan[]>([]);
