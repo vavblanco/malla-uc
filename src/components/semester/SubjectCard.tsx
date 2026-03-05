@@ -52,8 +52,9 @@ export default function SubjectCard({
   const hasMovedRef = useRef(false);
 
   // Constantes para detección
-  const LONG_PRESS_DURATION = 800; // ms - Aumentado para evitar activación accidental en scroll
-  const MOVEMENT_THRESHOLD = 25;   // px - Si se mueve más de esto, cancelar (aumentado para móvil)
+  const LONG_PRESS_DURATION = 500; // ms - Duración original óptima
+  const MOVEMENT_THRESHOLD = 20;   // px - Threshold para movimiento general
+  const VERTICAL_SCROLL_THRESHOLD = 8;  // px - Threshold más bajo para scroll vertical (más sensible)
 
   // Verificar si otro ramo del mismo grupo electivo está aprobado
   const getElectiveGroupConflict = () => {
@@ -256,10 +257,14 @@ export default function SubjectCard({
     const deltaY = Math.abs(clientY - startPosition.y);
     const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
     
-    // Si se movió más del threshold, cancelar long press INMEDIATAMENTE
-    if (distance > MOVEMENT_THRESHOLD) {
+    // ⭐ NUEVO: Detectar scroll vertical ANTES (más sensible)
+    // Si el movimiento es principalmente vertical, es probablemente scroll
+    const isVerticalScroll = deltaY > deltaX && deltaY > VERTICAL_SCROLL_THRESHOLD;
+    
+    // Si se movió más del threshold O es scroll vertical, cancelar long press INMEDIATAMENTE
+    if (distance > MOVEMENT_THRESHOLD || isVerticalScroll) {
       setHasMoved(true);
-      hasMovedRef.current = true;  // ⭐ NUEVO: Set ref sincrónico
+      hasMovedRef.current = true;
       setIsLongPress(false);
       
       if (pressTimer) {
