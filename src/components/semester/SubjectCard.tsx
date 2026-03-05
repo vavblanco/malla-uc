@@ -50,7 +50,7 @@ export default function SubjectCard({
 
   // Constantes para detección
   const LONG_PRESS_DURATION = 500; // ms
-  const MOVEMENT_THRESHOLD = 10;   // px - Si se mueve más de esto, cancelar
+  const MOVEMENT_THRESHOLD = 15;   // px - Si se mueve más de esto, cancelar (aumentado de 10px para mejor detección de scroll)
 
   // Verificar si otro ramo del mismo grupo electivo está aprobado
   const getElectiveGroupConflict = () => {
@@ -341,7 +341,12 @@ export default function SubjectCard({
             e.stopPropagation();
             onPrerequisiteClick(prereqCode);
           }}
-          className={`inline-flex items-center gap-1 text-xs px-1.5 py-0.5 rounded-xl font-bold text-white hover:brightness-110 transition-all border border-white`}
+          onTouchEnd={e => {
+            e.stopPropagation();
+            e.preventDefault();
+            onPrerequisiteClick(prereqCode);
+          }}
+          className={`inline-flex items-center gap-1 text-xs px-1.5 py-0.5 rounded-xl font-bold text-white hover:brightness-110 transition-all border border-white touch-manipulation`}
           style={{ backgroundColor: prereqColor }}
         >
           <span>{prereqCode}</span>
@@ -391,7 +396,12 @@ export default function SubjectCard({
             e.stopPropagation();
             onPrerequisiteClick(coreqCode);
           }}
-          className={`inline-flex items-center gap-1 text-xs px-1.5 py-0.5 rounded-xl font-bold text-white hover:brightness-110 transition-all border-2 border-dashed border-white`}
+          onTouchEnd={e => {
+            e.stopPropagation();
+            e.preventDefault();
+            onPrerequisiteClick(coreqCode);
+          }}
+          className={`inline-flex items-center gap-1 text-xs px-1.5 py-0.5 rounded-xl font-bold text-white hover:brightness-110 transition-all border-2 border-dashed border-white touch-manipulation`}
           style={{ backgroundColor: coreqColor }}
         >
           <FontAwesomeIcon icon={faLink} className="text-[0.6rem]" />
@@ -441,7 +451,12 @@ export default function SubjectCard({
             e.stopPropagation();
             onPrerequisiteClick(prereqCode);
           }}
-          className={`inline-flex items-center gap-1 text-xs px-1.5 py-0.5 rounded-xl font-bold text-white hover:brightness-110 transition-all border-2 border-dashed ${
+          onTouchEnd={e => {
+            e.stopPropagation();
+            e.preventDefault();
+            onPrerequisiteClick(prereqCode);
+          }}
+          className={`inline-flex items-center gap-1 text-xs px-1.5 py-0.5 rounded-xl font-bold text-white hover:brightness-110 transition-all border-2 border-dashed touch-manipulation ${
             prereqState?.status === 'approved' 
               ? 'border-green-400' 
               : 'border-yellow-400'
