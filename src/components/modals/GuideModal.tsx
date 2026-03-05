@@ -758,6 +758,44 @@ return (
               )}
 
             </div>
+
+            {/* ⭐ NUEVO: Disclaimer importante */}
+            <div className={`mt-4 mx-4 mb-4 p-4 rounded-xl border-2 ${
+              darkMode 
+                ? 'bg-yellow-900/20 border-yellow-700/50 text-yellow-200' 
+                : 'bg-yellow-50 border-yellow-300 text-yellow-900'
+            }`}>
+              <div className="flex items-start gap-3">
+                <FontAwesomeIcon 
+                  icon={faExclamationCircle} 
+                  className="text-yellow-600 dark:text-yellow-400 text-xl mt-0.5 flex-shrink-0" 
+                />
+                <div className="flex-1">
+                  <h4 className="font-bold text-sm mb-2">
+                    📌 Herramienta de Apoyo
+                  </h4>
+                  <p className="text-xs leading-relaxed mb-2">
+                    Esta es una <strong>herramienta de apoyo estudiantil</strong>, no reemplaza la malla curricular oficial. 
+                    Las mallas oficiales están publicadas en la página de Registros Académicos para cada periodo de admisión.
+                  </p>
+                  <a
+                    href="https://registrosacademicos.uc.cl/informacion-para-estudiantes/mallas-curriculares/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`inline-flex items-center gap-2 text-xs font-semibold mt-2 px-3 py-2 rounded-lg transition-colors ${
+                      darkMode
+                        ? 'bg-yellow-700/30 hover:bg-yellow-700/50 text-yellow-200'
+                        : 'bg-yellow-200 hover:bg-yellow-300 text-yellow-900'
+                    }`}
+                  >
+                    <FontAwesomeIcon icon={faFileAlt} />
+                    Ver Mallas Oficiales UC
+                    <span className="text-xs opacity-50">↗</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
           </motion.div>
         </motion.div>
       )}
