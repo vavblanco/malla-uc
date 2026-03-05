@@ -1,0 +1,169 @@
+/* ═══════════════════════════════════════════════════════════
+   SCROLLBAR PERSONALIZADA - Sutil y Elegante
+   ═══════════════════════════════════════════════════════════
+   
+   Uso: Agregar clase "custom-scrollbar" a cualquier div con scroll
+   Ejemplo: <div className="overflow-y-auto custom-scrollbar">
+   
+   ═══════════════════════════════════════════════════════════ */
+
+/* ──────────────────────────────────────────────────────────
+   WebKit Browsers (Chrome, Safari, Edge, Opera)
+   ────────────────────────────────────────────────────────── */
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;   /* Ancho de scrollbar vertical */
+  height: 6px;  /* Alto de scrollbar horizontal */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;  /* Track invisible */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(156, 163, 175, 0.3);  /* gray-400 light mode */
+  border-radius: 10px;
+  transition: background 0.2s ease;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(156, 163, 175, 0.6);  /* Más visible al hover */
+}
+
+/* Dark Mode */
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(75, 85, 99, 0.4);  /* gray-600 dark mode */
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(75, 85, 99, 0.7);
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   Firefox
+   ────────────────────────────────────────────────────────── */
+
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(156, 163, 175, 0.3) transparent;
+}
+
+.dark .custom-scrollbar {
+  scrollbar-color: rgba(75, 85, 99, 0.4) transparent;
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   VARIANTE: Auto-ocultar (Aparece solo al hover)
+   ══════════════════════════════════════════════════════════════
+   
+   Uso: <div className="overflow-y-auto auto-hide-scrollbar">
+   
+   ══════════════════════════════════════════════════════════════ */
+
+.auto-hide-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.auto-hide-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.auto-hide-scrollbar::-webkit-scrollbar-thumb {
+  background: transparent;  /* Invisible por defecto */
+  border-radius: 10px;
+  transition: background 0.3s ease;
+}
+
+/* Aparece al hacer hover sobre el contenedor */
+.auto-hide-scrollbar:hover::-webkit-scrollbar-thumb {
+  background: rgba(156, 163, 175, 0.5);
+}
+
+.auto-hide-scrollbar:hover::-webkit-scrollbar-thumb:hover {
+  background: rgba(156, 163, 175, 0.8);
+}
+
+.dark .auto-hide-scrollbar:hover::-webkit-scrollbar-thumb {
+  background: rgba(75, 85, 99, 0.5);
+}
+
+.dark .auto-hide-scrollbar:hover::-webkit-scrollbar-thumb:hover {
+  background: rgba(75, 85, 99, 0.8);
+}
+
+/* Firefox */
+.auto-hide-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  transition: scrollbar-color 0.3s ease;
+}
+
+.auto-hide-scrollbar:hover {
+  scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
+}
+
+.dark .auto-hide-scrollbar:hover {
+  scrollbar-color: rgba(75, 85, 99, 0.5) transparent;
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   VARIANTE: Invisible (Oculta completamente)
+   ══════════════════════════════════════════════════════════════
+   
+   Uso: <div className="overflow-y-auto invisible-scrollbar">
+   ⚠️ Usar solo si tienes indicadores visuales de scroll
+   
+   ══════════════════════════════════════════════════════════════ */
+
+.invisible-scrollbar::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+.invisible-scrollbar {
+  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;  /* IE/Edge */
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   VARIANTE: Scrollbar Redondeada y Colorida
+   ══════════════════════════════════════════════════════════════
+   
+   Uso: <div className="overflow-y-auto colored-scrollbar">
+   
+   ══════════════════════════════════════════════════════════════ */
+
+.colored-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.colored-scrollbar::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+}
+
+.colored-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #6366f1, #8b5cf6);
+  border-radius: 10px;
+  transition: all 0.2s ease;
+}
+
+.colored-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #4f46e5, #7c3aed);
+  box-shadow: 0 0 6px rgba(99, 102, 241, 0.5);
+}
+
+.dark .colored-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.colored-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #6366f1 rgba(0, 0, 0, 0.05);
+}

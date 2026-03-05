@@ -64,7 +64,7 @@ return (
             </div>
 
            {/* Content con scroll */}
-            <div className={`overflow-y-auto flex-1 pb-6 ${darkMode ? 'bg-gray-800' : 'bg-white'}`}>
+            <div className={`overflow-y-auto flex-1 pb-6 custom-scrollbar ${darkMode ? 'bg-gray-800' : 'bg-white'}`}>
               
              {/* Toggle de pestañas - Sticky con gradiente */}
               <div 
