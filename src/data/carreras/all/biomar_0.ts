@@ -428,7 +428,7 @@ export const biomar_0: Carrera = {
         "ucCredits": 10,
         "type": "TL",
         "prerequisites": [
-            "BIO151E"
+            "BIO297C"
         ],
         "semester": "s7"
     },
@@ -439,7 +439,8 @@ export const biomar_0: Carrera = {
         "ucCredits": 10,
         "type": "TL",
         "prerequisites": [
-            "BIO237M"
+            "BIO237M",
+            "QIM150"
         ],
         "semester": "s7"
     },
