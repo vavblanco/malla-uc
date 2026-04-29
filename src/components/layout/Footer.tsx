@@ -37,7 +37,7 @@ export default function Footer({ darkMode }: FooterProps) {
       }`}>
         <div className="flex items-center justify-center gap-6">
           <span className="animate-fadeInFromWhite" style={{ animationDelay: '0.05s' }}>
-            Actualizado: Marzo 2026
+            Actualizado: Abril 2026
           </span>
           
           <a
