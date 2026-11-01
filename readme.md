@@ -8,12 +8,12 @@ Una aplicación web interactiva para visualizar y planificar el avance curricula
 
 **Malla Interactiva FCB UC** es una herramienta diseñada para estudiantes de Ciencias Biológicas de la UC que permite:
 
-- 📊 **Visualizar** la malla curricular completa de tu carrera
-- ✅ **Marcar** ramos aprobados, en curso o reprobados
-- 📈 **Calcular** automáticamente tu avance en créditos UC y SCT
-- 🗓️ **Planificar** tu graduación semestre por semestre
-- 🔍 **Identificar** prerrequisitos, correquisitos y requisitos de créditos
-- 💾 **Guardar** tu progreso automáticamente en el navegador
+-  **Visualizar** la malla curricular completa de tu carrera
+-  **Marcar** ramos aprobados, en curso o reprobados
+-  **Calcular** automáticamente tu avance en créditos UC y SCT
+-  **Planificar** tu graduación semestre por semestre
+-  **Identificar** prerrequisitos, correquisitos y requisitos de créditos
+-  **Guardar** tu progreso automáticamente en el navegador
 
 ### 🎯 ¿Para quién es?
 
@@ -194,7 +194,6 @@ El proyecto original fue creado para la Universidad Técnica Federico Santa Mar�
 ### Agradecimientos Especiales
 
 - **Marcelo Mejías** - Por crear la aplicación original y el sistema modular que permitió esta adaptación
-- **Comunidad USM** - Por contribuir con las mallas curriculares originales
 - **Facultad de Ciencias Biológicas UC** - Por la información académica
 
 ### Adaptaciones Realizadas para la UC
