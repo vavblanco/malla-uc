@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalculator, faTimes, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -187,10 +187,9 @@ export default function PPACalculatorIntegrated({
     };
   }, [gradedCourses]);
 
-  // ⭐ NUEVO: Calcular Notas de Licenciatura y Título según reglamento FCB
-  const graduationCalculations = useMemo(() => {
-    // Buscar el Examen de Grado con múltiples criterios
-    const examenGrado = subjects.find(s => {
+  // Examen de Grado: solo existe en las mallas antiguas. Si la malla no lo tiene
+  // (mallas nuevas), no se muestra la pestaña "Graduación".
+  const examenGrado = useMemo(() => subjects.find(s => {
       const nameLower = s.name.toLowerCase();
       const codeLower = s.code.toLowerCase();
       
@@ -206,8 +205,19 @@ export default function PPACalculatorIntegrated({
         s.type === 'Examen' ||
         s.type === 'EG'
       );
-    });
-    
+    }), [subjects]);
+
+  const hasExamenGrado = !!examenGrado;
+
+  // Si cambia a una malla sin examen estando en la pestaña Graduación, volver a Resumen
+  useEffect(() => {
+    if (!hasExamenGrado && activeTab === 'graduacion') {
+      setActiveTab('resumen');
+    }
+  }, [hasExamenGrado, activeTab]);
+
+  // ⭐ NUEVO: Calcular Notas de Licenciatura y Título según reglamento FCB
+  const graduationCalculations = useMemo(() => {
     const examenGradoState = examenGrado ? subjectStates[examenGrado.code] : undefined;
     const notaExamenGrado = examenGradoState?.grade;
 
@@ -249,7 +259,7 @@ export default function PPACalculatorIntegrated({
       notaTitulo,
       ramosTituloCount: ramosTitulo.length
     };
-  }, [ppaResult.ppa, gradedCourses, subjects, subjectStates]);
+  }, [ppaResult.ppa, gradedCourses, examenGrado, subjectStates]);
 
   // Agrupar por semestre para mostrar
   const coursesBySemester = useMemo(() => {
@@ -339,26 +349,28 @@ export default function PPACalculatorIntegrated({
                 />
               )}
             </button>
-            <button
-              onClick={() => setActiveTab('graduacion')}
-              className={`flex-1 py-3 px-4 text-sm md:text-base font-semibold transition-colors relative ${
-                activeTab === 'graduacion'
-                  ? darkMode
-                    ? 'text-blue-400 bg-gray-700'
-                    : 'text-blue-600 bg-white'
-                  : darkMode
-                    ? 'text-gray-400 hover:text-gray-200 hover:bg-gray-700/50'
-                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-              }`}
-            >
-              <span className="hidden sm:inline">🎓 </span>Graduación
-              {activeTab === 'graduacion' && (
-                <motion.div 
-                  layoutId="activeTab"
-                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600" 
-                />
-              )}
-            </button>
+            {hasExamenGrado && (
+              <button
+                onClick={() => setActiveTab('graduacion')}
+                className={`flex-1 py-3 px-4 text-sm md:text-base font-semibold transition-colors relative ${
+                  activeTab === 'graduacion'
+                    ? darkMode
+                      ? 'text-blue-400 bg-gray-700'
+                      : 'text-blue-600 bg-white'
+                    : darkMode
+                      ? 'text-gray-400 hover:text-gray-200 hover:bg-gray-700/50'
+                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                }`}
+              >
+                <span className="hidden sm:inline">🎓 </span>Graduación
+                {activeTab === 'graduacion' && (
+                  <motion.div 
+                    layoutId="activeTab"
+                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600" 
+                  />
+                )}
+              </button>
+            )}
             <button
               onClick={() => setActiveTab('detalle')}
               className={`flex-1 py-3 px-4 text-sm md:text-base font-semibold transition-colors relative ${
@@ -502,7 +514,7 @@ export default function PPACalculatorIntegrated({
                 )}
 
                 {/* TAB: GRADUACIÓN */}
-                {activeTab === 'graduacion' && (
+                {activeTab === 'graduacion' && hasExamenGrado && (
                   <div className="p-4">
                     {graduationCalculations.notaLicenciatura || graduationCalculations.notaTitulo ? (
                       <>
