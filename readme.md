@@ -125,7 +125,7 @@ Haz clic en el botón **📚 Guía** para aprender sobre:
 ```
 malla-fcb-uc/
 ├── public/                  # Assets estáticos
-│   ├── favicon.svg
+│   ├── favicon.ico
 │   ├── icon.png
 │   └── screenshots/
 ├── src/

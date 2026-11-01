@@ -60,15 +60,19 @@ export const metadata: Metadata = {
   creator: "FCB",
   publisher: "Facultad de Ciencias Biológicas",
   
+  // ?v=2 fuerza a los navegadores a descargar de nuevo el favicon (lo cachean mucho).
+  // Si cambias los íconos otra vez, sube el número.
   icons: {
     icon: [
-      { url: '/malla-uc/favicon.svg', type: 'image/svg+xml' },
-      { url: '/malla-uc/icon.png', type: 'image/png', sizes: '192x192' },
-      { url: '/malla-uc/android-chrome-512x512.png', type: 'image/png', sizes: '512x512' }
+      { url: '/malla-uc/favicon.ico?v=2', sizes: '48x48' },
+      { url: '/malla-uc/favicon-32x32.png?v=2', type: 'image/png', sizes: '32x32' },
+      { url: '/malla-uc/favicon-16x16.png?v=2', type: 'image/png', sizes: '16x16' },
+      { url: '/malla-uc/icon.png?v=2', type: 'image/png', sizes: '192x192' },
+      { url: '/malla-uc/android-chrome-512x512.png?v=2', type: 'image/png', sizes: '512x512' }
     ],
-    shortcut: '/malla-uc/favicon.svg',
+    shortcut: '/malla-uc/favicon.ico?v=2',
     apple: [
-      { url: '/malla-uc/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }
+      { url: '/malla-uc/apple-touch-icon.png?v=2', sizes: '180x180', type: 'image/png' }
     ]
   },
   other: {

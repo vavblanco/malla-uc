@@ -33,14 +33,14 @@ app/
 ├── layout.tsx          # Layout raíz con metadata SEO
 ├── page.tsx            # Página principal (/)
 ├── globals.css         # Estilos globales Tailwind
-└── favicon.svg         # Favicon del sitio (o en /public/malla-uc/)
+└── favicon.ico         # Favicon del sitio (o en /public/malla-uc/)
 ```
 
 **`layout.tsx`**: 
 - Configuración de fonts (Geist Sans & Mono o Inter)
 - Meta tags SEO completos (Open Graph, Twitter Cards)
 - PWA metadata y configuración iOS
-- Favicon references apuntando a `/malla-uc/favicon.svg`
+- Favicon references apuntando a `/malla-uc/favicon.ico`
 - Providers de tema y service worker (opcional)
 
 **`page.tsx`**: 
@@ -398,7 +398,7 @@ export function convertCredits(value: number, from: 'UC' | 'SCT') {
 ```
 public/
 ├── malla-uc/              # Assets específicos del proyecto ⭐
-│   ├── favicon.svg        # Favicon vectorial optimizado (472 bytes)
+│   ├── favicon.ico        # Favicon (16, 32 y 48 px)
 │   ├── icon.png           # PWA icon 192x192
 │   ├── android-chrome-512x512.png
 │   └── apple-touch-icon.png
