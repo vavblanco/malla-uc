@@ -9,7 +9,7 @@ interface PageProps {
 
 // Lista de todas las carreras para generación estática
 const allCareerIds = [
-  'bio-0', 'bio', 'biomar', 'biomar-0', 'bq'
+  'bio-0', 'bio', 'biomar', 'biomar-0', 'bq', 'bq-0'
 ];
 
 // Genera todas las rutas estáticas en build time

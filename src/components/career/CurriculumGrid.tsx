@@ -48,7 +48,7 @@ export default function CurriculumGrid({ initialCareer }: CurriculumGridProps = 
         // Determinar campus basado en el código de carrera (normalizar a minúsculas)
         const normalizedCareer = initialCareer.toLowerCase();
         const campusMap: Record<string, string> = {
-          'bio-0':'all','bio':'all','biomar':'all','biomar-0':'all', 'bq':'all'
+          'bio-0':'all','bio':'all','biomar':'all','biomar-0':'all', 'bq':'all', 'bq-0': 'all'
         };
         const detectedCampus = campusMap[normalizedCareer];
         if (detectedCampus) {
