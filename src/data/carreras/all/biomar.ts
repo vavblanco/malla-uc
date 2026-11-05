@@ -382,7 +382,7 @@ export const biomar: Carrera = {
         "type": "MJ",
         "prerequisites": [
             "BIO324C",
-            "BIO227E"
+            "BIO205M"
         ],
         "semester": "s6"
     },
